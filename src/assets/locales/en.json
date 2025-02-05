@@ -1,3 +1,6 @@
 {
-    "title": "Twittix"
+    "title": "Twittix",
+    "errors": {
+        "somethingWentWrong": "Something went wrong"
+    }
 }

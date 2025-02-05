@@ -4,6 +4,12 @@
   </div>
 </template>
 
+<script setup lang="ts">
+import { usePetStore } from '@/stores/petStore'
+const petStore = usePetStore()
+await petStore.fetchPetById(1)
+</script>
+
 <style>
 @media (min-width: 1024px) {
   .about {
