@@ -29,5 +29,8 @@ coverage
 
 *.tsbuildinfo
 
+/src/core/api
+
+.env
 test-results/
 playwright-report/
