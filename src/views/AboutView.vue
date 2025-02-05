@@ -6,12 +6,8 @@
 
 <script setup lang="ts">
 import { usePetStore } from '@/stores/petStore'
-
 const petStore = usePetStore()
-
 await petStore.fetchPetById(1)
-
-console.log(petStore.pet?.name)
 </script>
 
 <style>

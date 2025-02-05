@@ -13,7 +13,6 @@ const request = new AxiosHttpRequest({
 axios.interceptors.response.use(
   response => response,
   async (error: AxiosError) => {
-    console.log('Error status:', error.response?.status)
     if (error.response?.status === 401) {
       localStorage.removeItem('token')
       return Promise.reject('Unauthorized')
