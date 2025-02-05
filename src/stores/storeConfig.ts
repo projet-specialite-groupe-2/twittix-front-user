@@ -18,7 +18,7 @@ axios.interceptors.response.use(
       return Promise.reject('Unauthorized')
     }
 
-    toast.error(i18n.global.t('error.unknown'))
+    toast.error(i18n.global.t('errors.somethingWentWrong'))
     return Promise.reject(error)
   }
 )
