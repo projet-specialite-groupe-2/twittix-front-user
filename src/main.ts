@@ -22,7 +22,7 @@ import 'vuetify/styles'
 const app = createApp(App)
 
 const vuetify = createVuetify({
-  components,
+  component,
   directives,
   defaults: {
     VBtn: {
