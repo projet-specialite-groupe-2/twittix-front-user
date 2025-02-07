@@ -2,5 +2,21 @@
     "title": "Twittix",
     "errors": {
         "somethingWentWrong": "Something went wrong"
+    },
+    "view": {
+        "loginPage": {
+            "title": "It's happening now",
+            "inscription": "Sign up.",
+            "createAccount": "Create an account",
+            "hasAccount": "Already have an account?",
+            "confidentialite": "By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.",
+            "seConnecter": "Log in",
+            "createYourAccount": "Create your account",
+            "dateDeNaissance": "Date of birth",
+            "dateNaissanceParagraphe": "This information will not be publicly displayed. Confirm your age, even if this account is for a business, a pet, or something else.",
+            "mois": "Month",
+            "jour": "Day",
+            "annee": "Year"
+        }
     }
 }

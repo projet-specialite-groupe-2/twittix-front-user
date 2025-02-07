@@ -1,30 +1,7 @@
-:root {
-  --white-color: #eff3f4;
-  --black-color: #000000;
-  --secondary-color: #71767b;
-  --bleu-color: #1d9bf0;
-  --border-color: rgb(47, 51, 54);
-}
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  font-weight: normal;
   padding: 0;
   margin: 0;
-}
-
-body {
-  min-height: 100vh;
-  color: var(--white-color);
-  background: var(--black-color);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
-  line-height: 1.6;
-  font-size: 15px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
