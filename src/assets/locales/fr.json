@@ -16,7 +16,12 @@
             "dateNaissanceParagraphe": "Cette information ne sera pas affichée publiquement. Confirmez votre âge, même si ce compte est pour une entreprise, un animal de compagnie ou autre chose.",
             "mois": "Mois",
             "jour": "Jour",
-            "annee": "Année"
+            "annee": "Année",
+            "suivant": "Suivant",
+            "motDePasseOublie": "Mot de passe oublié ?",
+            "adresseEmail": "Adresse e-mail",
+            "motDePasse": "Mot de passe",
+            "connectezVous": "Connectez-vous à Twittix"
         }
     }
 }
