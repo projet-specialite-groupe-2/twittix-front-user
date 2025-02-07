@@ -2,5 +2,21 @@
     "title": "Twittix",
     "errors": {
         "somethingWentWrong": "Quelque chose s'est mal passé"
+    },
+    "view": {
+        "loginPage": {
+            "title": "Ça se passe maintenant",
+            "inscription": "Inscrivez-vous.",
+            "createAccount": "Créer un compte",
+            "hasAccount": "Vous avez déjà un compte ?",
+            "confidentialite": "En vous inscrivant, vous acceptez les Conditions d'utilisation et la Politique de confidentialité, notamment l'Utilisation des cookies.",
+            "seConnecter": "Se connecter",
+            "createYourAccount": "Créez votre compte",
+            "dateDeNaissance": "Date de naissance",
+            "dateNaissanceParagraphe": "Cette information ne sera pas affichée publiquement. Confirmez votre âge, même si ce compte est pour une entreprise, un animal de compagnie ou autre chose.",
+            "mois": "Mois",
+            "jour": "Jour",
+            "annee": "Année"
+        }
     }
 }

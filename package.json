@@ -16,6 +16,7 @@
         "openapi:local": "rm -rf src/core/api && npx openapi-typescript-codegen -i .openapi.json -o src/core/api -c axios --name ApiClient --useOptions"
     },
     "dependencies": {
+        "@mdi/font": "^7.4.47",
         "axios": "^1.7.9",
         "pinia": "^2.3.1",
         "vue": "^3.5.13",

@@ -7,6 +7,8 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import '@mdi/font/css/materialdesignicons.css'
+import { VNumberInput } from 'vuetify/labs/VNumberInput'
 
 import App from './App.vue'
 import router from './router'
@@ -21,8 +23,43 @@ import 'vuetify/styles'
 const app = createApp(App)
 
 const vuetify = createVuetify({
-  components,
+  components: {
+    VNumberInput,
+    ...components,
+  },
   directives,
+  defaults: {
+    VBtn: {
+      variant: 'flat',
+      rounded: 'xl',
+      ripple: false,
+      style: 'text-transform: none; letter-spacing: 0; font-weight: bold;',
+    },
+
+    VDialog: {
+      maxWidth: '600',
+      minHeight: '630',
+    },
+
+    VCard: {
+      class: 'rounded-xl',
+    },
+  },
+  theme: {
+    themes: {
+      light: {
+        dark: false,
+        colors: {
+          background: '#000000',
+          primary: '#000000',
+          secondary: '#71767b',
+          white: '#eff3f4',
+          blue: '#1d9bf0',
+          gray: '#2f3336',
+        },
+      },
+    },
+  },
 })
 
 const i18n = createI18n({
@@ -48,5 +85,7 @@ app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
+
+app.config.globalProperties.$t = i18n.global.t
 
 export { i18n }
