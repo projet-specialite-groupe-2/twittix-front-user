@@ -16,7 +16,7 @@
         </v-col>
         
         <v-col cols="3" lg="3" class="fill-height d-lg-block d-md-none">
-          <div class="bg-green about h-100"></div>
+          <div class="bg-black about h-100"></div>
         </v-col>
       </v-row>
     </v-main>

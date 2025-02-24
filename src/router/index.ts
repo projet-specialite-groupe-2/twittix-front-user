@@ -15,14 +15,6 @@ const routes = [
       sidebar: false,
     },
   },
-  {
-    path: '/red',
-    name: PageNameEnum.RED,
-    component: () => import('../views/RedView.vue'),
-    meta: {
-      sidebar: true,
-    },
-  },
 ]
 
 const router = createRouter({
