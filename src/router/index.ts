@@ -1,15 +1,27 @@
+import PageNameEnum from '@/core/types/enums/pageNameEnum'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: PageNameEnum.MAIN,
     component: () => import('../views/AboutView.vue'),
   },
   {
     path: '/login',
-    name: 'login',
+    name: PageNameEnum.LOGIN,
     component: () => import('../views/LoginView.vue'),
+    meta: {
+      sidebar: false,
+    },
+  },
+  {
+    path: '/red',
+    name: PageNameEnum.RED,
+    component: () => import('../views/RedView.vue'),
+    meta: {
+      sidebar: true,
+    },
   },
 ]
 

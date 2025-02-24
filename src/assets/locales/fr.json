@@ -1,7 +1,14 @@
 {
     "title": "Twittix",
-    "errors": {
-        "somethingWentWrong": "Quelque chose s'est mal passé"
+    "components":{
+        "navigationForm":{
+            "home":"Accueil",
+            "explore":"Explorer",
+            "message":"Messages",
+            "profile":"Profil",
+            "post":"Poster",
+            "disconnectFrom":"Se déconnecter de"
+        }
     },
     "view": {
         "loginPage": {
@@ -18,5 +25,8 @@
             "jour": "Jour",
             "annee": "Année"
         }
+    },
+    "errors": {
+        "somethingWentWrong": "Quelque chose s'est mal passé"
     }
 }

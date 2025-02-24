@@ -1,7 +1,14 @@
 {
     "title": "Twittix",
-    "errors": {
-        "somethingWentWrong": "Something went wrong"
+    "components":{
+        "navigationForm":{
+            "home":"Home",
+            "explore":"Explore",
+            "message":"Messages",
+            "profile":"Profile",
+            "post":"Post",
+            "disconnectFrom":"Disconnect from"
+        }
     },
     "view": {
         "loginPage": {
@@ -18,5 +25,8 @@
             "jour": "Day",
             "annee": "Year"
         }
+    },
+    "errors": {
+        "somethingWentWrong": "Something went wrong"
     }
 }
