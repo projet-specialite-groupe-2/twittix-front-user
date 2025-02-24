@@ -23,7 +23,12 @@
             "dateNaissanceParagraphe": "This information will not be publicly displayed. Confirm your age, even if this account is for a business, a pet, or something else.",
             "mois": "Month",
             "jour": "Day",
-            "annee": "Year"
+            "annee": "Year",
+            "suivant": "Next",
+            "motDePasseOublie": "Forgot password?",
+            "adresseEmail": "Email address",
+            "motDePasse": "Password",
+            "connectezVous": "Log in to Twittix"
         }
     },
     "errors": {
