@@ -3,13 +3,13 @@
     <!-- Sidebar -->
      <v-main class="pa-0" id="body-block" v-if="route?.meta?.sidebar && !isMobile">
       <v-row class="fill-height" no-gutters>
-        <v-col cols="2" md="3" lg="2">
+        <v-col cols="6" md="4" lg="3">
           <NavigationComponent :footer-mode="false"></NavigationComponent>
         </v-col>
         
         <v-divider vertical></v-divider>
         
-        <v-col cols="7" md="9" lg="7" class="fill-height">
+        <v-col cols="6" md="8" lg="6" class="fill-height">
           <router-view id="content_page" v-slot="{ Component }">
             <component :is="Component" />
           </router-view>
