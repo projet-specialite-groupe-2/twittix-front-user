@@ -19,6 +19,9 @@ const routes = [
     path: '/messages',
     name: 'messages',
     component: () => import('../views/MessagesView.vue'),
+    meta: {
+      sidebar: true,
+    },
   },
 ]
 

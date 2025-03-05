@@ -1,8 +1,8 @@
 <template>
   <v-container class="pa-0" fluid>
-    <v-row justify="center" align="center">
+    <v-row>
       <v-col
-        cols="3"
+        cols="7"
         justify="center"
         align="center"
         class="pa-0 overflow-y-scroll"
