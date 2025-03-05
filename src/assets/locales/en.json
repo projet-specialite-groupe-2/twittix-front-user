@@ -1,7 +1,14 @@
 {
     "title": "Twittix",
-    "errors": {
-        "somethingWentWrong": "Something went wrong"
+    "components": {
+        "navigationForm": {
+            "home": "Home",
+            "explore": "Explore",
+            "message": "Messages",
+            "profile": "Profile",
+            "post": "Post",
+            "disconnectFrom": "Disconnect from"
+        }
     },
     "view": {
         "loginPage": {
@@ -16,7 +23,12 @@
             "dateNaissanceParagraphe": "This information will not be publicly displayed. Confirm your age, even if this account is for a business, a pet, or something else.",
             "mois": "Month",
             "jour": "Day",
-            "annee": "Year"
+            "annee": "Year",
+            "suivant": "Next",
+            "motDePasseOublie": "Forgot password?",
+            "adresseEmail": "Email address",
+            "motDePasse": "Password",
+            "connectezVous": "Log in to Twittix"
         },
         "messagesPage": {
             "title": "Messages",
@@ -31,5 +43,8 @@
             "searchPeople": "Search people",
             "next": "Next"
         }
+    },
+    "errors": {
+        "somethingWentWrong": "Something went wrong"
     }
 }

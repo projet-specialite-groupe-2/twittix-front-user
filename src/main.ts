@@ -8,13 +8,10 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import '@mdi/font/css/materialdesignicons.css'
-import { VNumberInput } from 'vuetify/labs/VNumberInput'
 
 import App from './App.vue'
 import router from './router'
-import { createI18n } from 'vue-i18n'
-import fr from '@/assets/locales/fr.json'
-import en from '@/assets/locales/fr.json'
+import { i18n } from './plugins/i18n'
 import Vue3Toastify, { toast, type ToastContainerOptions } from 'vue3-toastify'
 
 import 'vue3-toastify/dist/index.css'
@@ -23,10 +20,7 @@ import 'vuetify/styles'
 const app = createApp(App)
 
 const vuetify = createVuetify({
-  components: {
-    VNumberInput,
-    ...components,
-  },
+  component,
   directives,
   defaults: {
     VBtn: {
@@ -59,13 +53,6 @@ const vuetify = createVuetify({
       },
     },
   },
-})
-
-const i18n = createI18n({
-  legacy: false,
-  locale: 'fr',
-  fallbackLocale: 'fr',
-  messages: { fr, en },
 })
 
 app.use(Vue3Toastify, {
