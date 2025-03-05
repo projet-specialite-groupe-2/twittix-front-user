@@ -1,0 +1,13 @@
+<template>
+  <v-text-field
+    prepend-inner-icon="mdi-magnify"
+    density="compact"
+    :placeholder="$t('view.messagesPage.placeholder')"
+    variant="outlined"
+    bg-color="transparent"
+    color="blue"
+    flat
+    hide-details
+    rounded
+  ></v-text-field>
+</template>

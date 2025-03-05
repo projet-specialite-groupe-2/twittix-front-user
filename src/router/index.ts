@@ -15,6 +15,14 @@ const routes = [
       sidebar: false,
     },
   },
+  {
+    path: '/messages',
+    name: 'messages',
+    component: () => import('../views/MessagesView.vue'),
+    meta: {
+      sidebar: true,
+    },
+  },
 ]
 
 const router = createRouter({

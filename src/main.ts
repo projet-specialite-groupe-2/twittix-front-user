@@ -20,7 +20,7 @@ import 'vuetify/styles'
 const app = createApp(App)
 
 const vuetify = createVuetify({
-  component,
+  components,
   directives,
   defaults: {
     VBtn: {
@@ -34,7 +34,6 @@ const vuetify = createVuetify({
       maxWidth: '600',
       minHeight: '630',
     },
-
     VCard: {
       class: 'rounded-xl',
     },
