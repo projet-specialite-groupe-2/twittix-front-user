@@ -40,7 +40,6 @@ const vuetify = createVuetify({
       maxWidth: '600',
       minHeight: '630',
     },
-
     VCard: {
       class: 'rounded-xl',
     },

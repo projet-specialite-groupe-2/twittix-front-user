@@ -17,6 +17,19 @@
             "mois": "Month",
             "jour": "Day",
             "annee": "Year"
+        },
+        "messagesPage": {
+            "title": "Messages",
+            "placeholder": "Search in Direct Messages",
+            "messagesRequests": "Message requests",
+            "penddingRequests": "{count} pending request",
+            "pinConversation": "Pin conversation",
+            "muteConversation": "Mute conversation",
+            "deleteConversation": "Delete conversation",
+            "signalConversation": "Report conversation",
+            "newMessage": "New message",
+            "searchPeople": "Search people",
+            "next": "Next"
         }
     }
 }

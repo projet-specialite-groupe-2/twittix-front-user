@@ -17,6 +17,19 @@
             "mois": "Mois",
             "jour": "Jour",
             "annee": "Année"
+        },
+        "messagesPage": {
+            "title": "Messages",
+            "placeholder": "Cherchez dans les Messages Privés",
+            "messagesRequests": "Demandes de messages",
+            "penddingRequests": "{count} demande en attente",
+            "pinConversation": "Épingler la conversation",
+            "muteConversation": "Mettre la conversation en sommeil",
+            "deleteConversation": "Supprimer la conversation",
+            "signalConversation": "Signaler la conversation",
+            "newMessage": "Nouveau message",
+            "searchPeople": "Rechercher des personnes",
+            "next": "Suivant"
         }
     }
 }
