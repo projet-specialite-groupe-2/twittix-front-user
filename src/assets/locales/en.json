@@ -1,7 +1,14 @@
 {
     "title": "Twittix",
-    "errors": {
-        "somethingWentWrong": "Something went wrong"
+    "components":{
+        "navigationForm":{
+            "home":"Home",
+            "explore":"Explore",
+            "message":"Messages",
+            "profile":"Profile",
+            "post":"Post",
+            "disconnectFrom":"Disconnect from"
+        }
     },
     "view": {
         "loginPage": {
@@ -23,5 +30,8 @@
             "motDePasse": "Password",
             "connectezVous": "Log in to Twittix"
         }
+    },
+    "errors": {
+        "somethingWentWrong": "Something went wrong"
     }
 }
