@@ -1,13 +1,13 @@
 {
     "title": "Twittix",
-    "components":{
-        "navigationForm":{
-            "home":"Home",
-            "explore":"Explore",
-            "message":"Messages",
-            "profile":"Profile",
-            "post":"Post",
-            "disconnectFrom":"Disconnect from"
+    "components": {
+        "navigationForm": {
+            "home": "Home",
+            "explore": "Explore",
+            "message": "Messages",
+            "profile": "Profile",
+            "post": "Post",
+            "disconnectFrom": "Disconnect from"
         }
     },
     "view": {
@@ -29,6 +29,20 @@
             "adresseEmail": "Email address",
             "motDePasse": "Password",
             "connectezVous": "Log in to Twittix"
+        },
+        "messagesPage": {
+            "title": "Messages",
+            "placeholder": "Search in Direct Messages",
+            "messagesRequests": "Message requests",
+            "penddingRequests": "{count} pending request",
+            "pinConversation": "Pin conversation",
+            "muteConversation": "Mute conversation",
+            "deleteConversation": "Delete conversation",
+            "signalConversation": "Report conversation",
+            "newMessage": "New message",
+            "searchPeople": "Search people",
+            "next": "Next",
+            "createGroup": "Create group"
         }
     },
     "errors": {
