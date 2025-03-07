@@ -17,7 +17,7 @@ const routes = [
   },
   {
     path: '/messages',
-    name: 'messages',
+    name: PageNameEnum.MESSAGES,
     component: () => import('../views/MessagesView.vue'),
     meta: {
       sidebar: true,

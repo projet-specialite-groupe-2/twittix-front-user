@@ -101,7 +101,7 @@
                             <v-col cols="11" class="align-start justify-start">
                               <v-row class="d-flex align-center ga-2 w-100">
                                 <span class="text-subtitle-2 font-weight-bold text-blue">
-                                  Create groups
+                                  {{ $t('view.messagesPage.createGroup') }}
                                 </span>
                               </v-row>
                             </v-col>

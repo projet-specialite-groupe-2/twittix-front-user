@@ -41,7 +41,8 @@
             "signalConversation": "Signaler la conversation",
             "newMessage": "Nouveau message",
             "searchPeople": "Rechercher des personnes",
-            "next": "Suivant"
+            "next": "Suivant",
+            "createGroup": "Créer un groupe"
         }
     },
     "errors": {

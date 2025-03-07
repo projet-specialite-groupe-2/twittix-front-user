@@ -41,7 +41,8 @@
             "signalConversation": "Report conversation",
             "newMessage": "New message",
             "searchPeople": "Search people",
-            "next": "Next"
+            "next": "Next",
+            "createGroup": "Create group"
         }
     },
     "errors": {
