@@ -2,18 +2,12 @@
   <v-container class="pa-0" fluid>
     <v-row>
       <v-col
-        cols="7"
         justify="center"
         align="center"
-        class="pa-0 overflow-y-scroll"
-        style="
-          border-left: 1px solid rgb(47, 51, 54);
-          border-right: 1px solid rgb(47, 51, 54);
-          height: 100vh;
-        "
+        class="pa-0 overflow-y-scroll h-screen"
       >
-        <v-col class="position-sticky top-0" style="z-index: 1; backdrop-filter: blur(10px)">
-          <v-row class="d-flex justify-space-between w-100 px-4 pt-8">
+        <v-col class="position-sticky top-0" style="z-index: 1;">
+          <v-row class="d-flex justify-space-between w-100 px-4 pt-8" style="backdrop-filter: blur(10px);">
             <v-col sm="10" md="10">
               <v-row>
                 <h2>
