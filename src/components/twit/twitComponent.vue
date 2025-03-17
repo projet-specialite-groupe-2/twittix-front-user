@@ -7,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 const { locale } = useI18n()
 
 const props = defineProps<{
+    twitId: number
     userId: string
     username: string
     twitDate: string
@@ -20,10 +21,10 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-	(eventName: 'like'): void
-	(eventName: 'retwit'): void
-	(eventName: 'comment', value: string): void
-	(eventName: 'openTwit', value: number): void
+	(eventName: 'like', id: number): void
+	(eventName: 'retwit', id: number): void
+	(eventName: 'comment', id: number): void
+	(eventName: 'openTwit', id: number): void
 }>()
 
 const formattedDate = computed(() => {
@@ -31,20 +32,20 @@ const formattedDate = computed(() => {
   return dayjs(props.twitDate).format("DD MMM.");
 });
 
-function openTwit(id: number) {
-    emit('openTwit', id)
+function openTwit() {
+    emit('openTwit', props.twitId)
     console.log('twit opened')
 }
 
 function likeTwit() {
-    emit('like')
+    emit('like', props.twitId)
 }
 function reTwit() {
-    emit('retwit')
+    emit('retwit', props.twitId)
     
 }
 function commentTwit() {
-    emit('comment', 'Some content')
+    emit('comment', props.twitId)
 }
 
 function redirectToProfile() {

@@ -57,6 +57,7 @@
             <v-infinite-scroll :items="items" @load="load">
               <template v-for="(item) in items" :key="item">
                 <TwitComponent
+                  :twit-id="item.id ?? 0"
                   :twit-content="item.content ?? ''"
                   :twit-date="item.createdAt ?? ''"
                   :user-id="item.author?.userIdentifier ?? ''"
@@ -65,15 +66,15 @@
                   :twit-like-number="'976'"
                   :twit-message-number="'9786'"
                   :twit-re-twit-number="'876'"
-                  :is-liked="isLike"
-                  :id-re-twit="isReTwit"
-                  v-on:like="isLike = !isLike"
-                  v-on:retwit="isReTwit = !isReTwit"
+                  :is-liked="item.isLiked ?? false"
+                  :id-re-twit="item.isRetwit ?? false"
+                  v-on:like="likeTwit"
+                  v-on:retwit="reTwit"
                 />
               </template>
             </v-infinite-scroll>
-      </v-col>
-    </v-row>
+        </v-col>
+      </v-row>
   </v-container>
 </template>
 
@@ -87,16 +88,32 @@ const isForYouView = ref<boolean>(true)
 const twitLimit = 280
 const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
-
 const twitText = ref<string>('')
-
-const isLike = ref<boolean>(false)
-const isReTwit = ref<boolean>(false)
+const twitId = ref<number>(1)
 
 const userPictureURL =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maupassant_par_Nadar.jpg/440px-Maupassant_par_Nadar.jpg'
 
 const items: Ref<Array<Twit>> = ref([])
+
+function likeTwit(id: number) {
+  const twit = items.value.find((p) => p.id === id);
+  if (twit) {
+    twit.isLiked = !twit.isLiked;
+  }
+}
+
+function reTwit(id: number) {
+  const twit = items.value.find((p) => p.id === id);
+  if (twit) {
+    twit.isRetwit = !twit.isRetwit;
+  }
+}
+
+function incrementId(): number {
+  twitId.value = twitId.value + 1
+  return twitId.value
+}
 async function load({ done }) {
     // Perform API call
     for (let i = 0; i < 30; i++)
@@ -111,7 +128,7 @@ async function load({ done }) {
   
 async function api(): Promise<Twit> {
   return {
-    id: 1,
+    id: incrementId(),
     content: "⚽🔥 *Inazuma Eleven* : Le rêve de tous les fans de foot ⚡! Des matchs de folie, des techniques super puissantes 💥 et des personnages inoubliables 👕! \n\nLa Team Raimon 🏆 et ses héros comme Mark Evans 🧢, Axel Blaze 🔥 et la légende de la Tornado 🔄 qui nous font vibrer à chaque épisode! 😍⚡\n\nQui est votre joueur préféré? 🤔🎮 \n#InazumaEleven #Football #Anime #GénérationTornade",
     author: {
       id: 123,
