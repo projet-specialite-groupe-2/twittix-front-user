@@ -24,11 +24,10 @@
             <v-container>
               <v-textarea
                 class="mx-2"
-                :label="'Quoi de neuf ?!'"
+                :label="$t('view.homeView.WhatsNew')"
                 variant="plain"
                 auto-grow
                 rows="2"
-                counter
                 v-model="twitText"
                 :maxlength="twitLimit"
               >
@@ -70,16 +69,29 @@
                   :id-re-twit="item.isRetwit ?? false"
                   v-on:like="likeTwit"
                   v-on:retwit="reTwit"
+                  v-on:comment="openCommentDialog(item)"
                 />
               </template>
             </v-infinite-scroll>
         </v-col>
       </v-row>
+      <AddComment
+        v-if="commentTwitDialog"
+        :twit-id="addEditTwit?.id ?? 0"
+        :twit-content="addEditTwit?.content ?? ''"
+        :twit-date="addEditTwit?.createdAt ?? ''"
+        :user-id="addEditTwit?.author?.userIdentifier ?? ''"
+        :username="addEditTwit?.author?.username ?? ''"
+        :user-picture-url="addEditTwit?.author?.profileImgPath ?? ''"
+        :open="commentTwitDialog"
+        v-on:submit:form="commentDialogAction"
+      />
+      <v-overlay v-model="commentTwitDialog" persistent/>
   </v-container>
 </template>
 
 <script setup lang="ts">
-
+import AddComment from '@/components/twit/addComment.vue'
 import TwitComponent from '@/components/twit/twitComponent.vue'
 import { Twit, type User } from '@/core/api'
 import { ref, watch, type Ref } from 'vue'
@@ -90,6 +102,9 @@ const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
 const twitId = ref<number>(1)
+
+const commentTwitDialog = ref<boolean>(false)
+const addEditTwit = ref<Twit | undefined>()
 
 const userPictureURL =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maupassant_par_Nadar.jpg/440px-Maupassant_par_Nadar.jpg'
@@ -172,5 +187,16 @@ function progressCircularColor(): string {
 
 function setForYouView(item: boolean) {
   isForYouView.value = item
+}
+
+function commentDialogAction(confirm: boolean, data?: unknown) {
+  if (confirm && data) {
+    // Todo with APIs
+  }
+  commentTwitDialog.value = false
+}
+function openCommentDialog(data: Twit) {
+  addEditTwit.value = items.value.find((p) => p.id === data.id);
+  commentTwitDialog.value = true
 }
 </script>
