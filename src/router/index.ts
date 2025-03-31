@@ -26,6 +26,14 @@ const routes = [
       sidebar: true,
     },
   },
+  {
+    path: '/profil',
+    name: PageNameEnum.PROFIL,
+    component: () => import('@/views/ProfilView.vue'),
+    meta: {
+      sidebar: true,
+    },
+  },
 ]
 
 const router = createRouter({

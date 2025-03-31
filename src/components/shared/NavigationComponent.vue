@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import router from '@/router'
+import PageNameEnum from '@/core/types/enums/pageNameEnum'
 
 const { t } = useI18n()
 const props = defineProps<{ footerMode: boolean }>()
@@ -33,9 +34,7 @@ function goToMessages() {
 
 function goToProfil() {
   console.log('profil')
-  const username = userId.replace('@', '')
-  router.push(`${username}`)
-  // TODO
+  router.push({ name: PageNameEnum.PROFIL })
 }
 
 function createPost() {
@@ -159,8 +158,8 @@ function disconnectUser() {
 
           <v-list class="mb-5 bg-black rounded-xl border-white border-md" :border="true">
             <v-list-item v-for="(item, index) in dropdownUserItems" :key="index">
-              <v-list-item-title v-on:click="item.click" class="user-select-none"
-                >{{ item.title }}
+              <v-list-item-title v-on:click="item.click" class="user-select-none">
+                {{ item.title }}
               </v-list-item-title>
             </v-list-item>
           </v-list>
