@@ -14,7 +14,7 @@ config()
 
 const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
 const __dirname = path.dirname(__filename)
-const openAPIfilename = '.openapi.json'
+const openAPIfilename = 'openapi'
 
 const getAPIAccessToken = () =>
   new Promise((resolve, reject) => {
@@ -82,7 +82,7 @@ const getAPISchemaSource = accessToken => {
       })
 
       res.on('end', () => {
-        const sourceTmpFile = join(__dirname, '..', `.${openAPIfilename}.json`)
+        const sourceTmpFile = join(__dirname, '..', '..', `.${openAPIfilename}.json`)
         writeFile(sourceTmpFile, result, err => {
           if (err) {
             reject(err)
