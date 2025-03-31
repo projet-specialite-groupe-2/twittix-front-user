@@ -107,7 +107,7 @@ const generateCode = async source => {
 
   await generate({
     input: source,
-    output: join(__dirname, '..', 'src', 'api'),
+    output: join(__dirname, '..', 'core', 'api'),
     clientName: 'ApiClient',
     httpClient: 'axios',
     useOptions: true,
