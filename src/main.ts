@@ -37,6 +37,9 @@ const vuetify = createVuetify({
     VCard: {
       class: 'rounded-xl bg-black',
     },
+    VSheet: {
+      class: 'bg-black',
+    },
   },
   theme: {
     themes: {
@@ -49,6 +52,7 @@ const vuetify = createVuetify({
           white: '#eff3f4',
           blue: '#1d9bf0',
           gray: '#2f3336',
+          groy: 'rgb(47, 51, 54)',
         },
         variables: {
           'theme-on-surface': '91, 112, 131, 0.5',

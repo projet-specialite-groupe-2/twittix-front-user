@@ -1,5 +1,5 @@
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
 const routes = [
   {
@@ -21,12 +21,22 @@ const routes = [
   {
     path: '/messages',
     name: PageNameEnum.MESSAGES,
-    component: () => import('../views/MessagesView.vue'),
-    meta: {
-      sidebar: true,
+    components: {
+      default: () => import('../views/MessagesView.vue'),
+      message_details: () => import('../components/Message/MessageDetails.vue'),
     },
+    meta: { sidebar: true },
   },
-]
+  {
+    path: '/messages/:id',
+    name: PageNameEnum.MESSAGES_DETAIL,
+    components: {
+      default: () => import('../views/MessagesView.vue'),
+      message_details: () => import('../components/Message/MessageDetails.vue'),
+    },
+    meta: { sidebar: true },
+  },
+] as RouteRecordRaw[]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
