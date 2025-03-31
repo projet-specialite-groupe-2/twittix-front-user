@@ -1,21 +1,27 @@
 <template>
-  <v-container fluid>
-    <v-row class="position-sticky top-0">
-      <v-col
-        cols="12"
-        class="d-flex align-center d-inline-block"
-        style="z-index: 1; backdrop-filter: blur(10px)"
-      >
-        <v-btn icon="mdi-arrow-left" size="small" class="bg-black mr-6" />
+  <v-container fluid class="pa-0" style="height: 100vh !important; overflow-y: scroll">
+    <v-row class="position-sticky top-0" style="z-index: 10 !important">
+      <v-col cols="12" class="py-0">
+        <div
+          class="d-flex align-center d-inline-block w-100 h-100 pa-3"
+          style="backdrop-filter: blur(10px)"
+        >
+          <v-btn
+            icon="mdi-arrow-left"
+            size="small"
+            class="bg-black mr-6"
+            @click.prevent="$router.go(-1)"
+          />
 
-        <div>
-          <h3>Florent</h3>
-          <h5 class="opacity-50">157 posts</h5>
+          <div>
+            <h3>Florent</h3>
+            <h5 class="opacity-50">157 posts</h5>
+          </div>
         </div>
       </v-col>
     </v-row>
 
-    <v-row class="position-relative">
+    <v-row class="position-relative mt-6">
       <v-col class="pa-0" style="max-height: 275px">
         <v-img
           width="auto"
@@ -26,7 +32,7 @@
           height="100%"
         ></v-img>
 
-        <v-avatar class="avatar-absolute" image="https://picsum.photos/200"></v-avatar>
+        <v-avatar class="avatar-absolute ms-4" image="https://picsum.photos/200"></v-avatar>
 
         <div class="d-flex flex-column">
           <div class="d-none d-sm-flex">
@@ -37,6 +43,7 @@
                   size="large"
                   variant="outlined"
                   style="position: absolute; right: 15px; bottom: 0"
+                  class="me-4"
                 >
                   Éditer le profil
                 </v-btn>
@@ -110,7 +117,7 @@
 
                       <div>
                         <span class="opacity-50 text-subtitle-2">Date de naissance • </span>
-                        <button type="button" class="text-subtitle-2 text-blue">Éditer</button>
+                        <button type="button" class="text-subtitle-2 text-red">Éditer</button>
                       </div>
 
                       <div>27 Janvier 2003</div>
@@ -129,6 +136,7 @@
                   size="large"
                   variant="outlined"
                   style="position: absolute; right: 15px; bottom: 0"
+                  class="me-4"
                 >
                   Éditer le profil
                 </v-btn>
@@ -202,7 +210,7 @@
 
                       <div>
                         <span class="opacity-50 text-subtitle-2">Date de naissance • </span>
-                        <button type="button" class="text-subtitle-2 text-blue">Éditer</button>
+                        <button type="button" class="text-subtitle-2 text-red">Éditer</button>
                       </div>
 
                       <div>27 Janvier 2003</div>
@@ -216,23 +224,181 @@
       </v-col>
     </v-row>
 
-    <v-row>
-      <v-col cols="12">
-        <h2>Florent</h2>
-        <h4 class="opacity-50 font-weight-light mb-3">@RealEl_Floww</h4>
+    <div class="mt-5 px-5">
+      <h2>Florent</h2>
+      <h4 class="opacity-50 font-weight-light mb-3">@RealEl_Floww</h4>
 
-        <div class="font-weight-medium mb-3">Je suis un jeune homme</div>
+      <div class="font-weight-medium mb-3">Je suis un jeune homme</div>
 
-        <div class="d-flex">
-          <div><b>157</b> <span class="opacity-50">abonnements</span></div>
-          <div class="mx-5"><b>30</b> <span class="opacity-50">abonnés</span></div>
-        </div>
+      <div class="d-flex">
+        <div><b>157</b> <span class="opacity-50">abonnements</span></div>
+        <div class="mx-5"><b>30</b> <span class="opacity-50">abonnés</span></div>
+      </div>
+    </div>
+
+    <v-row no-gutters class="mt-6">
+      <v-col class="px-0">
+        <v-btn block variant="text" rounded="0" class="mb-2 pa-0" v-on:click="isForYouView = true">
+          Posts
+        </v-btn>
+        <v-progress-linear
+          v-if="isForYouView"
+          class="w-25 mx-auto"
+          color="red"
+          model-value="100"
+          style="margin: 0 auto !important"
+        ></v-progress-linear>
+      </v-col>
+      <v-col class="px-0">
+        <v-btn block variant="text" rounded="0" class="mb-2 pa-0" v-on:click="isForYouView = false">
+          J'aime
+        </v-btn>
+        <v-progress-linear
+          v-if="!isForYouView"
+          class="w-25"
+          color="red"
+          model-value="100"
+          style="margin: 0 auto !important"
+        ></v-progress-linear>
       </v-col>
     </v-row>
+    <v-divider class="border-opacity-25"></v-divider>
+
+    <v-infinite-scroll :items="items" @load="load">
+      <template v-for="item in items" :key="item">
+        <TwitComponent
+          :twit-id="item.id ?? 0"
+          :twit-content="item.content ?? ''"
+          :twit-date="item.createdAt ?? ''"
+          :user-id="item.author?.userIdentifier ?? ''"
+          :username="item.author?.username ?? ''"
+          :user-picture-url="item.author?.profileImgPath ?? ''"
+          :twit-like-number="'976'"
+          :twit-message-number="'9786'"
+          :twit-re-twit-number="'876'"
+          :is-liked="item.isLiked ?? false"
+          :id-re-twit="item.isRetwit ?? false"
+          v-on:like="likeTwit"
+          v-on:retwit="reTwit"
+          v-on:comment="openCommentDialog(item)"
+        />
+      </template>
+    </v-infinite-scroll>
+
+    <AddComment
+      v-if="commentTwitDialog"
+      :twit-id="addEditTwit?.id ?? 0"
+      :twit-content="addEditTwit?.content ?? ''"
+      :twit-date="addEditTwit?.createdAt ?? ''"
+      :user-id="addEditTwit?.author?.userIdentifier ?? ''"
+      :username="addEditTwit?.author?.username ?? ''"
+      :user-picture-url="addEditTwit?.author?.profileImgPath ?? ''"
+      :open="commentTwitDialog"
+      v-on:submit:form="commentDialogAction"
+    />
+    <v-overlay v-model="commentTwitDialog" persistent />
   </v-container>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AddComment from '@/components/twit/addComment.vue'
+import { ref, watch, type Ref } from 'vue'
+import TwitComponent from '@/components/twit/twitComponent.vue'
+import { Twit, type User } from '@/core/api'
+
+const isForYouView = ref<boolean>(true)
+const twitLimit = 280
+const twitLenght = ref<number>(0)
+const twitPourcentage = ref<number>(0)
+const twitText = ref<string>('')
+const twitId = ref<number>(1)
+
+const items: Ref<Array<Twit>> = ref([])
+
+const commentTwitDialog = ref<boolean>(false)
+const addEditTwit = ref<Twit | undefined>()
+
+function incrementId(): number {
+  twitId.value = twitId.value + 1
+  return twitId.value
+}
+
+function likeTwit(id: number) {
+  const twit = items.value.find(p => p.id === id)
+  if (twit) {
+    twit.isLiked = !twit.isLiked
+  }
+}
+
+function reTwit(id: number) {
+  const twit = items.value.find(p => p.id === id)
+  if (twit) {
+    twit.isRetwit = !twit.isRetwit
+  }
+}
+
+async function load({ done }) {
+  // Perform API call
+  for (let i = 0; i < 30; i++) {
+    const res = await api()
+    items.value.push(res)
+  }
+
+  done('ok')
+}
+
+function commentDialogAction(confirm: boolean, data?: unknown) {
+  if (confirm && data) {
+    // Todo with APIs
+  }
+  commentTwitDialog.value = false
+}
+
+function openCommentDialog(data: Twit) {
+  addEditTwit.value = items.value.find(p => p.id === data.id)
+  commentTwitDialog.value = true
+}
+
+async function api(): Promise<Twit> {
+  return {
+    id: incrementId(),
+    content:
+      '⚽🔥 *Inazuma Eleven* : Le rêve de tous les fans de foot ⚡! Des matchs de folie, des techniques super puissantes 💥 et des personnages inoubliables 👕! \n\nLa Team Raimon 🏆 et ses héros comme Mark Evans 🧢, Axel Blaze 🔥 et la légende de la Tornado 🔄 qui nous font vibrer à chaque épisode! 😍⚡\n\nQui est votre joueur préféré? 🤔🎮 \n#InazumaEleven #Football #Anime #GénérationTornade',
+    author: {
+      id: 123,
+      createdAt: '2024-03-01T12:00:00+00:00',
+      updatedAt: '2024-03-05T14:30:00+00:00',
+      deletedAt: null,
+      email: 'johndoe@example.com',
+      roles: ['USER'],
+      username: 'johndoe',
+      biography: 'Passionate about technology and coding.',
+      birthdate: '1995-06-15',
+      profileImgPath:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maupassant_par_Nadar.jpg/440px-Maupassant_par_Nadar.jpg',
+      private: false,
+      active: true,
+      banned: false,
+      twits: [],
+      conversations: [],
+      messages: [],
+      userIdentifier: '@johndoe123',
+    } as User,
+    status: Twit.status.PUBLISHED,
+    parent: null,
+    createdAt: '2025-03-07T08:54:25+00:00',
+  }
+}
+
+watch(
+  () => twitText.value,
+  () => {
+    twitLenght.value = twitText.value.length
+    twitPourcentage.value = (twitLenght.value / twitLimit) * 100
+  },
+  { immediate: true }
+)
+</script>
 
 <style scoped>
 .avatar-absolute {

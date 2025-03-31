@@ -7,6 +7,14 @@
   scrollbar-color: rgb(62, 65, 68) rgb(22, 24, 28);
 }
 
-.user-select-none{
+.user-select-none {
   user-select: none;
+}
+
+.bg-red {
+  background-color: rgb(203, 63, 73) !important;
+}
+
+.text-red {
+  color: rgb(203, 63, 73) !important;
 }
