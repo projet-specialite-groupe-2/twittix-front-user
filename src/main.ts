@@ -35,7 +35,7 @@ const vuetify = createVuetify({
       minHeight: '630',
     },
     VCard: {
-      class: 'rounded-xl',
+      class: 'rounded-xl bg-black',
     },
   },
   theme: {
@@ -49,6 +49,9 @@ const vuetify = createVuetify({
           white: '#eff3f4',
           blue: '#1d9bf0',
           gray: '#2f3336',
+        },
+        variables: {
+          'theme-on-surface': '91, 112, 131, 0.5',
         },
       },
     },

@@ -8,9 +8,16 @@
             "profile": "Profile",
             "post": "Post",
             "disconnectFrom": "Disconnect from"
+        },
+        "addComment":{
+            "postAnwser": "Post your anwser",
+            "anwser": "Anwser"
         }
     },
     "view": {
+        "homeView":{
+            "WhatsNew": "What's new ?!"
+        },
         "loginPage": {
             "title": "It's happening now",
             "inscription": "Sign up.",
