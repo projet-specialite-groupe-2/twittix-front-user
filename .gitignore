@@ -34,3 +34,5 @@ coverage
 .env
 test-results/
 playwright-report/
+
+src/src/
