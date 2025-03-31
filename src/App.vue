@@ -1,21 +1,25 @@
-<template >
+<template>
   <v-app id="app">
     <!-- Sidebar -->
      <v-main class="pa-0" id="body-block" v-if="route?.meta?.sidebar && !isMobile">
       <v-row class="fill-height" no-gutters>
-        <v-col cols="6" md="4" lg="3">
+        <v-col cols="4" md="4" lg="4" 
+        style="
+          border-right: 1px solid rgb(47, 51, 54);
+        ">
           <NavigationComponent :footer-mode="false"></NavigationComponent>
         </v-col>
         
-        <v-divider vertical></v-divider>
-        
-        <v-col cols="6" md="8" lg="6" class="fill-height">
+        <v-col cols="4" md="8" lg="4" class="fill-height">
           <router-view id="content_page" v-slot="{ Component }">
             <component :is="Component" />
           </router-view>
         </v-col>
         
-        <v-col cols="3" lg="3" class="fill-height d-lg-block d-md-none">
+        <v-col cols="4" lg="4" class="fill-height d-lg-block d-md-none"
+          style="
+            border-left: 1px solid rgb(47, 51, 54);
+          ">
           <div class="bg-black about h-100"></div>
         </v-col>
       </v-row>

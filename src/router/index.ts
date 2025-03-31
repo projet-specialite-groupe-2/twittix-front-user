@@ -5,7 +5,10 @@ const routes = [
   {
     path: '/',
     name: PageNameEnum.MAIN,
-    component: () => import('../views/AboutView.vue'),
+    component: () => import('../views/HomeView.vue'),
+    meta: {
+      sidebar: true,
+    },
   },
   {
     path: '/login',
