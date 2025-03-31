@@ -13,12 +13,14 @@
         "type-check": "vue-tsc --build",
         "lint": "eslint . --fix",
         "format": "prettier --write src/",
-        "openapi:local": "rm -rf src/core/api && npx openapi-typescript-codegen -i .openapi.json -o src/core/api -c axios --name ApiClient --useOptions"
+        "openapi:local": "rm -rf ./src/core/api && npx openapi-typescript-codegen -i .openapi.json -o ./src/core/api -c axios --name ApiClient --useOptions",
+        "openapi:generate": "node ./src/scripts/generate-api-service.js && eslint --fix ./src/core/api --ext ts --ext tsx --ext js --ext jsx"
     },
     "dependencies": {
         "@mdi/font": "^7.4.47",
         "axios": "^1.7.9",
         "dayjs": "^1.11.13",
+        "dotenv": "^16.4.7",
         "pinia": "^2.3.1",
         "vue": "^3.5.13",
         "vue-i18n": "^10.0.5",
