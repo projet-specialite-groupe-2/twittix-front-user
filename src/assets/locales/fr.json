@@ -9,13 +9,13 @@
             "post": "Poster",
             "disconnectFrom": "Se déconnecter de"
         },
-        "addComment":{
+        "addComment": {
             "postAnwser": "Poster votre réponse",
             "anwser": "Répondre"
         }
     },
     "view": {
-        "homeView":{
+        "homeView": {
             "WhatsNew": "Quoi de neuf ?!"
         },
         "loginPage": {
@@ -50,6 +50,15 @@
             "searchPeople": "Rechercher des personnes",
             "next": "Suivant",
             "createGroup": "Créer un groupe"
+        },
+        "profilPage": {
+            "editProfil": "Éditer les profils",
+            "save": "Enregistrer",
+            "edit": "Éditer",
+            "following": "abonnements",
+            "followers": "abonnés",
+            "likes": "J'aime",
+            "posts": "Posts"
         }
     },
     "errors": {

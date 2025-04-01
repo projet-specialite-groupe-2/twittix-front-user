@@ -1,13 +1,12 @@
 <template>
   <v-container class="pa-0" fluid>
     <v-row>
-      <v-col
-        justify="center"
-        align="center"
-        class="pa-0 overflow-y-scroll h-screen"
-      >
-        <v-col class="position-sticky top-0" style="z-index: 1;">
-          <v-row class="d-flex justify-space-between w-100 px-4 pt-8" style="backdrop-filter: blur(10px);">
+      <v-col justify="center" align="center" class="pa-0 overflow-y-scroll h-screen">
+        <v-col class="position-sticky top-0" style="z-index: 1">
+          <v-row
+            class="d-flex justify-space-between w-100 px-4 pt-8"
+            style="backdrop-filter: blur(10px)"
+          >
             <v-col sm="10" md="10">
               <v-row>
                 <h2>
@@ -94,7 +93,7 @@
                             </v-col>
                             <v-col cols="11" class="align-start justify-start">
                               <v-row class="d-flex align-center ga-2 w-100">
-                                <span class="text-subtitle-2 font-weight-bold text-blue">
+                                <span class="text-subtitle-2 font-weight-bold text-red">
                                   {{ $t('view.messagesPage.createGroup') }}
                                 </span>
                               </v-row>

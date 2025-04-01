@@ -22,7 +22,7 @@
           <div class="d-none d-sm-flex">
             <v-dialog>
               <template v-slot:activator="{ props: activatorProps }">
-                <v-btn v-bind="activatorProps" size="large" class="bg-blue w-100 mb-2">
+                <v-btn v-bind="activatorProps" size="large" class="bg-red w-100 mb-2">
                   {{ $t('view.loginPage.createAccount') }}
                 </v-btn>
               </template>
@@ -98,7 +98,7 @@
           <div class="d-flex d-sm-none">
             <v-dialog transition="dialog-bottom-transition" fullscreen>
               <template v-slot:activator="{ props: activatorProps }">
-                <v-btn v-bind="activatorProps" size="large" class="bg-blue bg-blue w-100 mb-2">
+                <v-btn v-bind="activatorProps" size="large" class="bg-red bg-red w-100 mb-2">
                   {{ $t('view.loginPage.createAccount') }}
                 </v-btn>
               </template>
@@ -188,7 +188,7 @@
                 v-bind="activatorProps"
                 variant="outlined"
                 size="large"
-                :class="['px-16', 'text-blue', 'mb-2']"
+                :class="['px-16', 'text-red', 'mb-2']"
                 style="width: 330px"
                 @click="resetState"
               >
@@ -269,7 +269,7 @@
                 v-bind="activatorProps"
                 variant="outlined"
                 size="large"
-                :class="['px-16', 'text-blue', 'mb-2']"
+                :class="['px-16', 'text-red', 'mb-2']"
                 style="width: 330px"
                 @click="resetState"
               >
