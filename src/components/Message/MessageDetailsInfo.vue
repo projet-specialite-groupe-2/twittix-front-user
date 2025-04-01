@@ -12,7 +12,7 @@
           size="small"
           @click="navigateBack"
         ></v-btn>
-        <h3>Infos de la conversation</h3>
+        <h3>{{ $t('view.messagesPage.conversationInfos') }}</h3>
       </v-row>
       <v-row class="d-flex justify-start mx-4 my-2">
         <v-avatar size="40">
@@ -25,10 +25,10 @@
       <v-divider></v-divider>
       <v-col class="justify-start mx-2 my-2">
         <v-row>
-          <h2>Notifications</h2>
+          <h2>{{ $t('view.messagesPage.notifications') }}</h2>
         </v-row>
         <v-row class="d-flex flex-row align-center justify-space-between">
-          <span class="text-subtitle-1">Recevoir les notifications</span>
+          <span class="text-subtitle-1">{{ $t('view.messagesPage.receiveNotifications') }}</span>
           <v-switch color="blue" class="d-flex justify-end" />
         </v-row>
       </v-col>
@@ -36,29 +36,33 @@
       <v-col>
         <v-row class="d-flex align-center justify-center">
           <v-btn class="bg-transparent w-100" icon="mdi-trash-can">
-            <span class="text-subtitle-1 text-blue">Bloquer les MP</span>
+            <span class="text-subtitle-1 text-blue">{{
+              $t('view.messagesPage.blockMessages')
+            }}</span>
           </v-btn>
         </v-row>
         <v-row class="d-flex align-center justify-center">
           <v-btn class="bg-transparent w-100" icon="mdi-trash-can">
-            <span class="text-subtitle-1 text-blue">Tout bloquer</span>
+            <span class="text-subtitle-1 text-blue">{{ $t('view.messagesPage.blockAll') }}</span>
           </v-btn>
         </v-row>
         <v-row class="d-flex align-center justify-center">
           <v-btn class="bg-transparent w-100" icon="mdi-trash-can">
-            <span class="text-subtitle-1 text-blue">Signaler</span>
+            <span class="text-subtitle-1 text-blue">{{ $t('view.messagesPage.report') }}</span>
           </v-btn>
         </v-row>
         <v-row class="d-flex align-center justify-center">
           <v-btn class="bg-transparent w-100" icon="mdi-trash-can">
             <span class="text-subtitle-1 text-blue"
-              >Signaler la conversion comme du contenu illégal dans l'UE
+              >{{ $t('view.messagesPage.reportContent') }}
             </span>
           </v-btn>
         </v-row>
         <v-row class="d-flex align-center justify-center">
           <v-btn class="bg-transparent w-100" icon="mdi-trash-can">
-            <span class="text-subtitle-1 text-red">Quitter la conversation</span>
+            <span class="text-subtitle-1 text-red">{{
+              $t('view.messagesPage.leaveConversation')
+            }}</span>
           </v-btn>
         </v-row>
       </v-col>

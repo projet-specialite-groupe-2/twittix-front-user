@@ -85,11 +85,10 @@
 <script setup lang="ts">
 import { ref, defineProps } from 'vue'
 
-// Définition des props
 defineProps({
   iconSize: {
     type: String,
-    default: 'small', // Valeur par défaut : 'small', mais peut être 'large', 'x-large', etc.
+    default: 'small',
   },
 })
 

@@ -9,13 +9,13 @@
             "post": "Poster",
             "disconnectFrom": "Se déconnecter de"
         },
-        "addComment":{
+        "addComment": {
             "postAnwser": "Poster votre réponse",
             "anwser": "Répondre"
         }
     },
     "view": {
-        "homeView":{
+        "homeView": {
             "WhatsNew": "Quoi de neuf ?!"
         },
         "loginPage": {
@@ -49,7 +49,16 @@
             "newMessage": "Nouveau message",
             "searchPeople": "Rechercher des personnes",
             "next": "Suivant",
-            "createGroup": "Créer un groupe"
+            "createGroup": "Créer un groupe",
+            "notifications": "Notifications",
+            "blockMessages": "Bloquer les MP",
+            "blockAll": "Tout bloquer",
+            "report": "Signaler",
+            "reportContent": "Signaler le contenu comme illégal dans l'UE",
+            "leaveConversation": "Quitter la conversation",
+            "receiveNotifications": "Recevoir les notifications",
+            "conversationInfos": "Infos de la conversation",
+            "conversationPlaceholder": "Écrire un message..."
         }
     },
     "errors": {

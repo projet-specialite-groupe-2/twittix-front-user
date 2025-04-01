@@ -36,7 +36,6 @@
       </v-row>
     </v-col>
 
-    <!-- Zone de messages (inversée) -->
     <v-card-text class="overflow-y-scroll d-flex flex-column-reverse">
       <MessageBubble
         v-for="(message, index) in messages"
@@ -52,7 +51,7 @@
         <v-col cols="12">
           <v-text-field
             density="compact"
-            :placeholder="$t('view.messagesPage.placeholder')"
+            :placeholder="$t('view.messagesPage.conversationPlaceholder')"
             variant="solo"
             bg-color="rgb(32, 35, 39)"
             flat
