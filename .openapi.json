@@ -1,1 +1,1639 @@
-{"openapi":"3.1.0","info":{"title":"Hello API Platform","description":"","version":"1.0.0"},"servers":[{"url":"\/","description":""}],"paths":{"\/api\/conversations":{"get":{"operationId":"api_conversations_get_collection","tags":["Conversation"],"responses":{"200":{"description":"Conversation collection","content":{"application\/json":{"schema":{"type":"array","items":{"$ref":"#\/components\/schemas\/Conversation"}}},"application\/ld+json":{"schema":{"type":"object","properties":{"member":{"type":"array","items":{"$ref":"#\/components\/schemas\/Conversation.jsonld"}},"totalItems":{"type":"integer","minimum":0},"view":{"type":"object","properties":{"@id":{"type":"string","format":"iri-reference"},"@type":{"type":"string"},"first":{"type":"string","format":"iri-reference"},"last":{"type":"string","format":"iri-reference"},"previous":{"type":"string","format":"iri-reference"},"next":{"type":"string","format":"iri-reference"}},"example":{"@id":"string","type":"string","first":"string","last":"string","previous":"string","next":"string"}},"search":{"type":"object","properties":{"@type":{"type":"string"},"template":{"type":"string"},"variableRepresentation":{"type":"string"},"mapping":{"type":"array","items":{"type":"object","properties":{"@type":{"type":"string"},"variable":{"type":"string"},"property":{"type":["string","null"]},"required":{"type":"boolean"}}}}}}},"required":["member"]}}}}},"summary":"Retrieves the collection of Conversation resources.","description":"Retrieves the collection of Conversation resources.","parameters":[{"name":"page","in":"query","description":"The collection page number","required":false,"deprecated":false,"allowEmptyValue":true,"schema":{"type":"integer","default":1},"style":"form","explode":false,"allowReserved":false}],"deprecated":false},"post":{"operationId":"api_conversations_post","tags":["Conversation"],"responses":{"201":{"description":"Conversation resource created","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Conversation"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Conversation.jsonld"}}},"links":{}},"400":{"description":"Invalid input"},"422":{"description":"Unprocessable entity"}},"summary":"Creates a Conversation resource.","description":"Creates a Conversation resource.","parameters":[],"requestBody":{"description":"The new Conversation resource","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Conversation"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Conversation.jsonld"}}},"required":true},"deprecated":false}},"\/api\/conversations\/{id}":{"get":{"operationId":"api_conversations_id_get","tags":["Conversation"],"responses":{"200":{"description":"Conversation resource","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Conversation"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Conversation.jsonld"}}}},"404":{"description":"Resource not found"}},"summary":"Retrieves a Conversation resource.","description":"Retrieves a Conversation resource.","parameters":[{"name":"id","in":"path","description":"Conversation identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"deprecated":false},"delete":{"operationId":"api_conversations_id_delete","tags":["Conversation"],"responses":{"204":{"description":"Conversation resource deleted"},"404":{"description":"Resource not found"}},"summary":"Removes the Conversation resource.","description":"Removes the Conversation resource.","parameters":[{"name":"id","in":"path","description":"Conversation identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"deprecated":false},"patch":{"operationId":"api_conversations_id_patch","tags":["Conversation"],"responses":{"200":{"description":"Conversation resource updated","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Conversation"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Conversation.jsonld"}}},"links":{}},"400":{"description":"Invalid input"},"422":{"description":"Unprocessable entity"},"404":{"description":"Resource not found"}},"summary":"Updates the Conversation resource.","description":"Updates the Conversation resource.","parameters":[{"name":"id","in":"path","description":"Conversation identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"requestBody":{"description":"The updated Conversation resource","content":{"application\/merge-patch+json":{"schema":{"$ref":"#\/components\/schemas\/Conversation"}},"application\/vnd.api+json":{"schema":{"$ref":"#\/components\/schemas\/Conversation"}}},"required":true},"deprecated":false}},"\/api\/messages":{"get":{"operationId":"api_messages_get_collection","tags":["Message"],"responses":{"200":{"description":"Message collection","content":{"application\/json":{"schema":{"type":"array","items":{"$ref":"#\/components\/schemas\/Message"}}},"application\/ld+json":{"schema":{"type":"object","properties":{"member":{"type":"array","items":{"$ref":"#\/components\/schemas\/Message.jsonld"}},"totalItems":{"type":"integer","minimum":0},"view":{"type":"object","properties":{"@id":{"type":"string","format":"iri-reference"},"@type":{"type":"string"},"first":{"type":"string","format":"iri-reference"},"last":{"type":"string","format":"iri-reference"},"previous":{"type":"string","format":"iri-reference"},"next":{"type":"string","format":"iri-reference"}},"example":{"@id":"string","type":"string","first":"string","last":"string","previous":"string","next":"string"}},"search":{"type":"object","properties":{"@type":{"type":"string"},"template":{"type":"string"},"variableRepresentation":{"type":"string"},"mapping":{"type":"array","items":{"type":"object","properties":{"@type":{"type":"string"},"variable":{"type":"string"},"property":{"type":["string","null"]},"required":{"type":"boolean"}}}}}}},"required":["member"]}}}}},"summary":"Retrieves the collection of Message resources.","description":"Retrieves the collection of Message resources.","parameters":[{"name":"page","in":"query","description":"The collection page number","required":false,"deprecated":false,"allowEmptyValue":true,"schema":{"type":"integer","default":1},"style":"form","explode":false,"allowReserved":false}],"deprecated":false},"post":{"operationId":"api_messages_post","tags":["Message"],"responses":{"201":{"description":"Message resource created","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Message"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Message.jsonld"}}},"links":{}},"400":{"description":"Invalid input"},"422":{"description":"Unprocessable entity"}},"summary":"Creates a Message resource.","description":"Creates a Message resource.","parameters":[],"requestBody":{"description":"The new Message resource","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Message"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Message.jsonld"}}},"required":true},"deprecated":false}},"\/api\/messages\/{id}":{"get":{"operationId":"api_messages_id_get","tags":["Message"],"responses":{"200":{"description":"Message resource","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Message"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Message.jsonld"}}}},"404":{"description":"Resource not found"}},"summary":"Retrieves a Message resource.","description":"Retrieves a Message resource.","parameters":[{"name":"id","in":"path","description":"Message identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"deprecated":false},"delete":{"operationId":"api_messages_id_delete","tags":["Message"],"responses":{"204":{"description":"Message resource deleted"},"404":{"description":"Resource not found"}},"summary":"Removes the Message resource.","description":"Removes the Message resource.","parameters":[{"name":"id","in":"path","description":"Message identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"deprecated":false},"patch":{"operationId":"api_messages_id_patch","tags":["Message"],"responses":{"200":{"description":"Message resource updated","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Message"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Message.jsonld"}}},"links":{}},"400":{"description":"Invalid input"},"422":{"description":"Unprocessable entity"},"404":{"description":"Resource not found"}},"summary":"Updates the Message resource.","description":"Updates the Message resource.","parameters":[{"name":"id","in":"path","description":"Message identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"requestBody":{"description":"The updated Message resource","content":{"application\/merge-patch+json":{"schema":{"$ref":"#\/components\/schemas\/Message"}},"application\/vnd.api+json":{"schema":{"$ref":"#\/components\/schemas\/Message"}}},"required":true},"deprecated":false}},"\/api\/twits":{"get":{"operationId":"api_twits_get_collection","tags":["Twit"],"responses":{"200":{"description":"Twit collection","content":{"application\/json":{"schema":{"type":"array","items":{"$ref":"#\/components\/schemas\/Twit"}}},"application\/ld+json":{"schema":{"type":"object","properties":{"member":{"type":"array","items":{"$ref":"#\/components\/schemas\/Twit.jsonld"}},"totalItems":{"type":"integer","minimum":0},"view":{"type":"object","properties":{"@id":{"type":"string","format":"iri-reference"},"@type":{"type":"string"},"first":{"type":"string","format":"iri-reference"},"last":{"type":"string","format":"iri-reference"},"previous":{"type":"string","format":"iri-reference"},"next":{"type":"string","format":"iri-reference"}},"example":{"@id":"string","type":"string","first":"string","last":"string","previous":"string","next":"string"}},"search":{"type":"object","properties":{"@type":{"type":"string"},"template":{"type":"string"},"variableRepresentation":{"type":"string"},"mapping":{"type":"array","items":{"type":"object","properties":{"@type":{"type":"string"},"variable":{"type":"string"},"property":{"type":["string","null"]},"required":{"type":"boolean"}}}}}}},"required":["member"]}}}}},"summary":"Retrieves the collection of Twit resources.","description":"Retrieves the collection of Twit resources.","parameters":[{"name":"page","in":"query","description":"The collection page number","required":false,"deprecated":false,"allowEmptyValue":true,"schema":{"type":"integer","default":1},"style":"form","explode":false,"allowReserved":false}],"deprecated":false},"post":{"operationId":"api_twits_post","tags":["Twit"],"responses":{"201":{"description":"Twit resource created","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Twit"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Twit.jsonld"}}},"links":{}},"400":{"description":"Invalid input"},"422":{"description":"Unprocessable entity"}},"summary":"Creates a Twit resource.","description":"Creates a Twit resource.","parameters":[],"requestBody":{"description":"The new Twit resource","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Twit"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Twit.jsonld"}}},"required":true},"deprecated":false}},"\/api\/twits\/{id}":{"get":{"operationId":"api_twits_id_get","tags":["Twit"],"responses":{"200":{"description":"Twit resource","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Twit"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Twit.jsonld"}}}},"404":{"description":"Resource not found"}},"summary":"Retrieves a Twit resource.","description":"Retrieves a Twit resource.","parameters":[{"name":"id","in":"path","description":"Twit identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"deprecated":false},"put":{"operationId":"api_twits_id_put","tags":["Twit"],"responses":{"200":{"description":"Twit resource updated","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Twit"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Twit.jsonld"}}},"links":{}},"400":{"description":"Invalid input"},"422":{"description":"Unprocessable entity"},"404":{"description":"Resource not found"}},"summary":"Replaces the Twit resource.","description":"Replaces the Twit resource.","parameters":[{"name":"id","in":"path","description":"Twit identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"requestBody":{"description":"The updated Twit resource","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Twit"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Twit.jsonld"}}},"required":true},"deprecated":false},"patch":{"operationId":"api_twits_id_patch","tags":["Twit"],"responses":{"200":{"description":"Twit resource updated","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/Twit"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/Twit.jsonld"}}},"links":{}},"400":{"description":"Invalid input"},"422":{"description":"Unprocessable entity"},"404":{"description":"Resource not found"}},"summary":"Updates the Twit resource.","description":"Updates the Twit resource.","parameters":[{"name":"id","in":"path","description":"Twit identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"requestBody":{"description":"The updated Twit resource","content":{"application\/merge-patch+json":{"schema":{"$ref":"#\/components\/schemas\/Twit"}},"application\/vnd.api+json":{"schema":{"$ref":"#\/components\/schemas\/Twit"}}},"required":true},"deprecated":false}},"\/api\/users":{"get":{"operationId":"api_users_get_collection","tags":["User"],"responses":{"200":{"description":"User collection","content":{"application\/json":{"schema":{"type":"array","items":{"$ref":"#\/components\/schemas\/User"}}},"application\/ld+json":{"schema":{"type":"object","properties":{"member":{"type":"array","items":{"$ref":"#\/components\/schemas\/User.jsonld"}},"totalItems":{"type":"integer","minimum":0},"view":{"type":"object","properties":{"@id":{"type":"string","format":"iri-reference"},"@type":{"type":"string"},"first":{"type":"string","format":"iri-reference"},"last":{"type":"string","format":"iri-reference"},"previous":{"type":"string","format":"iri-reference"},"next":{"type":"string","format":"iri-reference"}},"example":{"@id":"string","type":"string","first":"string","last":"string","previous":"string","next":"string"}},"search":{"type":"object","properties":{"@type":{"type":"string"},"template":{"type":"string"},"variableRepresentation":{"type":"string"},"mapping":{"type":"array","items":{"type":"object","properties":{"@type":{"type":"string"},"variable":{"type":"string"},"property":{"type":["string","null"]},"required":{"type":"boolean"}}}}}}},"required":["member"]}}}}},"summary":"Retrieves the collection of User resources.","description":"Retrieves the collection of User resources.","parameters":[{"name":"page","in":"query","description":"The collection page number","required":false,"deprecated":false,"allowEmptyValue":true,"schema":{"type":"integer","default":1},"style":"form","explode":false,"allowReserved":false}],"deprecated":false},"post":{"operationId":"api_users_post","tags":["User"],"responses":{"201":{"description":"User resource created","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/User"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/User.jsonld"}}},"links":{}},"400":{"description":"Invalid input"},"422":{"description":"Unprocessable entity"}},"summary":"Creates a User resource.","description":"Creates a User resource.","parameters":[],"requestBody":{"description":"The new User resource","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/User"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/User.jsonld"}}},"required":true},"deprecated":false}},"\/api\/users\/{id}":{"get":{"operationId":"api_users_id_get","tags":["User"],"responses":{"200":{"description":"User resource","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/User"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/User.jsonld"}}}},"404":{"description":"Resource not found"}},"summary":"Retrieves a User resource.","description":"Retrieves a User resource.","parameters":[{"name":"id","in":"path","description":"User identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"deprecated":false},"put":{"operationId":"api_users_id_put","tags":["User"],"responses":{"200":{"description":"User resource updated","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/User"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/User.jsonld"}}},"links":{}},"400":{"description":"Invalid input"},"422":{"description":"Unprocessable entity"},"404":{"description":"Resource not found"}},"summary":"Replaces the User resource.","description":"Replaces the User resource.","parameters":[{"name":"id","in":"path","description":"User identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"requestBody":{"description":"The updated User resource","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/User"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/User.jsonld"}}},"required":true},"deprecated":false},"delete":{"operationId":"api_users_id_delete","tags":["User"],"responses":{"204":{"description":"User resource deleted"},"404":{"description":"Resource not found"}},"summary":"Removes the User resource.","description":"Removes the User resource.","parameters":[{"name":"id","in":"path","description":"User identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"deprecated":false},"patch":{"operationId":"api_users_id_patch","tags":["User"],"responses":{"200":{"description":"User resource updated","content":{"application\/json":{"schema":{"$ref":"#\/components\/schemas\/User"}},"application\/ld+json":{"schema":{"$ref":"#\/components\/schemas\/User.jsonld"}}},"links":{}},"400":{"description":"Invalid input"},"422":{"description":"Unprocessable entity"},"404":{"description":"Resource not found"}},"summary":"Updates the User resource.","description":"Updates the User resource.","parameters":[{"name":"id","in":"path","description":"User identifier","required":true,"deprecated":false,"allowEmptyValue":false,"schema":{"type":"string"},"style":"simple","explode":false,"allowReserved":false}],"requestBody":{"description":"The updated User resource","content":{"application\/merge-patch+json":{"schema":{"$ref":"#\/components\/schemas\/User"}},"application\/vnd.api+json":{"schema":{"$ref":"#\/components\/schemas\/User"}}},"required":true},"deprecated":false}}},"components":{"schemas":{"Conversation":{"type":"object","description":"","deprecated":false,"properties":{"id":{"readOnly":true,"type":"integer"},"title":{"type":"string"},"picturePath":{"default":"picture_image_path_base.jpg","example":"picture_image_path_base.jpg","type":"string"},"createdAt":{"type":"string","format":"date-time"},"users":{"minItems":2,"type":"array","items":{"type":"string","format":"iri-reference","example":"https:\/\/example.com\/"}},"messages":{"type":"array","items":{"type":"string","format":"iri-reference","example":"https:\/\/example.com\/"}}}},"Conversation.jsonld":{"type":"object","description":"","deprecated":false,"properties":{"@context":{"readOnly":true,"oneOf":[{"type":"string"},{"type":"object","properties":{"@vocab":{"type":"string"},"hydra":{"type":"string","enum":["http:\/\/www.w3.org\/ns\/hydra\/core#"]}},"required":["@vocab","hydra"],"additionalProperties":true}]},"@id":{"readOnly":true,"type":"string"},"@type":{"readOnly":true,"type":"string"},"id":{"readOnly":true,"type":"integer"},"title":{"type":"string"},"picturePath":{"default":"picture_image_path_base.jpg","example":"picture_image_path_base.jpg","type":"string"},"createdAt":{"type":"string","format":"date-time"},"users":{"minItems":2,"type":"array","items":{"type":"string","format":"iri-reference","example":"https:\/\/example.com\/"}},"messages":{"type":"array","items":{"type":"string","format":"iri-reference","example":"https:\/\/example.com\/"}}}},"Message":{"type":"object","description":"","deprecated":false,"properties":{"id":{"readOnly":true,"type":"integer"},"content":{"type":"string"},"conversation":{"type":["string","null"],"format":"iri-reference","example":"https:\/\/example.com\/"},"author":{"type":["string","null"],"format":"iri-reference","example":"https:\/\/example.com\/"}}},"Message.jsonld":{"type":"object","description":"","deprecated":false,"properties":{"@context":{"readOnly":true,"oneOf":[{"type":"string"},{"type":"object","properties":{"@vocab":{"type":"string"},"hydra":{"type":"string","enum":["http:\/\/www.w3.org\/ns\/hydra\/core#"]}},"required":["@vocab","hydra"],"additionalProperties":true}]},"@id":{"readOnly":true,"type":"string"},"@type":{"readOnly":true,"type":"string"},"id":{"readOnly":true,"type":"integer"},"content":{"type":"string"},"conversation":{"type":["string","null"],"format":"iri-reference","example":"https:\/\/example.com\/"},"author":{"type":["string","null"],"format":"iri-reference","example":"https:\/\/example.com\/"}}},"Twit":{"type":"object","description":"","deprecated":false,"properties":{"id":{"readOnly":true,"type":"integer"},"content":{"type":"string"},"author":{"example":"\/api\/users\/1","description":"IRI (identifiant de ressource) de l\u0027auteur du post","$ref":"#\/components\/schemas\/User"},"status":{"default":"published","example":"published","type":"string","enum":["published","deleted"]},"parent":{"type":["integer","null"]},"createdAt":{"type":"string","format":"date-time"}}},"Twit.jsonld":{"type":"object","description":"","deprecated":false,"properties":{"@context":{"readOnly":true,"oneOf":[{"type":"string"},{"type":"object","properties":{"@vocab":{"type":"string"},"hydra":{"type":"string","enum":["http:\/\/www.w3.org\/ns\/hydra\/core#"]}},"required":["@vocab","hydra"],"additionalProperties":true}]},"@id":{"readOnly":true,"type":"string"},"@type":{"readOnly":true,"type":"string"},"id":{"readOnly":true,"type":"integer"},"content":{"type":"string"},"author":{"example":"\/api\/users\/1","description":"IRI (identifiant de ressource) de l\u0027auteur du post","$ref":"#\/components\/schemas\/User.jsonld"},"status":{"default":"published","example":"published","type":"string","enum":["published","deleted"]},"parent":{"type":["integer","null"]},"createdAt":{"type":"string","format":"date-time"}}},"User":{"type":"object","description":"","deprecated":false,"properties":{"id":{"readOnly":true,"type":"integer"},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":["string","null"],"format":"date-time"},"deletedAt":{"type":["string","null"],"format":"date-time"},"email":{"type":"string"},"password":{"type":"string"},"roles":{"description":"The user roles","type":"array","items":{"type":"string"}},"username":{"type":["string","null"]},"biography":{"type":["string","null"]},"birthdate":{"type":["string","null"],"format":"date-time"},"profileImgPath":{"default":"profile_image_path_base.jpg","example":"profile_image_path_base.jpg","type":"string"},"private":{"type":"boolean"},"active":{"default":true,"example":true,"type":"boolean"},"banned":{"type":"boolean"},"twits":{"type":"array","items":{"type":"string","format":"iri-reference","example":"https:\/\/example.com\/"}},"conversations":{"type":"array","items":{"type":"string","format":"iri-reference","example":"https:\/\/example.com\/"}},"messages":{"type":"array","items":{"type":"string","format":"iri-reference","example":"https:\/\/example.com\/"}},"userIdentifier":{"readOnly":true,"type":"string"}}},"User.jsonld":{"type":"object","description":"","deprecated":false,"properties":{"@context":{"readOnly":true,"oneOf":[{"type":"string"},{"type":"object","properties":{"@vocab":{"type":"string"},"hydra":{"type":"string","enum":["http:\/\/www.w3.org\/ns\/hydra\/core#"]}},"required":["@vocab","hydra"],"additionalProperties":true}]},"@id":{"readOnly":true,"type":"string"},"@type":{"readOnly":true,"type":"string"},"id":{"readOnly":true,"type":"integer"},"createdAt":{"type":"string","format":"date-time"},"updatedAt":{"type":["string","null"],"format":"date-time"},"deletedAt":{"type":["string","null"],"format":"date-time"},"email":{"type":"string"},"password":{"type":"string"},"roles":{"description":"The user roles","type":"array","items":{"type":"string"}},"username":{"type":["string","null"]},"biography":{"type":["string","null"]},"birthdate":{"type":["string","null"],"format":"date-time"},"profileImgPath":{"default":"profile_image_path_base.jpg","example":"profile_image_path_base.jpg","type":"string"},"private":{"type":"boolean"},"active":{"default":true,"example":true,"type":"boolean"},"banned":{"type":"boolean"},"twits":{"type":"array","items":{"type":"string","format":"iri-reference","example":"https:\/\/example.com\/"}},"conversations":{"type":"array","items":{"type":"string","format":"iri-reference","example":"https:\/\/example.com\/"}},"messages":{"type":"array","items":{"type":"string","format":"iri-reference","example":"https:\/\/example.com\/"}},"userIdentifier":{"readOnly":true,"type":"string"}}}},"responses":{},"parameters":{},"examples":{},"requestBodies":{},"headers":{},"securitySchemes":{}},"security":[],"tags":[],"webhooks":{}}
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Hello API Platform",
+        "description": "",
+        "version": "1.0.0"
+    },
+    "servers": [{ "url": "\/", "description": "" }],
+    "paths": {
+        "\/api\/conversations": {
+            "get": {
+                "operationId": "api_conversations_get_collection",
+                "tags": ["Conversation"],
+                "responses": {
+                    "200": {
+                        "description": "Conversation collection",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Conversation"
+                                    }
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "member": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/Conversation.jsonld"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "view": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@id": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "@type": { "type": "string" },
+                                                "first": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "previous": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                }
+                                            },
+                                            "example": {
+                                                "@id": "string",
+                                                "type": "string",
+                                                "first": "string",
+                                                "last": "string",
+                                                "previous": "string",
+                                                "next": "string"
+                                            }
+                                        },
+                                        "search": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@type": { "type": "string" },
+                                                "template": {
+                                                    "type": "string"
+                                                },
+                                                "variableRepresentation": {
+                                                    "type": "string"
+                                                },
+                                                "mapping": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "string"
+                                                            },
+                                                            "variable": {
+                                                                "type": "string"
+                                                            },
+                                                            "property": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "required": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": ["member"]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieves the collection of Conversation resources.",
+                "description": "Retrieves the collection of Conversation resources.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The collection page number",
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": true,
+                        "schema": { "type": "integer", "default": 1 },
+                        "style": "form",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "post": {
+                "operationId": "api_conversations_post",
+                "tags": ["Conversation"],
+                "responses": {
+                    "201": {
+                        "description": "Conversation resource created",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Conversation"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Conversation.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": { "description": "Invalid input" },
+                    "422": { "description": "Unprocessable entity" }
+                },
+                "summary": "Creates a Conversation resource.",
+                "description": "Creates a Conversation resource.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "The new Conversation resource",
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Conversation"
+                            }
+                        },
+                        "application\/ld+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Conversation.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "\/api\/conversations\/{id}": {
+            "get": {
+                "operationId": "api_conversations_id_get",
+                "tags": ["Conversation"],
+                "responses": {
+                    "200": {
+                        "description": "Conversation resource",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Conversation"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Conversation.jsonld"
+                                }
+                            }
+                        }
+                    },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Retrieves a Conversation resource.",
+                "description": "Retrieves a Conversation resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Conversation identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "delete": {
+                "operationId": "api_conversations_id_delete",
+                "tags": ["Conversation"],
+                "responses": {
+                    "204": { "description": "Conversation resource deleted" },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Removes the Conversation resource.",
+                "description": "Removes the Conversation resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Conversation identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "patch": {
+                "operationId": "api_conversations_id_patch",
+                "tags": ["Conversation"],
+                "responses": {
+                    "200": {
+                        "description": "Conversation resource updated",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Conversation"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Conversation.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": { "description": "Invalid input" },
+                    "422": { "description": "Unprocessable entity" },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Updates the Conversation resource.",
+                "description": "Updates the Conversation resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Conversation identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated Conversation resource",
+                    "content": {
+                        "application\/merge-patch+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Conversation"
+                            }
+                        },
+                        "application\/vnd.api+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Conversation"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "\/api\/messages": {
+            "get": {
+                "operationId": "api_messages_get_collection",
+                "tags": ["Message"],
+                "responses": {
+                    "200": {
+                        "description": "Message collection",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Message"
+                                    }
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "member": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/Message.jsonld"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "view": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@id": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "@type": { "type": "string" },
+                                                "first": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "previous": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                }
+                                            },
+                                            "example": {
+                                                "@id": "string",
+                                                "type": "string",
+                                                "first": "string",
+                                                "last": "string",
+                                                "previous": "string",
+                                                "next": "string"
+                                            }
+                                        },
+                                        "search": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@type": { "type": "string" },
+                                                "template": {
+                                                    "type": "string"
+                                                },
+                                                "variableRepresentation": {
+                                                    "type": "string"
+                                                },
+                                                "mapping": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "string"
+                                                            },
+                                                            "variable": {
+                                                                "type": "string"
+                                                            },
+                                                            "property": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "required": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": ["member"]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieves the collection of Message resources.",
+                "description": "Retrieves the collection of Message resources.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The collection page number",
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": true,
+                        "schema": { "type": "integer", "default": 1 },
+                        "style": "form",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "post": {
+                "operationId": "api_messages_post",
+                "tags": ["Message"],
+                "responses": {
+                    "201": {
+                        "description": "Message resource created",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Message"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Message.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": { "description": "Invalid input" },
+                    "422": { "description": "Unprocessable entity" }
+                },
+                "summary": "Creates a Message resource.",
+                "description": "Creates a Message resource.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "The new Message resource",
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Message"
+                            }
+                        },
+                        "application\/ld+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Message.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "\/api\/messages\/{id}": {
+            "get": {
+                "operationId": "api_messages_id_get",
+                "tags": ["Message"],
+                "responses": {
+                    "200": {
+                        "description": "Message resource",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Message"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Message.jsonld"
+                                }
+                            }
+                        }
+                    },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Retrieves a Message resource.",
+                "description": "Retrieves a Message resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Message identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "delete": {
+                "operationId": "api_messages_id_delete",
+                "tags": ["Message"],
+                "responses": {
+                    "204": { "description": "Message resource deleted" },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Removes the Message resource.",
+                "description": "Removes the Message resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Message identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "patch": {
+                "operationId": "api_messages_id_patch",
+                "tags": ["Message"],
+                "responses": {
+                    "200": {
+                        "description": "Message resource updated",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Message"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Message.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": { "description": "Invalid input" },
+                    "422": { "description": "Unprocessable entity" },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Updates the Message resource.",
+                "description": "Updates the Message resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Message identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated Message resource",
+                    "content": {
+                        "application\/merge-patch+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Message"
+                            }
+                        },
+                        "application\/vnd.api+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Message"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "\/api\/twits": {
+            "get": {
+                "operationId": "api_twits_get_collection",
+                "tags": ["Twit"],
+                "responses": {
+                    "200": {
+                        "description": "Twit collection",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Twit"
+                                    }
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "member": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/Twit.jsonld"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "view": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@id": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "@type": { "type": "string" },
+                                                "first": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "previous": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                }
+                                            },
+                                            "example": {
+                                                "@id": "string",
+                                                "type": "string",
+                                                "first": "string",
+                                                "last": "string",
+                                                "previous": "string",
+                                                "next": "string"
+                                            }
+                                        },
+                                        "search": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@type": { "type": "string" },
+                                                "template": {
+                                                    "type": "string"
+                                                },
+                                                "variableRepresentation": {
+                                                    "type": "string"
+                                                },
+                                                "mapping": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "string"
+                                                            },
+                                                            "variable": {
+                                                                "type": "string"
+                                                            },
+                                                            "property": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "required": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": ["member"]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieves the collection of Twit resources.",
+                "description": "Retrieves the collection of Twit resources.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The collection page number",
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": true,
+                        "schema": { "type": "integer", "default": 1 },
+                        "style": "form",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "post": {
+                "operationId": "api_twits_post",
+                "tags": ["Twit"],
+                "responses": {
+                    "201": {
+                        "description": "Twit resource created",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Twit"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Twit.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": { "description": "Invalid input" },
+                    "422": { "description": "Unprocessable entity" }
+                },
+                "summary": "Creates a Twit resource.",
+                "description": "Creates a Twit resource.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "The new Twit resource",
+                    "content": {
+                        "application\/json": {
+                            "schema": { "$ref": "#\/components\/schemas\/Twit" }
+                        },
+                        "application\/ld+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Twit.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "\/api\/twits\/{id}": {
+            "get": {
+                "operationId": "api_twits_id_get",
+                "tags": ["Twit"],
+                "responses": {
+                    "200": {
+                        "description": "Twit resource",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Twit"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Twit.jsonld"
+                                }
+                            }
+                        }
+                    },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Retrieves a Twit resource.",
+                "description": "Retrieves a Twit resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Twit identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "put": {
+                "operationId": "api_twits_id_put",
+                "tags": ["Twit"],
+                "responses": {
+                    "200": {
+                        "description": "Twit resource updated",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Twit"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Twit.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": { "description": "Invalid input" },
+                    "422": { "description": "Unprocessable entity" },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Replaces the Twit resource.",
+                "description": "Replaces the Twit resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Twit identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated Twit resource",
+                    "content": {
+                        "application\/json": {
+                            "schema": { "$ref": "#\/components\/schemas\/Twit" }
+                        },
+                        "application\/ld+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Twit.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            },
+            "patch": {
+                "operationId": "api_twits_id_patch",
+                "tags": ["Twit"],
+                "responses": {
+                    "200": {
+                        "description": "Twit resource updated",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Twit"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Twit.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": { "description": "Invalid input" },
+                    "422": { "description": "Unprocessable entity" },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Updates the Twit resource.",
+                "description": "Updates the Twit resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Twit identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated Twit resource",
+                    "content": {
+                        "application\/merge-patch+json": {
+                            "schema": { "$ref": "#\/components\/schemas\/Twit" }
+                        },
+                        "application\/vnd.api+json": {
+                            "schema": { "$ref": "#\/components\/schemas\/Twit" }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "\/api\/users": {
+            "get": {
+                "operationId": "api_users_get_collection",
+                "tags": ["User"],
+                "responses": {
+                    "200": {
+                        "description": "User collection",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/User"
+                                    }
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "member": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/User.jsonld"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "view": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@id": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "@type": { "type": "string" },
+                                                "first": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "previous": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                }
+                                            },
+                                            "example": {
+                                                "@id": "string",
+                                                "type": "string",
+                                                "first": "string",
+                                                "last": "string",
+                                                "previous": "string",
+                                                "next": "string"
+                                            }
+                                        },
+                                        "search": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@type": { "type": "string" },
+                                                "template": {
+                                                    "type": "string"
+                                                },
+                                                "variableRepresentation": {
+                                                    "type": "string"
+                                                },
+                                                "mapping": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "string"
+                                                            },
+                                                            "variable": {
+                                                                "type": "string"
+                                                            },
+                                                            "property": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "required": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": ["member"]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieves the collection of User resources.",
+                "description": "Retrieves the collection of User resources.",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The collection page number",
+                        "required": false,
+                        "deprecated": false,
+                        "allowEmptyValue": true,
+                        "schema": { "type": "integer", "default": 1 },
+                        "style": "form",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "post": {
+                "operationId": "api_users_post",
+                "tags": ["User"],
+                "responses": {
+                    "201": {
+                        "description": "User resource created",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": { "description": "Invalid input" },
+                    "422": { "description": "Unprocessable entity" }
+                },
+                "summary": "Creates a User resource.",
+                "description": "Creates a User resource.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "The new User resource",
+                    "content": {
+                        "application\/json": {
+                            "schema": { "$ref": "#\/components\/schemas\/User" }
+                        },
+                        "application\/ld+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/User.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        },
+        "\/api\/users\/{id}": {
+            "get": {
+                "operationId": "api_users_id_get",
+                "tags": ["User"],
+                "responses": {
+                    "200": {
+                        "description": "User resource",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User.jsonld"
+                                }
+                            }
+                        }
+                    },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Retrieves a User resource.",
+                "description": "Retrieves a User resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "put": {
+                "operationId": "api_users_id_put",
+                "tags": ["User"],
+                "responses": {
+                    "200": {
+                        "description": "User resource updated",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": { "description": "Invalid input" },
+                    "422": { "description": "Unprocessable entity" },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Replaces the User resource.",
+                "description": "Replaces the User resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated User resource",
+                    "content": {
+                        "application\/json": {
+                            "schema": { "$ref": "#\/components\/schemas\/User" }
+                        },
+                        "application\/ld+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/User.jsonld"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "operationId": "api_users_id_delete",
+                "tags": ["User"],
+                "responses": {
+                    "204": { "description": "User resource deleted" },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Removes the User resource.",
+                "description": "Removes the User resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "deprecated": false
+            },
+            "patch": {
+                "operationId": "api_users_id_patch",
+                "tags": ["User"],
+                "responses": {
+                    "200": {
+                        "description": "User resource updated",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User.jsonld"
+                                }
+                            }
+                        },
+                        "links": {}
+                    },
+                    "400": { "description": "Invalid input" },
+                    "422": { "description": "Unprocessable entity" },
+                    "404": { "description": "Resource not found" }
+                },
+                "summary": "Updates the User resource.",
+                "description": "Updates the User resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User identifier",
+                        "required": true,
+                        "deprecated": false,
+                        "allowEmptyValue": false,
+                        "schema": { "type": "string" },
+                        "style": "simple",
+                        "explode": false,
+                        "allowReserved": false
+                    }
+                ],
+                "requestBody": {
+                    "description": "The updated User resource",
+                    "content": {
+                        "application\/merge-patch+json": {
+                            "schema": { "$ref": "#\/components\/schemas\/User" }
+                        },
+                        "application\/vnd.api+json": {
+                            "schema": { "$ref": "#\/components\/schemas\/User" }
+                        }
+                    },
+                    "required": true
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Conversation": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "id": { "readOnly": true, "type": "integer" },
+                    "title": { "type": "string" },
+                    "picturePath": {
+                        "default": "picture_image_path_base.jpg",
+                        "example": "picture_image_path_base.jpg",
+                        "type": "string"
+                    },
+                    "createdAt": { "type": "string", "format": "date-time" },
+                    "users": {
+                        "minItems": 2,
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    }
+                }
+            },
+            "Conversation.jsonld": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            { "type": "string" },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": { "type": "string" },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http:\/\/www.w3.org\/ns\/hydra\/core#"
+                                        ]
+                                    }
+                                },
+                                "required": ["@vocab", "hydra"],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": { "readOnly": true, "type": "string" },
+                    "@type": { "readOnly": true, "type": "string" },
+                    "id": { "readOnly": true, "type": "integer" },
+                    "title": { "type": "string" },
+                    "picturePath": {
+                        "default": "picture_image_path_base.jpg",
+                        "example": "picture_image_path_base.jpg",
+                        "type": "string"
+                    },
+                    "createdAt": { "type": "string", "format": "date-time" },
+                    "users": {
+                        "minItems": 2,
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    }
+                }
+            },
+            "Message": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "id": { "readOnly": true, "type": "integer" },
+                    "content": { "type": "string" },
+                    "conversation": {
+                        "type": ["string", "null"],
+                        "format": "iri-reference",
+                        "example": "https:\/\/example.com\/"
+                    },
+                    "author": {
+                        "type": ["string", "null"],
+                        "format": "iri-reference",
+                        "example": "https:\/\/example.com\/"
+                    }
+                }
+            },
+            "Message.jsonld": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            { "type": "string" },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": { "type": "string" },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http:\/\/www.w3.org\/ns\/hydra\/core#"
+                                        ]
+                                    }
+                                },
+                                "required": ["@vocab", "hydra"],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": { "readOnly": true, "type": "string" },
+                    "@type": { "readOnly": true, "type": "string" },
+                    "id": { "readOnly": true, "type": "integer" },
+                    "content": { "type": "string" },
+                    "conversation": {
+                        "type": ["string", "null"],
+                        "format": "iri-reference",
+                        "example": "https:\/\/example.com\/"
+                    },
+                    "author": {
+                        "type": ["string", "null"],
+                        "format": "iri-reference",
+                        "example": "https:\/\/example.com\/"
+                    }
+                }
+            },
+            "Twit": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "id": { "readOnly": true, "type": "integer" },
+                    "content": { "type": "string" },
+                    "author": {
+                        "example": "\/api\/users\/1",
+                        "description": "IRI (identifiant de ressource) de l\u0027auteur du post",
+                        "$ref": "#\/components\/schemas\/User"
+                    },
+                    "status": {
+                        "default": "published",
+                        "example": "published",
+                        "type": "string",
+                        "enum": ["published", "deleted"]
+                    },
+                    "parent": { "type": ["integer", "null"] },
+                    "createdAt": { "type": "string", "format": "date-time" }
+                }
+            },
+            "Twit.jsonld": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            { "type": "string" },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": { "type": "string" },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http:\/\/www.w3.org\/ns\/hydra\/core#"
+                                        ]
+                                    }
+                                },
+                                "required": ["@vocab", "hydra"],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": { "readOnly": true, "type": "string" },
+                    "@type": { "readOnly": true, "type": "string" },
+                    "id": { "readOnly": true, "type": "integer" },
+                    "content": { "type": "string" },
+                    "author": {
+                        "example": "\/api\/users\/1",
+                        "description": "IRI (identifiant de ressource) de l\u0027auteur du post",
+                        "$ref": "#\/components\/schemas\/User.jsonld"
+                    },
+                    "status": {
+                        "default": "published",
+                        "example": "published",
+                        "type": "string",
+                        "enum": ["published", "deleted"]
+                    },
+                    "parent": { "type": ["integer", "null"] },
+                    "createdAt": { "type": "string", "format": "date-time" }
+                }
+            },
+            "User": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "id": { "readOnly": true, "type": "integer" },
+                    "createdAt": { "type": "string", "format": "date-time" },
+                    "updatedAt": {
+                        "type": ["string", "null"],
+                        "format": "date-time"
+                    },
+                    "deletedAt": {
+                        "type": ["string", "null"],
+                        "format": "date-time"
+                    },
+                    "email": { "type": "string" },
+                    "password": { "type": "string" },
+                    "roles": {
+                        "description": "The user roles",
+                        "type": "array",
+                        "items": { "type": "string" }
+                    },
+                    "username": { "type": ["string", "null"] },
+                    "biography": { "type": ["string", "null"] },
+                    "birthdate": {
+                        "type": ["string", "null"],
+                        "format": "date-time"
+                    },
+                    "profileImgPath": {
+                        "default": "profile_image_path_base.jpg",
+                        "example": "profile_image_path_base.jpg",
+                        "type": "string"
+                    },
+                    "private": { "type": "boolean" },
+                    "active": {
+                        "default": true,
+                        "example": true,
+                        "type": "boolean"
+                    },
+                    "banned": { "type": "boolean" },
+                    "twits": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    },
+                    "conversations": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    },
+                    "userIdentifier": { "readOnly": true, "type": "string" }
+                }
+            },
+            "User.jsonld": {
+                "type": "object",
+                "description": "",
+                "deprecated": false,
+                "properties": {
+                    "@context": {
+                        "readOnly": true,
+                        "oneOf": [
+                            { "type": "string" },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@vocab": { "type": "string" },
+                                    "hydra": {
+                                        "type": "string",
+                                        "enum": [
+                                            "http:\/\/www.w3.org\/ns\/hydra\/core#"
+                                        ]
+                                    }
+                                },
+                                "required": ["@vocab", "hydra"],
+                                "additionalProperties": true
+                            }
+                        ]
+                    },
+                    "@id": { "readOnly": true, "type": "string" },
+                    "@type": { "readOnly": true, "type": "string" },
+                    "id": { "readOnly": true, "type": "integer" },
+                    "createdAt": { "type": "string", "format": "date-time" },
+                    "updatedAt": {
+                        "type": ["string", "null"],
+                        "format": "date-time"
+                    },
+                    "deletedAt": {
+                        "type": ["string", "null"],
+                        "format": "date-time"
+                    },
+                    "email": { "type": "string" },
+                    "password": { "type": "string" },
+                    "roles": {
+                        "description": "The user roles",
+                        "type": "array",
+                        "items": { "type": "string" }
+                    },
+                    "username": { "type": ["string", "null"] },
+                    "biography": { "type": ["string", "null"] },
+                    "birthdate": {
+                        "type": ["string", "null"],
+                        "format": "date-time"
+                    },
+                    "profileImgPath": {
+                        "default": "profile_image_path_base.jpg",
+                        "example": "profile_image_path_base.jpg",
+                        "type": "string"
+                    },
+                    "private": { "type": "boolean" },
+                    "active": {
+                        "default": true,
+                        "example": true,
+                        "type": "boolean"
+                    },
+                    "banned": { "type": "boolean" },
+                    "twits": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    },
+                    "conversations": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    },
+                    "userIdentifier": { "readOnly": true, "type": "string" }
+                }
+            }
+        },
+        "responses": {},
+        "parameters": {},
+        "examples": {},
+        "requestBodies": {},
+        "headers": {},
+        "securitySchemes": {}
+    },
+    "security": [],
+    "tags": [],
+    "webhooks": {}
+}

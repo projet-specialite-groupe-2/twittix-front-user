@@ -59,6 +59,15 @@
             "receiveNotifications": "Recevoir les notifications",
             "conversationInfos": "Infos de la conversation",
             "conversationPlaceholder": "Écrire un message..."
+        },
+        "profilPage": {
+            "editProfil": "Éditer les profils",
+            "save": "Enregistrer",
+            "edit": "Éditer",
+            "following": "abonnements",
+            "followers": "abonnés",
+            "likes": "J'aime",
+            "posts": "Posts"
         }
     },
     "errors": {
