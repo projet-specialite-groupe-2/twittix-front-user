@@ -15,7 +15,7 @@
 
           <div>
             <h3>Florent</h3>
-            <h5 class="opacity-50">157 posts</h5>
+            <h5 class="opacity-50">157 {{ $t('view.profilPage.posts') }}</h5>
           </div>
         </div>
       </v-col>
@@ -45,7 +45,7 @@
                   style="position: absolute; right: 15px; bottom: 0"
                   class="me-4"
                 >
-                  Éditer le profil
+                  {{ $t('view.profilPage.editProfil') }}
                 </v-btn>
               </template>
 
@@ -57,11 +57,11 @@
                         <v-btn icon="mdi-close" size="large" @click="isActive.value = false">
                         </v-btn>
 
-                        <h2 class="ms-3 text-h5">Éditer le profil</h2>
+                        <h2 class="ms-3 text-h5">{{ $t('view.profilPage.editProfil') }}</h2>
                       </v-col>
                       <v-col cols="5" class="d-flex align-center justify-end pt-1 mb-1">
                         <v-btn size="large" class="bg-white px-6 py-2 mr-2 h-auto">
-                          Enregistrer
+                          {{ $t('view.profilPage.save') }}
                         </v-btn>
                       </v-col>
                     </v-row>
@@ -116,8 +116,12 @@
                       <v-text-field class="pb-4" label="Bio"> </v-text-field>
 
                       <div>
-                        <span class="opacity-50 text-subtitle-2">Date de naissance • </span>
-                        <button type="button" class="text-subtitle-2 text-red">Éditer</button>
+                        <span class="opacity-50 text-subtitle-2"
+                          >{{ $t('view.loginPage.dateDeNaissance') }} •
+                        </span>
+                        <button type="button" class="text-subtitle-2 text-red">
+                          {{ $t('view.profilPage.editer') }}
+                        </button>
                       </div>
 
                       <div>27 Janvier 2003</div>
@@ -138,7 +142,7 @@
                   style="position: absolute; right: 15px; bottom: 0"
                   class="me-4"
                 >
-                  Éditer le profil
+                  {{ $t('view.profilPage.editProfil') }}
                 </v-btn>
               </template>
 
@@ -150,11 +154,11 @@
                         <v-btn icon="mdi-close" size="large" @click="isActive.value = false">
                         </v-btn>
 
-                        <h2 class="ms-3 text-h6">Éditer le profil</h2>
+                        <h2 class="ms-3 text-h6">{{ $t('view.profilPage.editProfil') }}</h2>
                       </v-col>
                       <v-col cols="5" class="d-flex align-center justify-end pt-1 mb-1">
                         <v-btn size="large" class="bg-white px-6 py-2 mr-2 h-auto">
-                          Enregistrer
+                          {{ $t('view.profilPage.save') }}
                         </v-btn>
                       </v-col>
                     </v-row>
@@ -209,8 +213,12 @@
                       <v-text-field class="pb-4" label="Bio"> </v-text-field>
 
                       <div>
-                        <span class="opacity-50 text-subtitle-2">Date de naissance • </span>
-                        <button type="button" class="text-subtitle-2 text-red">Éditer</button>
+                        <span class="opacity-50 text-subtitle-2"
+                          >{{ $t('view.loginPage.dateDeNaissance') }} •
+                        </span>
+                        <button type="button" class="text-subtitle-2 text-red">
+                          {{ $t('view.profilPage.editer') }}
+                        </button>
                       </div>
 
                       <div>27 Janvier 2003</div>
@@ -231,15 +239,19 @@
       <div class="font-weight-medium mb-3">Je suis un jeune homme</div>
 
       <div class="d-flex">
-        <div><b>157</b> <span class="opacity-50">abonnements</span></div>
-        <div class="mx-5"><b>30</b> <span class="opacity-50">abonnés</span></div>
+        <div>
+          <b>157</b> <span class="opacity-50">{{ $t('view.profilPage.following') }}</span>
+        </div>
+        <div class="mx-5">
+          <b>30</b> <span class="opacity-50">{{ $t('view.profilPage.followers') }}</span>
+        </div>
       </div>
     </div>
 
     <v-row no-gutters class="mt-6">
       <v-col class="px-0">
         <v-btn block variant="text" rounded="0" class="mb-2 pa-0" v-on:click="isForYouView = true">
-          Posts
+          {{ $t('view.profilPage.posts') }}
         </v-btn>
         <v-progress-linear
           v-if="isForYouView"
@@ -251,7 +263,7 @@
       </v-col>
       <v-col class="px-0">
         <v-btn block variant="text" rounded="0" class="mb-2 pa-0" v-on:click="isForYouView = false">
-          J'aime
+          {{ $t('view.profilPage.likes') }}
         </v-btn>
         <v-progress-linear
           v-if="!isForYouView"

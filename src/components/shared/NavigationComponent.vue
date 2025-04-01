@@ -33,7 +33,6 @@ function goToMessages() {
 }
 
 function goToProfil() {
-  console.log('profil')
   router.push({ name: PageNameEnum.PROFIL })
 }
 

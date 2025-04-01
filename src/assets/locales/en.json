@@ -9,13 +9,13 @@
             "post": "Post",
             "disconnectFrom": "Disconnect from"
         },
-        "addComment":{
+        "addComment": {
             "postAnwser": "Post your anwser",
             "anwser": "Anwser"
         }
     },
     "view": {
-        "homeView":{
+        "homeView": {
             "WhatsNew": "What's new ?!"
         },
         "loginPage": {
@@ -50,6 +50,15 @@
             "searchPeople": "Search people",
             "next": "Next",
             "createGroup": "Create group"
+        },
+        "profilPage": {
+            "editProfil": "Edit profile",
+            "save": "Save",
+            "edit": "Edit",
+            "following": "following",
+            "followers": "followers",
+            "likes": "I like",
+            "posts": "Posts"
         }
     },
     "errors": {
