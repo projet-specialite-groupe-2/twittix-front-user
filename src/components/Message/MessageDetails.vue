@@ -29,6 +29,7 @@
               density="comfortable"
               icon="mdi-information-slab-circle-outline"
               size="small"
+              @click="navigateToInfo"
             ></v-btn>
           </v-row>
         </v-col>
@@ -36,29 +37,14 @@
     </v-col>
 
     <!-- Zone de messages (inversée) -->
-    <v-card-text
-      class="flex-grow-1 overflow-y-scroll pa-4 d-flex flex-column-reverse"
-      style="min-height: 0"
-    >
-      <div
+    <v-card-text class="overflow-y-scroll d-flex flex-column-reverse">
+      <MessageBubble
         v-for="(message, index) in messages"
         :key="index"
-        class="d-flex"
-        :class="message.isMe ? 'justify-end' : 'justify-start'"
-      >
-        <v-card
-          :color="message.isMe ? 'blue' : 'groy'"
-          class="pa-3 mb-2 rounded-lg"
-          :class="[
-            message.isMe ? 'primary--text text--white' : '',
-            message.isMe ? 'message-bubble-me' : 'message-bubble-other',
-          ]"
-          max-width="70%"
-        >
-          <div>{{ message.text }}</div>
-          <!-- <v-subheader class="pa-0 caption">{{ message.time }}</v-subheader> -->
-        </v-card>
-      </div>
+        :text="message.text"
+        :isMe="message.isMe"
+        :time="message.time"
+      />
     </v-card-text>
 
     <v-card-actions class="pa-3">
@@ -109,9 +95,29 @@
 </template>
 
 <script setup lang="ts">
+import MessageBubble from '@/components/Message/MessageBubble.vue'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import PageNameEnum from '@/core/types/enums/pageNameEnum'
 
 const messages = ref([
+  { text: 'Ça va ?', time: '10:01', isMe: false },
+  { text: 'Oui et toi ?', time: '10:02', isMe: true },
+  { text: 'Premier message', time: '10:00', isMe: false },
+  { text: 'Ça va ?', time: '10:01', isMe: false },
+  { text: 'Oui et toi ?', time: '10:02', isMe: true },
+  { text: 'Premier message', time: '10:00', isMe: false },
+  { text: 'Ça va ?', time: '10:01', isMe: false },
+  { text: 'Oui et toi ?', time: '10:02', isMe: true },
+  { text: 'Premier message', time: '10:00', isMe: false },
+  { text: 'Ça va ?', time: '10:01', isMe: false },
+  { text: 'Oui et toi ?', time: '10:02', isMe: true },
+  { text: 'Premier message', time: '10:00', isMe: false },
+  { text: 'Ça va ?', time: '10:01', isMe: false },
+  { text: 'Oui et toi ?', time: '10:02', isMe: true },
+  { text: 'Premier message', time: '10:00', isMe: false },
+  { text: 'Ça va ?', time: '10:01', isMe: false },
+  { text: 'Oui et toi ?', time: '10:02', isMe: true },
   { text: 'Premier message', time: '10:00', isMe: false },
   { text: 'Ça va ?', time: '10:01', isMe: false },
   { text: 'Oui et toi ?', time: '10:02', isMe: true },
@@ -134,20 +140,10 @@ const messages = ref([
   { text: 'Ça va ?', time: '10:01', isMe: false },
   { text: 'Oui et toi ?', time: '10:02', isMe: true },
 ])
+
+const router = useRouter()
+
+const navigateToInfo = () => {
+  router.push({ name: PageNameEnum.MESSAGES_DETAIL_INFO })
+}
 </script>
-
-<style>
-/* Solution pure Vuetify avec une exception minime */
-.flex-column-reverse {
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.message-bubble-me {
-  border-bottom-right-radius: 0% !important;
-}
-
-.message-bubble-other {
-  border-bottom-left-radius: 0% !important;
-}
-</style>

@@ -36,6 +36,15 @@ const routes = [
     },
     meta: { sidebar: true },
   },
+  {
+    path: '/messages/:id/info',
+    name: PageNameEnum.MESSAGES_DETAIL_INFO,
+    components: {
+      default: () => import('../views/MessagesView.vue'),
+      message_details_info: () => import('../components/Message/MessageDetailsInfo.vue'),
+    },
+    meta: { sidebar: true },
+  },
 ] as RouteRecordRaw[]
 
 const router = createRouter({
