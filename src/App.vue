@@ -41,7 +41,11 @@
       </v-row>
 
       <MessageBox
-        v-if="$route.name !== PageNameEnum.MESSAGES && $route.name !== PageNameEnum.MESSAGES_DETAIL"
+        v-if="
+          $route.name !== PageNameEnum.MESSAGES &&
+          $route.name !== PageNameEnum.MESSAGES_DETAIL &&
+          $route.name !== PageNameEnum.MESSAGES_DETAIL_INFO
+        "
       />
     </v-main>
 
