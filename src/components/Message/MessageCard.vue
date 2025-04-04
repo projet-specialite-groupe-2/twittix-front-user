@@ -4,6 +4,7 @@
       v-bind="props"
       class="d-flex align-center w-100 pa-2 cursor-pointer"
       :style="{ backgroundColor: isHovering ? '#1c1c1c' : '' }"
+      @click="$router.push(`/messages/${id}`)"
     >
       <v-col cols="3" class="d-flex justify-center align-center pa-0">
         <v-sheet
@@ -115,6 +116,10 @@ import { defineComponent, ref } from 'vue'
 export default defineComponent({
   name: 'MessageCard',
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     username: {
       type: String,
       required: true,

@@ -49,7 +49,16 @@
             "newMessage": "New message",
             "searchPeople": "Search people",
             "next": "Next",
-            "createGroup": "Create group"
+            "createGroup": "Create group",
+            "notifications": "Notifications",
+            "blockMessages": "Block messages",
+            "blockAll": "Block all",
+            "report": "Report",
+            "reportContent": "Report content as illegal in the EU",
+            "leaveConversation": "Leave conversation",
+            "receiveNotifications": "Receive notifications",
+            "conversationInfos": "Conversation infos",
+            "conversationPlaceholder": "Type a message..."
         },
         "profilPage": {
             "editProfil": "Edit profile",
