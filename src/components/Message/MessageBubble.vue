@@ -1,7 +1,7 @@
 <template>
   <v-row class="d-flex" :class="isMe ? 'justify-end' : 'justify-start'">
     <v-card
-      :color="isMe ? 'blue' : 'groy'"
+      :color="isMe ? 'blue' : 'grey_custom'"
       class="pa-3 rounded-lg"
       :class="[
         isMe ? 'primary--text text--white' : '',
