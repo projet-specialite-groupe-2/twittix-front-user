@@ -33,7 +33,7 @@ function goToMessages() {
 }
 
 function goToProfil() {
-  router.push({ name: PageNameEnum.PROFIL })
+  router.push({ name: PageNameEnum.PROFIL, params: { username: '@user' } })
 }
 
 function createPost() {

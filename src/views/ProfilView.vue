@@ -14,8 +14,20 @@
           />
 
           <div>
-            <h3>Florent</h3>
-            <h5 class="opacity-50">157 {{ $t('view.profilPage.posts') }}</h5>
+            <v-skeleton-loader
+              v-if="userProfilLoading"
+              color="primary"
+              max-width="300"
+              type="heading"
+            ></v-skeleton-loader>
+            <template v-else>
+              <h3>{{ userProfil?.username }}</h3>
+
+              <h5 class="opacity-50">
+                {{ userProfil?.nbPosts }}
+                {{ $t('view.profilPage.posts') }}
+              </h5>
+            </template>
           </div>
         </div>
       </v-col>
@@ -39,6 +51,7 @@
             <v-dialog>
               <template v-slot:activator="{ props: activatorProps }">
                 <v-btn
+                  v-if="!userProfilLoading"
                   v-bind="activatorProps"
                   size="large"
                   variant="outlined"
@@ -116,11 +129,11 @@
                       <v-text-field class="pb-4" label="Bio"> </v-text-field>
 
                       <div>
-                        <span class="opacity-50 text-subtitle-2"
-                          >{{ $t('view.loginPage.dateDeNaissance') }} •
+                        <span class="opacity-50 text-subtitle-2">
+                          {{ $t('view.loginPage.dateDeNaissance') }} •
                         </span>
                         <button type="button" class="text-subtitle-2 text-red">
-                          {{ $t('view.profilPage.editer') }}
+                          {{ $t('view.profilPage.edit') }}
                         </button>
                       </div>
 
@@ -136,6 +149,7 @@
             <v-dialog transition="dialog-bottom-transition" fullscreen>
               <template v-slot:activator="{ props: activatorProps }">
                 <v-btn
+                  v-if="!userProfilLoading"
                   v-bind="activatorProps"
                   size="large"
                   variant="outlined"
@@ -217,7 +231,7 @@
                           >{{ $t('view.loginPage.dateDeNaissance') }} •
                         </span>
                         <button type="button" class="text-subtitle-2 text-red">
-                          {{ $t('view.profilPage.editer') }}
+                          {{ $t('view.profilPage.edit') }}
                         </button>
                       </div>
 
@@ -233,19 +247,29 @@
     </v-row>
 
     <div class="mt-5 px-5">
-      <h2>Florent</h2>
-      <h4 class="opacity-50 font-weight-light mb-3">@RealEl_Floww</h4>
+      <v-skeleton-loader
+        v-if="userProfilLoading"
+        color="primary"
+        type="paragraph"
+      ></v-skeleton-loader>
+      <template v-else>
+        <h2>{{ userProfil?.username }}</h2>
 
-      <div class="font-weight-medium mb-3">Je suis un jeune homme</div>
+        <h4 class="opacity-50 font-weight-light mb-3">{{ userProfil?.userIdentifier }}</h4>
 
-      <div class="d-flex">
-        <div>
-          <b>157</b> <span class="opacity-50">{{ $t('view.profilPage.following') }}</span>
+        <div class="font-weight-medium mb-3">{{ userProfil?.biography }}</div>
+
+        <div class="d-flex">
+          <div>
+            <b>{{ userProfil?.nbFollowings }}&nbsp;</b>
+            <span class="opacity-50">{{ $t('view.profilPage.following') }}</span>
+          </div>
+          <div class="mx-5">
+            <b>{{ userProfil?.nbFollowers }}&nbsp;</b>
+            <span class="opacity-50">{{ $t('view.profilPage.followers') }}</span>
+          </div>
         </div>
-        <div class="mx-5">
-          <b>30</b> <span class="opacity-50">{{ $t('view.profilPage.followers') }}</span>
-        </div>
-      </div>
+      </template>
     </div>
 
     <v-row no-gutters class="mt-6">
@@ -314,16 +338,28 @@
 
 <script setup lang="ts">
 import AddComment from '@/components/twit/addComment.vue'
-import { ref, watch, type Ref } from 'vue'
+import dayjs from 'dayjs'
+import 'dayjs/locale/fr'
+import 'dayjs/locale/en-gb'
+import { ref, watch, onMounted, type Ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import TwitComponent from '@/components/twit/twitComponent.vue'
 import { Twit, type User } from '@/core/api'
+import { useUserStore } from '@/stores/userStore'
+import { useI18n } from 'vue-i18n'
 
+const { locale } = useI18n()
+dayjs.locale(locale.value)
+
+const userStore = useUserStore()
+const route = useRoute()
 const isForYouView = ref<boolean>(true)
 const twitLimit = 280
 const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
 const twitId = ref<number>(1)
+const profilNotFound = ref<boolean>(false)
 
 const items: Ref<Array<Twit>> = ref([])
 
@@ -383,6 +419,7 @@ async function api(): Promise<Twit> {
       deletedAt: null,
       email: 'johndoe@example.com',
       roles: ['USER'],
+      password: '',
       username: 'johndoe',
       biography: 'Passionate about technology and coding.',
       birthdate: '1995-06-15',
@@ -401,6 +438,39 @@ async function api(): Promise<Twit> {
     createdAt: '2025-03-07T08:54:25+00:00',
   }
 }
+
+const userProfilLoading = computed(() => {
+  return userStore.loading
+})
+
+const userProfil = computed(() => {
+  if (userStore.loading && !userStore.userProfil) {
+    return null
+  }
+  return {
+    nbPosts: userStore.userProfil?.twits?.length ?? 0,
+    nbFollowers: userStore.userProfil?.followers?.length ?? 0,
+    nbFollowings: userStore.userProfil?.followings?.length ?? 0,
+    birthday: userStore.userProfil?.birthdate
+      ? dayjs(userStore.userProfil?.birthdate).format('D MMMM YYYY')
+      : 'Pas de date définie',
+    userIdentifier: userStore.userProfil?.username ? `@${userStore.userProfil?.username}` : '',
+    biography: userStore.userProfil?.biography ?? '',
+    username: userStore.userProfil?.username ?? '',
+  }
+})
+
+onMounted(() => {
+  // Récup du username de la route
+  let username = route.params.username as string
+  if (!username && username.length === 0 && username[0] !== '@') {
+    profilNotFound.value = true
+    return
+  }
+  username = username.substring(1)
+  // Chargement du profil du user
+  userStore.fetchUserProfil(username)
+})
 
 watch(
   () => twitText.value,

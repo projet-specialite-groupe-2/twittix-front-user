@@ -27,7 +27,7 @@ const routes = [
     },
   },
   {
-    path: '/profil',
+    path: '/profil/:username',
     name: PageNameEnum.PROFIL,
     component: () => import('@/views/ProfilView.vue'),
     meta: {
