@@ -106,3 +106,8 @@ function progressCircularColor(): string {
         </v-card>
     </v-dialog>
 </template>
+<style scoped>
+.v-dialog > .v-overlay__content > .v-card{
+    flex: none;
+}
+</style>

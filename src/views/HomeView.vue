@@ -43,42 +43,7 @@
         </v-col>
         <v-col>
           <v-col>
-            <v-container>
-              <v-textarea
-                class="mx-2"
-                :label="$t('view.homeView.WhatsNew')"
-                variant="plain"
-                auto-grow
-                rows="2"
-                v-model="twitText"
-                :maxlength="twitLimit"
-              >
-                <template v-slot:prepend>
-                  <v-avatar size="40">
-                    <v-img :src="userPictureURL" alt="Avatar" />
-                  </v-avatar>
-                </template>
-              </v-textarea>
-              <v-row justify="end">
-                <v-divider class="pa-1 border-opacity-25"></v-divider>
-                <div class="h-100">
-                  <v-progress-circular
-                    :model-value="twitPourcentage"
-                    :size="35"
-                    width="5"
-                    :color="progressCircularColor()"
-                  >
-                    <template v-slot:default v-if="twitPourcentage >= 80">
-                      {{ twitLimit - twitLenght }}
-                    </template>
-                  </v-progress-circular>
-                  <v-divider vertical class="ml-5 h-50 border-opacity-25"></v-divider>
-                  <v-btn class="bg-white ml-5">
-                    {{ $t('components.navigationForm.post') }}
-                  </v-btn>
-                </div>
-              </v-row>
-            </v-container>
+            <AddTwitComponent :user-picture-url="userPictureURL"></AddTwitComponent>
           </v-col>
           <v-divider class="border-opacity-25"></v-divider>
         </v-col>
@@ -120,16 +85,13 @@
 </template>
 
 <script setup lang="ts">
-import AddComment from '@/components/twit/addComment.vue'
+import AddComment from '@/components/twit/addCommentComponent.vue'
+import AddTwitComponent from '@/components/twit/addTwitComponent.vue'
 import TwitComponent from '@/components/twit/twitComponent.vue'
 import { Twit, type User } from '@/core/api'
-import { ref, watch, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 
 const isForYouView = ref<boolean>(true)
-const twitLimit = 280
-const twitLenght = ref<number>(0)
-const twitPourcentage = ref<number>(0)
-const twitText = ref<string>('')
 const twitId = ref<number>(1)
 
 const commentTwitDialog = ref<boolean>(false)
@@ -197,21 +159,6 @@ async function api(): Promise<Twit> {
     parent: null,
     createdAt: '2025-03-07T08:54:25+00:00',
   }
-}
-
-watch(
-  () => twitText.value,
-  () => {
-    twitLenght.value = twitText.value.length
-    twitPourcentage.value = (twitLenght.value / twitLimit) * 100
-  },
-  { immediate: true }
-)
-
-function progressCircularColor(): string {
-  if (twitPourcentage.value < 80) return 'blue'
-  if (twitPourcentage.value < 90) return 'orange'
-  return 'red'
 }
 
 function setForYouView(item: boolean) {

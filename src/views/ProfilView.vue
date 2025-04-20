@@ -313,7 +313,7 @@
 </template>
 
 <script setup lang="ts">
-import AddComment from '@/components/twit/addComment.vue'
+import AddComment from '@/components/twit/addCommentComponent.vue'
 import { ref, watch, type Ref } from 'vue'
 import TwitComponent from '@/components/twit/twitComponent.vue'
 import { Twit, type User } from '@/core/api'
