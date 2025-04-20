@@ -50,7 +50,6 @@ function disconnectUser() {
 }
 
 function addTwitDialogAction(confirm: boolean, data?: unknown) {
-  console.log(data)
   if (confirm && data) {
     // Todo with APIs
   }
