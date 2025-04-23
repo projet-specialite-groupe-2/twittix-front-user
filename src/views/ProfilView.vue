@@ -36,6 +36,7 @@
     <v-row class="position-relative mt-6">
       <v-col class="pa-0" style="max-height: 275px">
         <v-img
+          v-if="!userProfilLoading"
           width="auto"
           aspect-ratio="16/9"
           cover
@@ -44,11 +45,15 @@
           height="100%"
         ></v-img>
 
-        <v-avatar class="avatar-absolute ms-4" image="https://picsum.photos/200"></v-avatar>
+        <v-avatar
+          v-if="!userProfilLoading"
+          class="avatar-absolute ms-4"
+          image="https://picsum.photos/200"
+        ></v-avatar>
 
         <div class="d-flex flex-column">
           <div class="d-none d-sm-flex">
-            <v-dialog>
+            <v-dialog @update:model-value="handleDialogClose">
               <template v-slot:activator="{ props: activatorProps }">
                 <v-btn
                   v-if="!userProfilLoading"
@@ -73,7 +78,11 @@
                         <h2 class="ms-3 text-h5">{{ $t('view.profilPage.editProfil') }}</h2>
                       </v-col>
                       <v-col cols="5" class="d-flex align-center justify-end pt-1 mb-1">
-                        <v-btn size="large" class="bg-white px-6 py-2 mr-2 h-auto">
+                        <v-btn
+                          size="large"
+                          class="bg-white px-6 py-2 mr-2 h-auto"
+                          @click="saveEdit"
+                        >
                           {{ $t('view.profilPage.save') }}
                         </v-btn>
                       </v-col>
@@ -124,20 +133,27 @@
 
                   <v-row class="px-8 py-4">
                     <v-col class="pa-0">
-                      <v-text-field class="pb-4" label="Nom"> </v-text-field>
+                      <v-text-field class="pb-4" label="Nom" v-model="userProfilUpdated.username">
+                      </v-text-field>
 
-                      <v-text-field class="pb-4" label="Bio"> </v-text-field>
+                      <v-text-field class="pb-4" label="Bio" v-model="userProfilUpdated.biography">
+                      </v-text-field>
 
                       <div>
-                        <span class="opacity-50 text-subtitle-2">
-                          {{ $t('view.loginPage.dateDeNaissance') }} •
+                        <span class="opacity-50 text-subtitle-2"
+                          >{{ $t('view.loginPage.dateDeNaissance') }} •
                         </span>
-                        <button type="button" class="text-subtitle-2 text-red">
+                        <button
+                          type="button"
+                          class="text-subtitle-2 text-red"
+                          @click="editBirthday = !editBirthday"
+                        >
                           {{ $t('view.profilPage.edit') }}
                         </button>
                       </div>
 
-                      <div>27 Janvier 2003</div>
+                      <div v-if="!editBirthday">{{ userProfilUpdated.birthday }}</div>
+                      <v-text-field v-else class="pb-4" v-model="birthdayInput" type="date" />
                     </v-col>
                   </v-row>
                 </v-card>
@@ -146,7 +162,11 @@
           </div>
 
           <div class="d-flex d-sm-none">
-            <v-dialog transition="dialog-bottom-transition" fullscreen>
+            <v-dialog
+              transition="dialog-bottom-transition"
+              fullscreen
+              @update:model-value="handleDialogClose"
+            >
               <template v-slot:activator="{ props: activatorProps }">
                 <v-btn
                   v-if="!userProfilLoading"
@@ -171,7 +191,11 @@
                         <h2 class="ms-3 text-h6">{{ $t('view.profilPage.editProfil') }}</h2>
                       </v-col>
                       <v-col cols="5" class="d-flex align-center justify-end pt-1 mb-1">
-                        <v-btn size="large" class="bg-white px-6 py-2 mr-2 h-auto">
+                        <v-btn
+                          size="large"
+                          class="bg-white px-6 py-2 mr-2 h-auto"
+                          @click="saveEdit"
+                        >
                           {{ $t('view.profilPage.save') }}
                         </v-btn>
                       </v-col>
@@ -222,20 +246,27 @@
 
                   <v-row class="px-8 py-4">
                     <v-col class="pa-0">
-                      <v-text-field class="pb-4" label="Nom"> </v-text-field>
+                      <v-text-field class="pb-4" label="Nom" v-model="userProfilUpdated.username">
+                      </v-text-field>
 
-                      <v-text-field class="pb-4" label="Bio"> </v-text-field>
+                      <v-text-field class="pb-4" label="Bio" v-model="userProfilUpdated.biography">
+                      </v-text-field>
 
                       <div>
                         <span class="opacity-50 text-subtitle-2"
                           >{{ $t('view.loginPage.dateDeNaissance') }} •
                         </span>
-                        <button type="button" class="text-subtitle-2 text-red">
+                        <button
+                          type="button"
+                          class="text-subtitle-2 text-red"
+                          @click="editBirthday = !editBirthday"
+                        >
                           {{ $t('view.profilPage.edit') }}
                         </button>
                       </div>
 
-                      <div>27 Janvier 2003</div>
+                      <div v-if="!editBirthday">{{ userProfilUpdated.birthday }}</div>
+                      <v-text-field v-else class="pb-4" v-model="birthdayInput" type="date" />
                     </v-col>
                   </v-row>
                 </v-card>
@@ -366,6 +397,20 @@ const items: Ref<Array<Twit>> = ref([])
 const commentTwitDialog = ref<boolean>(false)
 const addEditTwit = ref<Twit | undefined>()
 
+const editBirthday = ref<boolean>(false)
+
+interface EditUserInterface {
+  birthday: string
+  biography: string
+  username: string
+}
+
+const userProfilUpdated = ref<EditUserInterface>({
+  birthday: '',
+  biography: '',
+  username: '',
+})
+
 function incrementId(): number {
   twitId.value = twitId.value + 1
   return twitId.value
@@ -382,6 +427,12 @@ function reTwit(id: number) {
   const twit = items.value.find(p => p.id === id)
   if (twit) {
     twit.isRetwit = !twit.isRetwit
+  }
+}
+
+function handleDialogClose(isOpen: boolean) {
+  if (!isOpen) {
+    editBirthday.value = false
   }
 }
 
@@ -439,6 +490,18 @@ async function api(): Promise<Twit> {
   }
 }
 
+const saveEdit = async () => {
+  console.log('saveEdit', userProfilUpdated.value)
+}
+
+const birthdayInput = computed({
+  get: () => dayjs(userProfilUpdated.value.birthday).format('YYYY-MM-DD'),
+  set: (val: string) => {
+    console.log('val', val)
+    userProfilUpdated.value.birthday = dayjs(val).format('DD/MM/YYYY')
+  },
+})
+
 const userProfilLoading = computed(() => {
   return userStore.loading
 })
@@ -477,6 +540,19 @@ watch(
   () => {
     twitLenght.value = twitText.value.length
     twitPourcentage.value = (twitLenght.value / twitLimit) * 100
+  },
+  { immediate: true }
+)
+watch(
+  () => userProfil.value,
+  () => {
+    if (userProfil.value !== null) {
+      userProfilUpdated.value = {
+        birthday: userProfil.value.birthday,
+        biography: userProfil.value.biography,
+        username: userProfil.value.username,
+      }
+    }
   },
   { immediate: true }
 )
