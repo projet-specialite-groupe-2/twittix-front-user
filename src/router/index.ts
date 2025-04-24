@@ -1,5 +1,5 @@
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
 const routes = [
   {
@@ -21,20 +21,47 @@ const routes = [
   {
     path: '/messages',
     name: PageNameEnum.MESSAGES,
-    component: () => import('../views/MessagesView.vue'),
-    meta: {
-      sidebar: true,
+    components: {
+      default: () => import('../views/MessagesView.vue'),
+      message_details: () => import('../components/Message/MessageDetails.vue'),
     },
+    meta: { sidebar: true },
   },
   {
-    path: '/profil/:username',
+    path: '/messages/:id',
+    name: PageNameEnum.MESSAGES_DETAIL,
+    components: {
+      default: () => import('../views/MessagesView.vue'),
+      message_details: () => import('../components/Message/MessageDetails.vue'),
+    },
+    meta: { sidebar: true },
+  },
+  {
+    path: '/messages/:id/info',
+    name: PageNameEnum.MESSAGES_DETAIL_INFO,
+    components: {
+      default: () => import('../views/MessagesView.vue'),
+      message_details_info: () => import('../components/Message/MessageDetailsInfo.vue'),
+    },
+    meta: { sidebar: true },
+  },
+  {
+    path: '/profil',
     name: PageNameEnum.PROFIL,
     component: () => import('@/views/ProfilView.vue'),
     meta: {
       sidebar: true,
     },
   },
-]
+  {
+    path: '/:username',
+    name: PageNameEnum.PROFIL,
+    component: () => import('@/views/ProfilView.vue'),
+    meta: {
+      sidebar: true,
+    },
+  },
+] as RouteRecordRaw[]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

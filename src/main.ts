@@ -3,7 +3,6 @@ import './assets/styles/base.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
@@ -37,6 +36,9 @@ const vuetify = createVuetify({
     VCard: {
       class: 'rounded-xl bg-black',
     },
+    VSheet: {
+      class: 'bg-black',
+    },
   },
   theme: {
     themes: {
@@ -49,6 +51,7 @@ const vuetify = createVuetify({
           white: '#eff3f4',
           blue: '#1d9bf0',
           gray: '#2f3336',
+          grey_custom: 'rgb(47, 51, 54)',
         },
         variables: {
           'theme-on-surface': '91, 112, 131, 0.5',

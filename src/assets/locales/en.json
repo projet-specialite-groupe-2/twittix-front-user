@@ -50,18 +50,6 @@
             "searchPeople": "Search people",
             "next": "Next",
             "createGroup": "Create group"
-        },
-        "profilPage": {
-            "editProfil": "Edit profile",
-            "save": "Save",
-            "edit": "Edit",
-            "following": "following",
-            "followers": "followers",
-            "likes": "I like",
-            "posts": "Posts",
-            "editProfilSuccess": "Profile successfully modified",
-            "editProfilError": "Error modifying profile",
-            "fillAllFields": "Please fill in all fields"
         }
     },
     "errors": {

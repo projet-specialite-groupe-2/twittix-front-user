@@ -369,7 +369,7 @@
 </template>
 
 <script setup lang="ts">
-import AddComment from '@/components/twit/addComment.vue'
+import AddComment from '@/components/twit/addCommentComponent.vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/fr'
 import 'dayjs/locale/en-gb'

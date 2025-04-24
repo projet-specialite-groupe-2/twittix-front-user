@@ -49,10 +49,19 @@
             "newMessage": "Nouveau message",
             "searchPeople": "Rechercher des personnes",
             "next": "Suivant",
-            "createGroup": "Créer un groupe"
+            "createGroup": "Créer un groupe",
+            "notifications": "Notifications",
+            "blockMessages": "Bloquer les MP",
+            "blockAll": "Tout bloquer",
+            "report": "Signaler",
+            "reportContent": "Signaler le contenu comme illégal dans l'UE",
+            "leaveConversation": "Quitter la conversation",
+            "receiveNotifications": "Recevoir les notifications",
+            "conversationInfos": "Infos de la conversation",
+            "conversationPlaceholder": "Écrire un message..."
         },
         "profilPage": {
-            "editProfil": "Éditer le profil",
+            "editProfil": "Éditer les profils",
             "save": "Enregistrer",
             "edit": "Éditer",
             "following": "abonnements",
