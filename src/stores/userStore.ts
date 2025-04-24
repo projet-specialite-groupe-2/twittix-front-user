@@ -26,5 +26,26 @@ export const useUserStore = defineStore('user', {
 
       this.userProfil = userProfil[0]
     },
+
+    async updateUserProfil(user: User) {
+      const projectService = new UserService(request)
+      this.loading = true
+
+      const userProfil = await projectService.apiUsersIdPut({
+        id: String(user.id),
+        requestBody: user,
+      })
+
+      this.loading = false
+
+      if (!userProfil) {
+        this.userProfil = null
+        return { success: false }
+      }
+
+      this.userProfil = userProfil
+
+      return { success: true }
+    },
   },
 })

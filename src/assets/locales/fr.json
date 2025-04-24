@@ -58,7 +58,10 @@
             "following": "abonnements",
             "followers": "abonnés",
             "likes": "J'aime",
-            "posts": "Posts"
+            "posts": "Posts",
+            "editProfilSuccess": "Profil modifié avec succès",
+            "editProfilError": "Erreur lors de la modification du profil",
+            "fillAllFields": "Veuillez remplir tous les champs"
         }
     },
     "errors": {

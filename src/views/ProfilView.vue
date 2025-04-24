@@ -53,7 +53,7 @@
 
         <div class="d-flex flex-column">
           <div class="d-none d-sm-flex">
-            <v-dialog @update:model-value="handleDialogClose">
+            <v-dialog v-model="dialog" @update:model-value="handleDialogClose">
               <template v-slot:activator="{ props: activatorProps }">
                 <v-btn
                   v-if="!userProfilLoading"
@@ -165,6 +165,7 @@
             <v-dialog
               transition="dialog-bottom-transition"
               fullscreen
+              v-model="dialogMobile"
               @update:model-value="handleDialogClose"
             >
               <template v-slot:activator="{ props: activatorProps }">
@@ -378,10 +379,12 @@ import TwitComponent from '@/components/twit/twitComponent.vue'
 import { Twit, type User } from '@/core/api'
 import { useUserStore } from '@/stores/userStore'
 import { useI18n } from 'vue-i18n'
+import { getCurrentInstance } from 'vue'
 
 const { locale } = useI18n()
 dayjs.locale(locale.value)
 
+const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
 const route = useRoute()
 const isForYouView = ref<boolean>(true)
@@ -398,6 +401,8 @@ const commentTwitDialog = ref<boolean>(false)
 const addEditTwit = ref<Twit | undefined>()
 
 const editBirthday = ref<boolean>(false)
+const dialog = ref<boolean>(false)
+const dialogMobile = ref<boolean>(false)
 
 interface EditUserInterface {
   birthday: string
@@ -491,14 +496,46 @@ async function api(): Promise<Twit> {
 }
 
 const saveEdit = async () => {
-  console.log('saveEdit', userProfilUpdated.value)
+  // Vérification de chaque champ modifié avant l'envoi
+  if (
+    userProfilUpdated.value.username.length === 0 ||
+    userProfilUpdated.value.biography.length === 0 ||
+    userProfilUpdated.value.birthday.length === 0
+  ) {
+    proxy.$toast.error(proxy.$t('view.profilPage.fillAllFields') as string)
+    return
+  }
+
+  // Envoi de la requête d'update
+  const userProfil = {
+    ...userStore.userProfil,
+    birthdate: dayjs(userProfilUpdated.value.birthday).format('YYYY-MM-DD'),
+    biography: userProfilUpdated.value.biography,
+    username: userProfilUpdated.value.username,
+  }
+
+  // Fermeture des modales
+  dialog.value = false
+  dialogMobile.value = false
+
+  // Appel de la méthode d'update du store
+  const res = await userStore.updateUserProfil(userProfil)
+
+  if (res.success) {
+    proxy.$toast.success(proxy.$t('view.profilPage.editProfilSuccess') as string)
+  } else {
+    proxy.$toast.error(proxy.$t('view.profilPage.editProfilError') as string)
+  }
 }
 
 const birthdayInput = computed({
-  get: () => dayjs(userProfilUpdated.value.birthday).format('YYYY-MM-DD'),
+  get: () => {
+    const parsed = dayjs(userProfilUpdated.value.birthday, 'DD/MM/YYYY', true)
+    return parsed.isValid() ? parsed.format('YYYY-MM-DD') : ''
+  },
   set: (val: string) => {
-    console.log('val', val)
-    userProfilUpdated.value.birthday = dayjs(val).format('DD/MM/YYYY')
+    const parsed = dayjs(val, 'YYYY-MM-DD', true)
+    userProfilUpdated.value.birthday = parsed.isValid() ? parsed.format('DD/MM/YYYY') : ''
   },
 })
 
