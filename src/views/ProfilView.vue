@@ -389,12 +389,12 @@
     </template>
     <div v-else class="text-center mt-8">
       <v-icon size="64" color="red" class="mb-4">mdi-account-off</v-icon>
-      <div class="text-red font-weight-bold text-h5">Utilisateur introuvable</div>
+      <div class="text-red font-weight-bold text-h5">{{ $t('view.profilPage.userNotFound') }}</div>
       <div class="text-grey text-subtitle-1 mt-2">
-        Nous n'avons pas pu trouver le profil que vous recherchez.
+        {{ $t('view.profilPage.profileNotFound') }}
       </div>
       <v-btn size="large" class="bg-white mt-6 px-16" @click="$router.push({ name: 'Main' })">
-        Revenir à l'accueil
+        {{ $t('view.profilPage.backToMain') }}
       </v-btn>
     </div>
   </v-container>

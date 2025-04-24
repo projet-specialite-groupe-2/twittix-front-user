@@ -70,7 +70,10 @@
             "posts": "Posts",
             "editProfilSuccess": "Profil modifié avec succès",
             "editProfilError": "Erreur lors de la modification du profil",
-            "fillAllFields": "Veuillez remplir tous les champs"
+            "fillAllFields": "Veuillez remplir tous les champs",
+            "backToMain": "Retour à l'accueil",
+            "profileNotFound": "Nous n'avons pas pu trouver le profil que vous recherchez.",
+            "userNotFound": "Utilisateur introuvable"
         }
     },
     "errors": {
