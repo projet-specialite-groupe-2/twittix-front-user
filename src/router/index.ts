@@ -53,6 +53,14 @@ const routes = [
       sidebar: true,
     },
   },
+  {
+    path: '/:username',
+    name: PageNameEnum.PROFIL,
+    component: () => import('@/views/ProfilView.vue'),
+    meta: {
+      sidebar: true,
+    },
+  },
 ] as RouteRecordRaw[]
 
 const router = createRouter({

@@ -2,9 +2,8 @@
 import { useI18n } from 'vue-i18n'
 import router from '@/router'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
-import AddTwitPopupComponent from '../twit/addTwitPopupComponent.vue';
-import { ref } from 'vue';
-import { da } from 'vuetify/locale';
+import AddTwitPopupComponent from '../twit/addTwitPopupComponent.vue'
+import { ref } from 'vue'
 
 const { t } = useI18n()
 const props = defineProps<{ footerMode: boolean }>()
@@ -37,7 +36,7 @@ function goToMessages() {
 }
 
 function goToProfil() {
-  router.push({ name: PageNameEnum.PROFIL })
+  router.push({ name: PageNameEnum.PROFIL, params: { username: '@user' } })
 }
 
 function createPost() {
@@ -52,9 +51,7 @@ function disconnectUser() {
 function addTwitDialogAction(confirm: boolean, data?: unknown) {
   if (confirm && data) {
     // Todo with APIs
-  }
-  else if (!confirm)
-    addTwitDialog.value = false
+  } else if (!confirm) addTwitDialog.value = false
 }
 </script>
 
@@ -196,5 +193,10 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
   </v-footer>
 
   <v-overlay v-model="addTwitDialog" persistent />
-  <AddTwitPopupComponent v-if="addTwitDialog" :user-picture-url="userPictureURL" :open="addTwitDialog" v-on:submit:form="addTwitDialogAction"></AddTwitPopupComponent>
+  <AddTwitPopupComponent
+    v-if="addTwitDialog"
+    :user-picture-url="userPictureURL"
+    :open="addTwitDialog"
+    v-on:submit:form="addTwitDialogAction"
+  ></AddTwitPopupComponent>
 </template>

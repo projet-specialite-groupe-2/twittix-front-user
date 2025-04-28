@@ -49,16 +49,7 @@
             "newMessage": "New message",
             "searchPeople": "Search people",
             "next": "Next",
-            "createGroup": "Create group",
-            "notifications": "Notifications",
-            "blockMessages": "Block messages",
-            "blockAll": "Block all",
-            "report": "Report",
-            "reportContent": "Report content as illegal in the EU",
-            "leaveConversation": "Leave conversation",
-            "receiveNotifications": "Receive notifications",
-            "conversationInfos": "Conversation infos",
-            "conversationPlaceholder": "Type a message..."
+            "createGroup": "Create group"
         },
         "profilPage": {
             "editProfil": "Edit profile",
@@ -67,7 +58,15 @@
             "following": "following",
             "followers": "followers",
             "likes": "I like",
-            "posts": "Posts"
+            "posts": "Posts",
+            "editProfilSuccess": "Profile successfully modified",
+            "editProfilError": "Error modifying profile",
+            "fillAllFields": "Please fill in all fields",
+            "backToMain": "Back to main page",
+            "profileNotFound": "We couldn't find the profile you are looking for.",
+            "userNotFound": "User not found",
+            "name": "Name",
+            "bio": "Bio"
         }
     },
     "errors": {

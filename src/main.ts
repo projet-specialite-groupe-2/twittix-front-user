@@ -79,5 +79,6 @@ app.use(router)
 app.mount('#app')
 
 app.config.globalProperties.$t = i18n.global.t
+app.config.globalProperties.$toast = toast
 
 export { i18n }

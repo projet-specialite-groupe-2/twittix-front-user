@@ -10,10 +10,10 @@ import { fileURLToPath } from 'url'
 
 import { config } from 'dotenv'
 
-config()
-
 const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
 const __dirname = path.dirname(__filename)
+config({ path: path.dirname(__dirname) + '/../.env' })
+
 const openAPIfilename = 'openapi'
 
 const getAPIAccessToken = () =>
@@ -72,6 +72,7 @@ const getAPISchemaSource = accessToken => {
   }
 
   const webClient = process.env.VUE_APP_OPEN_API_PROTOCOl === 'HTTP' ? http : https
+  console.log(process.env.VUE_APP_OPEN_API_PROTOCOl)
 
   return new Promise((resolve, reject) => {
     const req = webClient.get(options, res => {
