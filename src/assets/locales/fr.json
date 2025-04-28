@@ -73,7 +73,9 @@
             "fillAllFields": "Veuillez remplir tous les champs",
             "backToMain": "Retour à l'accueil",
             "profileNotFound": "Nous n'avons pas pu trouver le profil que vous recherchez.",
-            "userNotFound": "Utilisateur introuvable"
+            "userNotFound": "Utilisateur introuvable",
+            "name": "Nom",
+            "bio": "Bio"
         }
     },
     "errors": {

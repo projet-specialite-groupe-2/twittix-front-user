@@ -12,10 +12,13 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     async fetchUserProfil(username: string) {
-      const projectService = new UserService(request)
+      const projectService: UserService = new UserService(request)
       this.loading = true
 
-      const userProfil = await projectService.apiUsersGetCollection({ page: 1, username: username })
+      const userProfil: Array<User> = await projectService.apiUsersGetCollection({
+        page: 1,
+        username: username,
+      })
 
       this.loading = false
 
@@ -28,10 +31,10 @@ export const useUserStore = defineStore('user', {
     },
 
     async updateUserProfil(user: User) {
-      const projectService = new UserService(request)
+      const projectService: UserService = new UserService(request)
       this.loading = true
 
-      const userProfil = await projectService.apiUsersIdPut({
+      const userProfil: User = await projectService.apiUsersIdPut({
         id: String(user.id),
         requestBody: user,
       })

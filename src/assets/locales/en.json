@@ -64,7 +64,9 @@
             "fillAllFields": "Please fill in all fields",
             "backToMain": "Back to main page",
             "profileNotFound": "We couldn't find the profile you are looking for.",
-            "userNotFound": "User not found"
+            "userNotFound": "User not found",
+            "name": "Name",
+            "bio": "Bio"
         }
     },
     "errors": {

@@ -134,12 +134,16 @@
 
                     <v-row class="px-8 py-4">
                       <v-col class="pa-0">
-                        <v-text-field class="pb-4" label="Nom" v-model="userProfilUpdated.username">
+                        <v-text-field
+                          class="pb-4"
+                          :label="$t('view.loginPage.name')"
+                          v-model="userProfilUpdated.username"
+                        >
                         </v-text-field>
 
                         <v-text-field
                           class="pb-4"
-                          label="Bio"
+                          :label="$t('view.loginPage.bio')"
                           v-model="userProfilUpdated.biography"
                         >
                         </v-text-field>
@@ -252,12 +256,16 @@
 
                     <v-row class="px-8 py-4">
                       <v-col class="pa-0">
-                        <v-text-field class="pb-4" label="Nom" v-model="userProfilUpdated.username">
+                        <v-text-field
+                          class="pb-4"
+                          :label="$t('view.loginPage.name')"
+                          v-model="userProfilUpdated.username"
+                        >
                         </v-text-field>
 
                         <v-text-field
                           class="pb-4"
-                          label="Bio"
+                          :label="$t('view.loginPage.bio')"
                           v-model="userProfilUpdated.biography"
                         >
                         </v-text-field>

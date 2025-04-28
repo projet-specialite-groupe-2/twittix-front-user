@@ -4,7 +4,6 @@ import router from '@/router'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
 import AddTwitPopupComponent from '../twit/addTwitPopupComponent.vue'
 import { ref } from 'vue'
-import { da } from 'vuetify/locale'
 
 const { t } = useI18n()
 const props = defineProps<{ footerMode: boolean }>()
