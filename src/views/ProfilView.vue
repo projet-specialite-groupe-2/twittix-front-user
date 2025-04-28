@@ -419,12 +419,11 @@ import TwitComponent from '@/components/twit/twitComponent.vue'
 import { Twit, type User } from '@/core/api'
 import { useUserStore } from '@/stores/userStore'
 import { useI18n } from 'vue-i18n'
-import { getCurrentInstance } from 'vue'
+import { toast } from 'vue3-toastify'
 
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 dayjs.locale(locale.value)
 
-const { proxy } = getCurrentInstance()
 const userStore = useUserStore()
 const route = useRoute()
 const isForYouView = ref<boolean>(true)
@@ -536,17 +535,17 @@ async function api(): Promise<Twit> {
 }
 
 const saveEdit = async () => {
-  // Vérification de chaque champ modifié avant l'envoi
+  // Verify attributes before sending the request
   if (
     userProfilUpdated.value.username.length === 0 ||
     userProfilUpdated.value.biography.length === 0 ||
     userProfilUpdated.value.birthday.length === 0
   ) {
-    proxy.$toast.error(proxy.$t('view.profilPage.fillAllFields') as string)
+    toast.error(t('view.profilPage.fillAllFields') as string)
     return
   }
 
-  // Envoi de la requête d'update
+  // Send request to update user profile
   const userProfil = {
     ...userStore.userProfil,
     birthdate: dayjs(userProfilUpdated.value.birthday).format('YYYY-MM-DD'),
@@ -554,17 +553,17 @@ const saveEdit = async () => {
     username: userProfilUpdated.value.username,
   }
 
-  // Fermeture des modales
+  // Close the dialog
   dialog.value = false
   dialogMobile.value = false
 
-  // Appel de la méthode d'update du store
+  // Call API to update user profile
   const res = await userStore.updateUserProfil(userProfil)
 
   if (res.success) {
-    proxy.$toast.success(proxy.$t('view.profilPage.editProfilSuccess') as string)
+    toast.success(t('view.profilPage.editProfilSuccess') as string)
   } else {
-    proxy.$toast.error(proxy.$t('view.profilPage.editProfilError') as string)
+    toast.error(t('view.profilPage.editProfilError') as string)
   }
 }
 
@@ -601,14 +600,14 @@ const userProfil = computed(() => {
 })
 
 onMounted(() => {
-  // Récup du username de la route
+  // Get username from route
   let username = route.params.username as string
   if (!username && username.length === 0 && username[0] !== '@') {
     profilNotFound.value = true
     return
   }
   username = username.substring(1)
-  // Chargement du profil du user
+  // Load user profil
   userStore.fetchUserProfil(username)
 })
 
