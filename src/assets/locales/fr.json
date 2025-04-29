@@ -35,7 +35,8 @@
             "motDePasseOublie": "Mot de passe oublié ?",
             "adresseEmail": "Adresse e-mail",
             "motDePasse": "Mot de passe",
-            "connectezVous": "Connectez-vous à Twittix"
+            "connectezVous": "Connectez-vous à Twittix",
+            "username": "Nom d'utilisateur"
         },
         "messagesPage": {
             "title": "Messages",

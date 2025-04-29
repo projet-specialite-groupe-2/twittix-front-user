@@ -53,7 +53,10 @@
                     </v-card-title>
 
                     <div class="pb-4">
-                      <v-text-field class="pb-0" label="Nom d'utilisateur"></v-text-field>
+                      <v-text-field
+                        class="pb-0"
+                        :label="$t('view.loginPage.username')"
+                      ></v-text-field>
 
                       <v-text-field type="email" label="Email"></v-text-field>
                     </div>
@@ -129,7 +132,10 @@
                     </v-card-title>
 
                     <div class="pb-4">
-                      <v-text-field class="pb-0" label="Nom d'utilisateur"></v-text-field>
+                      <v-text-field
+                        class="pb-0"
+                        :label="$t('view.loginPage.username')"
+                      ></v-text-field>
 
                       <v-text-field type="email" label="Email"></v-text-field>
                     </div>
