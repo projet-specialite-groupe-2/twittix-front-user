@@ -136,21 +136,21 @@
                       <v-col class="pa-0">
                         <v-text-field
                           class="pb-4"
-                          :label="$t('view.loginPage.name')"
+                          :label="$t('view.profilPage.name')"
                           v-model="userProfilUpdated.username"
                         >
                         </v-text-field>
 
                         <v-text-field
                           class="pb-4"
-                          :label="$t('view.loginPage.bio')"
+                          :label="$t('view.profilPage.bio')"
                           v-model="userProfilUpdated.biography"
                         >
                         </v-text-field>
 
                         <div>
                           <span class="opacity-50 text-subtitle-2"
-                            >{{ $t('view.loginPage.dateDeNaissance') }} •
+                            >{{ $t('view.profilPage.dateDeNaissance') }} •
                           </span>
                           <button
                             type="button"
@@ -258,21 +258,21 @@
                       <v-col class="pa-0">
                         <v-text-field
                           class="pb-4"
-                          :label="$t('view.loginPage.name')"
+                          :label="$t('view.profilPage.name')"
                           v-model="userProfilUpdated.username"
                         >
                         </v-text-field>
 
                         <v-text-field
                           class="pb-4"
-                          :label="$t('view.loginPage.bio')"
+                          :label="$t('view.profilPage.bio')"
                           v-model="userProfilUpdated.biography"
                         >
                         </v-text-field>
 
                         <div>
                           <span class="opacity-50 text-subtitle-2"
-                            >{{ $t('view.loginPage.dateDeNaissance') }} •
+                            >{{ $t('view.profilPage.dateDeNaissance') }} •
                           </span>
                           <button
                             type="button"

@@ -10,6 +10,13 @@ const request = new AxiosHttpRequest({
   VERSION: 'v2',
 })
 
+const requestAuth = new AxiosHttpRequest({
+  BASE: import.meta.env.VUE_APP_API_AUTH as string,
+  WITH_CREDENTIALS: false,
+  CREDENTIALS: 'include',
+  VERSION: 'v2',
+})
+
 axios.interceptors.response.use(
   response => response,
   async (error: AxiosError) => {
@@ -24,3 +31,4 @@ axios.interceptors.response.use(
 )
 
 export default request
+export { requestAuth }
