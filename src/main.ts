@@ -2,6 +2,8 @@ import './assets/styles/base.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+// Persistence plugin for Pinia
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
@@ -73,7 +75,10 @@ app.use(Vue3Toastify, {
 app.use(vuetify)
 app.use(i18n)
 
-app.use(createPinia())
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+
+app.use(pinia)
 app.use(router)
 
 app.mount('#app')

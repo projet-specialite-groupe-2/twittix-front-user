@@ -9,6 +9,10 @@ export const useLoginStore = defineStore('login', {
     token: null,
     loading: false,
   }),
+  persist: {
+    storage: localStorage,
+    key: 'token',
+  },
   actions: {
     async login(data: Object) {
       this.loading = true
