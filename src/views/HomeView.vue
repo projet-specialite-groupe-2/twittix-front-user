@@ -61,6 +61,7 @@
               :twit-re-twit-number="'876'"
               :is-liked="item.isLiked ?? false"
               :id-re-twit="item.isRetwit ?? false"
+              v-on:openTwit="openTwit"
               v-on:like="likeTwit"
               v-on:retwit="reTwit"
               v-on:comment="openCommentDialog(item)"
@@ -89,6 +90,8 @@ import AddComment from '@/components/twit/addCommentComponent.vue'
 import AddTwitComponent from '@/components/twit/addTwitComponent.vue'
 import TwitComponent from '@/components/twit/twitComponent.vue'
 import { Twit, type User } from '@/core/api'
+import PageNameEnum from '@/core/types/enums/pageNameEnum'
+import router from '@/router'
 import { ref, type Ref } from 'vue'
 
 const isForYouView = ref<boolean>(true)
@@ -174,5 +177,9 @@ function commentDialogAction(confirm: boolean, data?: unknown) {
 function openCommentDialog(data: Twit) {
   addEditTwit.value = items.value.find(p => p.id === data.id)
   commentTwitDialog.value = true
+}
+
+function openTwit(id: number) {
+  router.push({ name: PageNameEnum.TWIT, params : { idTwit: id } })
 }
 </script>
