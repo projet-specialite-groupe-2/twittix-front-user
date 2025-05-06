@@ -43,7 +43,10 @@
             "adresseEmail": "Email address",
             "motDePasse": "Password",
             "connectezVous": "Log in to Twittix",
-            "username": "Username"
+            "username": "Username",
+            "registerSuccess": "Registration successful. Please check your email to confirm your account.",
+            "registerError": "Registration error",
+            "loginError": "Login error"
         },
         "messagesPage": {
             "title": "Messages",

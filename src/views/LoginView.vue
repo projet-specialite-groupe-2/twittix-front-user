@@ -20,7 +20,7 @@
         <!-- FORMULAIRE DE CREATION DE COMPTE -->
         <div class="d-flex flex-column mb-14" style="max-width: 330px">
           <div class="d-none d-sm-flex">
-            <v-dialog @update:model-value="handleDialogClose">
+            <v-dialog v-model="dialogModelValue" @update:model-value="handleDialogClose">
               <template v-slot:activator="{ props: activatorProps }">
                 <v-btn v-bind="activatorProps" size="large" class="bg-red w-100 mb-2">
                   {{ $t('view.loginPage.createAccount') }}
@@ -63,133 +63,135 @@
                     style="height: 550px !important"
                     @submit.prevent="register"
                   >
-                    <div v-if="registerStep === 1" class="px-12 py-4">
-                      <v-card-title class="text-h4 font-weight-bold px-0 pt-0">
-                        {{ $t('view.loginPage.createYourAccount') }}
-                      </v-card-title>
+                    <div
+                      v-if="loginStore.loading"
+                      class="fill-height d-flex justify-center align-center"
+                    >
+                      <v-progress-circular indeterminate></v-progress-circular>
+                    </div>
 
-                      <div class="pb-4">
-                        <v-text-field
-                          v-model="registerData.username"
-                          class="pb-0"
-                          :label="$t('view.loginPage.username')"
-                          :rules="[required, username]"
-                          :readonly="!loginStore.loading"
-                        ></v-text-field>
+                    <template v-else>
+                      <div v-if="registerStep === 1" class="px-12 py-4">
+                        <v-card-title class="text-h4 font-weight-bold px-0 pt-0">
+                          {{ $t('view.loginPage.createYourAccount') }}
+                        </v-card-title>
 
-                        <v-text-field
-                          v-model="registerData.email"
-                          type="email"
-                          label="Email"
-                          :rules="[required, email]"
-                          :readonly="!loginStore.loading"
-                        ></v-text-field>
+                        <div class="pb-4">
+                          <v-text-field
+                            v-model="registerData.username"
+                            class="pb-0"
+                            :label="$t('view.loginPage.username')"
+                            :rules="[required, username]"
+                          ></v-text-field>
+
+                          <v-text-field
+                            v-model="registerData.email"
+                            type="email"
+                            label="Email"
+                            :rules="[required, email]"
+                          ></v-text-field>
+                        </div>
+
+                        <v-card-title class="text-h6 font-weight-bold px-0 pt-0">
+                          {{ $t('view.loginPage.dateDeNaissance') }}
+                        </v-card-title>
+
+                        <v-card-text class="text-disabled text-caption px-0 fs-7">
+                          {{ $t('view.loginPage.dateNaissanceParagraphe') }}
+                        </v-card-text>
+
+                        <v-row>
+                          <v-col class="pb-0">
+                            <v-select
+                              v-model="registerData.month"
+                              :label="$t('view.loginPage.mois')"
+                              :items="listOfMonths"
+                              :rules="[required]"
+                            ></v-select>
+                          </v-col>
+                          <v-col class="pb-0">
+                            <v-select
+                              v-model="registerData.day"
+                              :label="$t('view.loginPage.jour')"
+                              :items="listOfDays"
+                              :rules="[required]"
+                            ></v-select>
+                          </v-col>
+                          <v-col class="pb-0">
+                            <v-select
+                              v-model="registerData.year"
+                              :label="$t('view.loginPage.annee')"
+                              :items="listOfYears"
+                              :rules="[required]"
+                            ></v-select>
+                          </v-col>
+
+                          <v-col cols="12" class="pt-0">
+                            <span v-if="!isOver18 && isOver18 !== null" class="text-red fs-7">
+                              Vous devez avoir au moins 18 ans pour vous inscrire.
+                            </span>
+                          </v-col>
+                        </v-row>
+                      </div>
+                      <div v-else class="px-12 py-4">
+                        <v-card-title class="text-h4 font-weight-bold px-0 pt-0">
+                          {{ $t('view.loginPage.setPassword') }}
+                        </v-card-title>
+
+                        <div class="pb-4">
+                          <v-text-field
+                            v-model="registerData.password"
+                            :label="$t('view.loginPage.password')"
+                            :type="showPassword ? 'text' : 'password'"
+                            :rules="[required]"
+                          >
+                            <template v-slot:append>
+                              <v-btn
+                                class="bg-black"
+                                :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                @click="showPassword = !showPassword"
+                              ></v-btn>
+                            </template>
+                          </v-text-field>
+
+                          <v-text-field
+                            v-model="registerData.confirmPassword"
+                            :label="$t('view.loginPage.passwordConfirmation')"
+                            :type="showPassword ? 'text' : 'password'"
+                            :rules="[required, samePasswordConfirmation]"
+                          >
+                            <template v-slot:append>
+                              <v-btn
+                                class="bg-black"
+                                :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                @click="showPassword = !showPassword"
+                              ></v-btn>
+                            </template>
+                          </v-text-field>
+                        </div>
                       </div>
 
-                      <v-card-title class="text-h6 font-weight-bold px-0 pt-0">
-                        {{ $t('view.loginPage.dateDeNaissance') }}
-                      </v-card-title>
-
-                      <v-card-text class="text-disabled text-caption px-0 fs-7">
-                        {{ $t('view.loginPage.dateNaissanceParagraphe') }}
-                      </v-card-text>
-
-                      <v-row>
-                        <v-col class="pb-0">
-                          <v-select
-                            v-model="registerData.month"
-                            :label="$t('view.loginPage.mois')"
-                            :items="listOfMonths"
-                            :rules="[required]"
-                            :readonly="!loginStore.loading"
-                          ></v-select>
-                        </v-col>
-                        <v-col class="pb-0">
-                          <v-select
-                            v-model="registerData.day"
-                            :label="$t('view.loginPage.jour')"
-                            :items="listOfDays"
-                            :rules="[required]"
-                            :readonly="!loginStore.loading"
-                          ></v-select>
-                        </v-col>
-                        <v-col class="pb-0">
-                          <v-select
-                            v-model="registerData.year"
-                            :label="$t('view.loginPage.annee')"
-                            :items="listOfYears"
-                            :rules="[required]"
-                            :readonly="!loginStore.loading"
-                          ></v-select>
-                        </v-col>
-
-                        <v-col cols="12" class="pt-0">
-                          <span v-if="!isOver18 && isOver18 !== null" class="text-red fs-7">
-                            Vous devez avoir au moins 18 ans pour vous inscrire.
-                          </span>
-                        </v-col>
-                      </v-row>
-                    </div>
-                    <div v-else class="px-12 py-4">
-                      <v-card-title class="text-h4 font-weight-bold px-0 pt-0">
-                        {{ $t('view.loginPage.setPassword') }}
-                      </v-card-title>
-
-                      <div class="pb-4">
-                        <v-text-field
-                          v-model="registerData.password"
-                          :label="$t('view.loginPage.password')"
-                          :type="showPassword ? 'text' : 'password'"
-                          :rules="[required]"
-                          :readonly="!loginStore.loading"
+                      <div class="mt-auto px-12 pb-8">
+                        <v-btn
+                          v-if="registerStep == 1"
+                          size="large"
+                          class="bg-white w-100"
+                          :disabled="!canRegisterStep1 || !isOver18"
+                          @click="registerStep = 2"
                         >
-                          <template v-slot:append>
-                            <v-btn
-                              class="bg-black"
-                              :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                              @click="showPassword = !showPassword"
-                            ></v-btn>
-                          </template>
-                        </v-text-field>
-
-                        <v-text-field
-                          v-model="registerData.confirmPassword"
-                          :label="$t('view.loginPage.passwordConfirmation')"
-                          :type="showPassword ? 'text' : 'password'"
-                          :rules="[required, samePasswordConfirmation]"
-                          :readonly="!loginStore.loading"
+                          {{ $t('view.loginPage.suivant') }}
+                        </v-btn>
+                        <v-btn
+                          v-else
+                          size="large"
+                          class="bg-white w-100"
+                          type="submit"
+                          :disabled="!canRegisterStep2"
                         >
-                          <template v-slot:append>
-                            <v-btn
-                              class="bg-black"
-                              :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                              @click="showPassword = !showPassword"
-                            ></v-btn>
-                          </template>
-                        </v-text-field>
+                          {{ $t('view.loginPage.createYourAccount') }}
+                        </v-btn>
                       </div>
-                    </div>
-
-                    <div class="mt-auto px-12 pb-8">
-                      <v-btn
-                        v-if="registerStep == 1"
-                        size="large"
-                        class="bg-white w-100"
-                        :disabled="!canRegisterStep1 || !isOver18"
-                        @click="registerStep = 2"
-                      >
-                        {{ $t('view.loginPage.suivant') }}
-                      </v-btn>
-                      <v-btn
-                        v-else
-                        size="large"
-                        class="bg-white w-100"
-                        type="submit"
-                        :disabled="!canRegisterStep2"
-                      >
-                        {{ $t('view.loginPage.createYourAccount') }}
-                      </v-btn>
-                    </div>
+                    </template>
                   </v-form>
                 </v-card>
               </template>
@@ -197,7 +199,11 @@
           </div>
 
           <div class="d-flex d-sm-none">
-            <v-dialog transition="dialog-bottom-transition" fullscreen>
+            <v-dialog
+              v-model="dialogRegisterMobilModelValue"
+              transition="dialog-bottom-transition"
+              fullscreen
+            >
               <template v-slot:activator="{ props: activatorProps }">
                 <v-btn v-bind="activatorProps" size="large" class="bg-red bg-red w-100 mb-2">
                   {{ $t('view.loginPage.createAccount') }}
@@ -236,133 +242,135 @@
                   </v-card-actions>
 
                   <v-form class="d-flex flex-column fill-height" @submit.prevent="register">
-                    <div v-if="registerStep === 1" class="px-12 py-4">
-                      <v-card-title class="text-h4 font-weight-bold px-0 pt-0">
-                        {{ $t('view.loginPage.createYourAccount') }}
-                      </v-card-title>
+                    <div
+                      v-if="loginStore.loading"
+                      class="fill-height d-flex justify-center align-center"
+                    >
+                      <v-progress-circular indeterminate></v-progress-circular>
+                    </div>
 
-                      <div class="pb-4">
-                        <v-text-field
-                          v-model="registerData.username"
-                          class="pb-0"
-                          :label="$t('view.loginPage.username')"
-                          :rules="[required, username]"
-                          :readonly="!loginStore.loading"
-                        ></v-text-field>
+                    <template v-else>
+                      <div v-if="registerStep === 1" class="px-12 py-4">
+                        <v-card-title class="text-h4 font-weight-bold px-0 pt-0">
+                          {{ $t('view.loginPage.createYourAccount') }}
+                        </v-card-title>
 
-                        <v-text-field
-                          v-model="registerData.email"
-                          type="email"
-                          label="Email"
-                          :rules="[required, email]"
-                          :readonly="!loginStore.loading"
-                        ></v-text-field>
+                        <div class="pb-4">
+                          <v-text-field
+                            v-model="registerData.username"
+                            class="pb-0"
+                            :label="$t('view.loginPage.username')"
+                            :rules="[required, username]"
+                          ></v-text-field>
+
+                          <v-text-field
+                            v-model="registerData.email"
+                            type="email"
+                            label="Email"
+                            :rules="[required, email]"
+                          ></v-text-field>
+                        </div>
+
+                        <v-card-title class="text-h6 font-weight-bold px-0 pt-0">
+                          {{ $t('view.loginPage.dateDeNaissance') }}
+                        </v-card-title>
+
+                        <v-card-text class="text-disabled text-caption px-0 fs-7">
+                          {{ $t('view.loginPage.dateNaissanceParagraphe') }}
+                        </v-card-text>
+
+                        <v-row>
+                          <v-col class="pb-0">
+                            <v-select
+                              v-model="registerData.month"
+                              :label="$t('view.loginPage.mois')"
+                              :items="listOfMonths"
+                              :rules="[required]"
+                            ></v-select>
+                          </v-col>
+                          <v-col class="pb-0">
+                            <v-select
+                              v-model="registerData.day"
+                              :label="$t('view.loginPage.jour')"
+                              :items="listOfDays"
+                              :rules="[required]"
+                            ></v-select>
+                          </v-col>
+                          <v-col class="pb-0">
+                            <v-select
+                              v-model="registerData.year"
+                              :label="$t('view.loginPage.annee')"
+                              :items="listOfYears"
+                              :rules="[required]"
+                            ></v-select>
+                          </v-col>
+
+                          <v-col cols="12" class="pt-0">
+                            <span v-if="!isOver18 && isOver18 !== null" class="text-red fs-7">
+                              Vous devez avoir au moins 18 ans pour vous inscrire.
+                            </span>
+                          </v-col>
+                        </v-row>
+                      </div>
+                      <div v-else class="px-12 py-4">
+                        <v-card-title class="text-h4 font-weight-bold px-0 pt-0">
+                          {{ $t('view.loginPage.setPassword') }}
+                        </v-card-title>
+
+                        <div class="pb-4">
+                          <v-text-field
+                            v-model="registerData.password"
+                            :label="$t('view.loginPage.password')"
+                            :type="showPassword ? 'text' : 'password'"
+                            :rules="[required]"
+                          >
+                            <template v-slot:append>
+                              <v-btn
+                                class="bg-black"
+                                :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                @click="showPassword = !showPassword"
+                              ></v-btn>
+                            </template>
+                          </v-text-field>
+
+                          <v-text-field
+                            v-model="registerData.confirmPassword"
+                            :label="$t('view.loginPage.passwordConfirmation')"
+                            :type="showPassword ? 'text' : 'password'"
+                            :rules="[required, samePasswordConfirmation]"
+                          >
+                            <template v-slot:append>
+                              <v-btn
+                                class="bg-black"
+                                :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                @click="showPassword = !showPassword"
+                              ></v-btn>
+                            </template>
+                          </v-text-field>
+                        </div>
                       </div>
 
-                      <v-card-title class="text-h6 font-weight-bold px-0 pt-0">
-                        {{ $t('view.loginPage.dateDeNaissance') }}
-                      </v-card-title>
-
-                      <v-card-text class="text-disabled text-caption px-0 fs-7">
-                        {{ $t('view.loginPage.dateNaissanceParagraphe') }}
-                      </v-card-text>
-
-                      <v-row>
-                        <v-col class="pb-0">
-                          <v-select
-                            v-model="registerData.month"
-                            :label="$t('view.loginPage.mois')"
-                            :items="listOfMonths"
-                            :rules="[required]"
-                            :readonly="!loginStore.loading"
-                          ></v-select>
-                        </v-col>
-                        <v-col class="pb-0">
-                          <v-select
-                            v-model="registerData.day"
-                            :label="$t('view.loginPage.jour')"
-                            :items="listOfDays"
-                            :rules="[required]"
-                            :readonly="!loginStore.loading"
-                          ></v-select>
-                        </v-col>
-                        <v-col class="pb-0">
-                          <v-select
-                            v-model="registerData.year"
-                            :label="$t('view.loginPage.annee')"
-                            :items="listOfYears"
-                            :rules="[required]"
-                            :readonly="!loginStore.loading"
-                          ></v-select>
-                        </v-col>
-
-                        <v-col cols="12" class="pt-0">
-                          <span v-if="!isOver18 && isOver18 !== null" class="text-red fs-7">
-                            Vous devez avoir au moins 18 ans pour vous inscrire.
-                          </span>
-                        </v-col>
-                      </v-row>
-                    </div>
-                    <div v-else class="px-12 py-4">
-                      <v-card-title class="text-h4 font-weight-bold px-0 pt-0">
-                        {{ $t('view.loginPage.setPassword') }}
-                      </v-card-title>
-
-                      <div class="pb-4">
-                        <v-text-field
-                          v-model="registerData.password"
-                          :label="$t('view.loginPage.password')"
-                          :type="showPassword ? 'text' : 'password'"
-                          :rules="[required]"
-                          :readonly="!loginStore.loading"
+                      <div class="mt-auto px-12 pb-8">
+                        <v-btn
+                          v-if="registerStep == 1"
+                          size="large"
+                          class="bg-white w-100"
+                          :disabled="!canRegisterStep1 || !isOver18"
+                          @click="registerStep = 2"
                         >
-                          <template v-slot:append>
-                            <v-btn
-                              class="bg-black"
-                              :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                              @click="showPassword = !showPassword"
-                            ></v-btn>
-                          </template>
-                        </v-text-field>
-
-                        <v-text-field
-                          v-model="registerData.confirmPassword"
-                          :label="$t('view.loginPage.passwordConfirmation')"
-                          :type="showPassword ? 'text' : 'password'"
-                          :rules="[required, samePasswordConfirmation]"
-                          :readonly="!loginStore.loading"
+                          {{ $t('view.loginPage.suivant') }}
+                        </v-btn>
+                        <v-btn
+                          v-else
+                          size="large"
+                          class="bg-white w-100"
+                          type="submit"
+                          :disabled="!canRegisterStep2"
                         >
-                          <template v-slot:append>
-                            <v-btn
-                              class="bg-black"
-                              :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                              @click="showPassword = !showPassword"
-                            ></v-btn>
-                          </template>
-                        </v-text-field>
+                          {{ $t('view.loginPage.createYourAccount') }}
+                        </v-btn>
                       </div>
-                    </div>
-
-                    <div class="mt-auto px-12 pb-8">
-                      <v-btn
-                        v-if="registerStep == 1"
-                        size="large"
-                        class="bg-white w-100"
-                        :disabled="!canRegisterStep1 || !isOver18"
-                        @click="registerStep = 2"
-                      >
-                        {{ $t('view.loginPage.suivant') }}
-                      </v-btn>
-                      <v-btn
-                        v-else
-                        size="large"
-                        class="bg-white w-100"
-                        type="submit"
-                        :disabled="!canRegisterStep2"
-                      >
-                        {{ $t('view.loginPage.createYourAccount') }}
-                      </v-btn>
-                    </div>
+                    </template>
                   </v-form>
                 </v-card>
               </template>
@@ -380,7 +388,7 @@
         </h3>
 
         <div class="d-none d-sm-flex">
-          <v-dialog>
+          <v-dialog v-model="dialogRegisterModelValue">
             <template v-slot:activator="{ props: activatorProps }">
               <v-btn
                 v-bind="activatorProps"
@@ -399,7 +407,19 @@
                 <v-card-actions>
                   <v-row>
                     <v-col class="d-flex align-center justify-start">
-                      <v-btn icon="mdi-close" size="large" @click="isActive.value = false"> </v-btn>
+                      <v-btn
+                        v-if="connectionStep === 1"
+                        icon="mdi-close"
+                        size="large"
+                        @click="isActive.value = false"
+                      >
+                      </v-btn>
+                      <v-btn
+                        v-else
+                        icon="mdi-arrow-left"
+                        size="large"
+                        @click="connectionStep = 1"
+                      ></v-btn>
                     </v-col>
                     <v-col class="d-flex align-center justify-center">
                       <v-img
@@ -418,69 +438,82 @@
                   style="height: 550px !important"
                   @submit.prevent="login"
                 >
-                  <div class="px-12 py-4">
-                    <v-card-title class="text-h4 font-weight-bold px-0 pt-0 text-wrap">
-                      {{ $t('view.loginPage.connectezVous') }}
-                    </v-card-title>
-
-                    <v-text-field
-                      type="email"
-                      :label="$t('view.loginPage.adresseEmail')"
-                      :disabled="connectionStep == 2"
-                      v-model="loginData.email"
-                      :rules="[required, email]"
-                    ></v-text-field>
-
-                    <v-text-field
-                      v-if="connectionStep == 2"
-                      :type="showPassword ? 'text' : 'password'"
-                      :label="$t('view.loginPage.motDePasse')"
-                      v-model="loginData.password"
-                      :rules="[required]"
-                    >
-                      <template v-slot:append>
-                        <v-btn
-                          class="bg-black"
-                          :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                          @click="showPassword = !showPassword"
-                        ></v-btn>
-                      </template>
-                    </v-text-field>
+                  <div
+                    v-if="loginStore.loading"
+                    class="fill-height d-flex justify-center align-center"
+                  >
+                    <v-progress-circular indeterminate></v-progress-circular>
                   </div>
 
-                  <div class="mt-auto px-12 pb-8">
-                    <v-btn
-                      v-if="connectionStep == 1"
-                      size="large"
-                      class="bg-white w-100"
-                      :disabled="
-                        loginData.email === '' || typeof email(loginData.email) === 'string'
-                      "
-                      @click="connectionStep = 2"
-                    >
-                      {{ $t('view.loginPage.suivant') }}
-                    </v-btn>
-                    <v-btn
-                      v-else
-                      :disabled="loginData.password === ''"
-                      size="large"
-                      class="bg-white w-100"
-                      type="submit"
-                    >
-                      {{ $t('view.loginPage.seConnecter') }}
-                    </v-btn>
+                  <template v-else>
+                    <div class="px-12 py-4">
+                      <v-card-title class="text-h4 font-weight-bold px-0 pt-0 text-wrap">
+                        {{ $t('view.loginPage.connectezVous') }}
+                      </v-card-title>
 
-                    <v-btn variant="outlined" class="w-100 mt-6">
-                      {{ $t('view.loginPage.motDePasseOublie') }}
-                    </v-btn>
-                  </div>
+                      <v-text-field
+                        type="email"
+                        :label="$t('view.loginPage.adresseEmail')"
+                        :disabled="connectionStep == 2"
+                        v-model="loginData.email"
+                        :rules="[required, email]"
+                      ></v-text-field>
+
+                      <v-text-field
+                        v-if="connectionStep == 2"
+                        :type="showPassword ? 'text' : 'password'"
+                        :label="$t('view.loginPage.motDePasse')"
+                        v-model="loginData.password"
+                        :rules="[required]"
+                      >
+                        <template v-slot:append>
+                          <v-btn
+                            class="bg-black"
+                            :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                            @click="showPassword = !showPassword"
+                          ></v-btn>
+                        </template>
+                      </v-text-field>
+                    </div>
+
+                    <div class="mt-auto px-12 pb-8">
+                      <v-btn
+                        v-if="connectionStep == 1"
+                        size="large"
+                        class="bg-white w-100"
+                        :disabled="
+                          loginData.email === '' || typeof email(loginData.email) === 'string'
+                        "
+                        @click="connectionStep = 2"
+                      >
+                        {{ $t('view.loginPage.suivant') }}
+                      </v-btn>
+                      <v-btn
+                        v-else
+                        :disabled="loginData.password === ''"
+                        size="large"
+                        class="bg-white w-100"
+                        type="submit"
+                      >
+                        {{ $t('view.loginPage.seConnecter') }}
+                      </v-btn>
+
+                      <v-btn variant="outlined" class="w-100 mt-6">
+                        {{ $t('view.loginPage.motDePasseOublie') }}
+                      </v-btn>
+                    </div>
+                  </template>
                 </v-form>
               </v-card>
             </template>
           </v-dialog>
         </div>
         <div class="d-flex d-sm-none">
-          <v-dialog transition="dialog-bottom-transition" fullscreen>
+          <v-dialog
+            v-model="dialogMobilModelValue"
+            transition="dialog-bottom-transition"
+            fullscreen
+          >
             <template v-slot:activator="{ props: activatorProps }">
               <v-btn
                 v-bind="activatorProps"
@@ -514,62 +547,71 @@
                 </v-card-actions>
 
                 <v-form class="d-flex flex-column fill-height" @submit.prevent="login">
-                  <div class="px-12 py-4">
-                    <v-card-title class="text-h4 font-weight-bold px-0 pt-0 text-wrap">
-                      {{ $t('view.loginPage.connectezVous') }}
-                    </v-card-title>
-
-                    <v-text-field
-                      type="email"
-                      :label="$t('view.loginPage.adresseEmail')"
-                      :disabled="connectionStep == 2"
-                      v-model="loginData.email"
-                      :rules="[required, email]"
-                    ></v-text-field>
-
-                    <v-text-field
-                      v-if="connectionStep == 2"
-                      :type="showPassword ? 'text' : 'password'"
-                      :label="$t('view.loginPage.motDePasse')"
-                      v-model="loginData.password"
-                      :rules="[required]"
-                    >
-                      <template v-slot:append>
-                        <v-btn
-                          class="bg-black"
-                          :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                          @click="showPassword = !showPassword"
-                        ></v-btn>
-                      </template>
-                    </v-text-field>
+                  <div
+                    v-if="loginStore.loading"
+                    class="fill-height d-flex justify-center align-center"
+                  >
+                    <v-progress-circular indeterminate></v-progress-circular>
                   </div>
 
-                  <div class="mt-auto px-12 pb-8">
-                    <v-btn
-                      v-if="connectionStep == 1"
-                      size="large"
-                      class="bg-white w-100"
-                      :disabled="
-                        loginData.email === '' || typeof email(loginData.email) === 'string'
-                      "
-                      @click="connectionStep = 2"
-                    >
-                      {{ $t('view.loginPage.suivant') }}
-                    </v-btn>
-                    <v-btn
-                      v-else
-                      :disabled="loginData.password === ''"
-                      size="large"
-                      class="bg-white w-100"
-                      type="submit"
-                    >
-                      {{ $t('view.loginPage.seConnecter') }}
-                    </v-btn>
+                  <template v-else>
+                    <div class="px-12 py-4">
+                      <v-card-title class="text-h4 font-weight-bold px-0 pt-0 text-wrap">
+                        {{ $t('view.loginPage.connectezVous') }}
+                      </v-card-title>
 
-                    <v-btn variant="outlined" class="w-100 mt-6">
-                      {{ $t('view.loginPage.motDePasseOublie') }}
-                    </v-btn>
-                  </div>
+                      <v-text-field
+                        type="email"
+                        :label="$t('view.loginPage.adresseEmail')"
+                        :disabled="connectionStep == 2"
+                        v-model="loginData.email"
+                        :rules="[required, email]"
+                      ></v-text-field>
+
+                      <v-text-field
+                        v-if="connectionStep == 2"
+                        :type="showPassword ? 'text' : 'password'"
+                        :label="$t('view.loginPage.motDePasse')"
+                        v-model="loginData.password"
+                        :rules="[required]"
+                      >
+                        <template v-slot:append>
+                          <v-btn
+                            class="bg-black"
+                            :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                            @click="showPassword = !showPassword"
+                          ></v-btn>
+                        </template>
+                      </v-text-field>
+                    </div>
+
+                    <div class="mt-auto px-12 pb-8">
+                      <v-btn
+                        v-if="connectionStep == 1"
+                        size="large"
+                        class="bg-white w-100"
+                        :disabled="
+                          loginData.email === '' || typeof email(loginData.email) === 'string'
+                        "
+                        @click="connectionStep = 2"
+                      >
+                        {{ $t('view.loginPage.suivant') }}
+                      </v-btn>
+                      <v-btn
+                        v-else
+                        :disabled="loginData.password === ''"
+                        size="large"
+                        class="bg-white w-100"
+                        type="submit"
+                      >
+                        {{ $t('view.loginPage.seConnecter') }}
+                      </v-btn>
+
+                      <v-btn variant="outlined" class="w-100 mt-6">
+                        {{ $t('view.loginPage.motDePasseOublie') }}
+                      </v-btn>
+                    </div>
+                  </template>
                 </v-form>
               </v-card>
             </template>
@@ -583,7 +625,10 @@
 <script setup lang="ts">
 import { useLoginStore } from '@/stores/loginStore'
 import { ref, reactive, computed } from 'vue'
+import { toast, type Id } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+import PageNameEnum from '@/core/types/enums/pageNameEnum'
 const { locale, t } = useI18n()
 
 import dayjs from 'dayjs'
@@ -594,6 +639,7 @@ dayjs.locale(locale.value)
 dayjs.extend(isSameOrAfter)
 
 const loginStore = useLoginStore()
+const router = useRouter()
 
 const listOfMonths = Array.from({ length: 12 }, (_, i) => i + 1)
 
@@ -601,9 +647,13 @@ const listOfDays = Array.from({ length: 31 }, (_, i) => i + 1)
 
 const listOfYears = Array.from({ length: 90 }, (_, i) => 2025 - i)
 
-const connectionStep = ref(1)
-const registerStep = ref(1)
-const showPassword = ref(false)
+const connectionStep = ref<number>(1)
+const registerStep = ref<number>(1)
+const showPassword = ref<boolean>(false)
+const dialogModelValue = ref<boolean>(false)
+const dialogRegisterModelValue = ref<boolean>(false)
+const dialogMobilModelValue = ref<boolean>(false)
+const dialogRegisterMobilModelValue = ref<boolean>(false)
 
 let loginData = reactive({
   email: '',
@@ -627,26 +677,35 @@ const handleDialogClose = (isOpen: boolean) => {
 }
 
 const login = async () => {
-  try {
-    await loginStore.login(loginData)
-  } catch (error) {
-    console.error('Erreur de connexion:', error)
+  const res = await loginStore.login(loginData)
+
+  if (res) {
+    // Close dialog
+    setFalseToDialog()
+
+    router.push({
+      name: PageNameEnum.MAIN,
+    })
+  } else {
+    toast.error(t('view.loginPage.loginError') as string)
   }
 }
 
 const register = async () => {
-  try {
-    const userInfo = {
-      username: registerData.username,
-      email: registerData.email,
-      birthdate: `${registerData.year}-${registerData.month}-${registerData.day}`,
-      password: registerData.password,
-    }
-
-    await loginStore.register(userInfo)
-  } catch (error) {
-    console.error("Erreur d'inscription:", error)
+  const userInfo = {
+    username: registerData.username,
+    email: registerData.email,
+    birthdate: `${registerData.year}-${registerData.month}-${registerData.day}`,
+    password: registerData.password,
   }
+
+  const res = await loginStore.register(userInfo)
+
+  // Close dialog
+  setFalseToDialog()
+
+  if (res) toast.success(t('view.loginPage.registerSuccess') as string)
+  else toast.error(t('view.loginPage.registerError') as string)
 }
 
 const resetState = () => {
@@ -662,6 +721,13 @@ const resetState = () => {
   registerData.year = null
   registerData.password = ''
   registerData.confirmPassword = ''
+}
+
+const setFalseToDialog = () => {
+  dialogModelValue.value = false
+  dialogMobilModelValue.value = false
+  dialogRegisterModelValue.value = false
+  dialogRegisterMobilModelValue.value = false
 }
 
 const required = (v: string) => !!v || t('view.loginPage.fieldRequired')
