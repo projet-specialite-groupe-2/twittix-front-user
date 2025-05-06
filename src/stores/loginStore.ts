@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { requestAuth } from './storeConfig'
+import { jwtDecode } from 'jwt-decode'
 
 interface TokenResponse {
   temporary_token: string
@@ -13,9 +14,20 @@ export const useLoginStore = defineStore('login', {
     token: null,
     loading: false,
   }),
-  persist: {
-    storage: localStorage,
-    key: 'token',
+  getters: {
+    isLogged() {
+      if (this.token) {
+        const payload = this.decodedPayloadToken
+        if (!payload) return false
+
+        return payload.exp >= Math.floor(Date.now() / 1000)
+      }
+      return false
+    },
+    decodedPayloadToken(this: { token: string | null }) {
+      if (!this.token) return null
+      return jwtDecode(this.token)
+    },
   },
   actions: {
     async login(data: Object) {

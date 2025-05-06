@@ -532,7 +532,19 @@
                 <v-card-actions>
                   <v-row>
                     <v-col class="d-flex align-center justify-start">
-                      <v-btn icon="mdi-close" size="large" @click="isActive.value = false"> </v-btn>
+                      <v-btn
+                        v-if="connectionStep === 1"
+                        icon="mdi-close"
+                        size="large"
+                        @click="isActive.value = false"
+                      >
+                      </v-btn>
+                      <v-btn
+                        v-else
+                        icon="mdi-arrow-left"
+                        size="large"
+                        @click="connectionStep = 1"
+                      ></v-btn>
                     </v-col>
                     <v-col class="d-flex align-center justify-center">
                       <v-img

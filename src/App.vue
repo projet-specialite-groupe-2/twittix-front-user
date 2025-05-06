@@ -65,17 +65,38 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
 import { useRoute } from 'vue-router'
 import NavigationComponent from './components/shared/NavigationComponent.vue'
 import MessageBox from './components/Message/MessageBox.vue'
 import PageNameEnum from './core/types/enums/pageNameEnum'
+import { useLoginStore } from '@/stores/loginStore'
 
 const route = useRoute()
+const loginStore = useLoginStore()
+const router = useRouter()
 
 const display = useDisplay()
 const isMobile = computed(() => display.smAndDown.value)
+
+watch(
+  () => loginStore.token,
+  (newToken: string | null) => {
+    // If the token is null, remove it from localStorage
+    if (newToken) localStorage.setItem('token', newToken)
+    else {
+      localStorage.removeItem('token')
+      router.push({ name: PageNameEnum.LOGIN })
+    }
+  }
+)
+
+onMounted(() => {
+  const token = window.localStorage.getItem('token')
+  if (token) loginStore.token = token
+})
 </script>
 
 <style scoped>
