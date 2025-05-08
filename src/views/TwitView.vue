@@ -86,6 +86,7 @@
           :twit-re-twit-number="'876'"
           :is-liked="item.isLiked ?? false"
           :id-re-twit="item.isRetwit ?? false"
+          v-on:openTwit="openTwit"
           v-on:like="likeTwit"
           v-on:retwit="reTwit"
           v-on:comment="openCommentDialog"
@@ -112,12 +113,14 @@
 import AddComment from '@/components/twit/addCommentComponent.vue';
 import TwitComponent from '@/components/twit/twitComponent.vue';
 import { Twit, type User } from '@/core/api';
-import router from '@/router';
+import PageNameEnum from '@/core/types/enums/pageNameEnum';
 import type { Ref } from 'vue';
 import { onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const twit: Ref<Twit | undefined> = ref(undefined)
-const twitId: Ref<number> = ref(router.currentRoute.value.params.idTwit as unknown as number)
+const twitId: Ref<number> = ref(+router.currentRoute.value.params.idTwit)
 
 const commentTwitDialog = ref<boolean>(false)
 const commentary: Ref<Array<Twit>> = ref([])
@@ -130,10 +133,10 @@ const twitText = ref<string>('')
 const userPictureURL =   'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maupassant_par_Nadar.jpg/440px-Maupassant_par_Nadar.jpg'
 
 onMounted(async () => {
-  twit.value = await getTwit();
+  twit.value = await getTwit(undefined);
 
   for (let i = 0; i < 30; i++) {
-    const res = await getTwit()
+    const res = await getTwit(i)
     commentary.value.push(res)
   }
 });
@@ -153,9 +156,9 @@ function progressCircularColor(): string {
   return 'red'
 }
 
-async function getTwit(): Promise<Twit> {
+async function getTwit(id: number | undefined): Promise<Twit> {
   return {
-    id: twitId.value,
+    id: id ? id : twitId.value,
     content:
       '⚽🔥 *Inazuma Eleven* : Le rêve de tous les fans de foot ⚡! Des matchs de folie, des techniques super puissantes 💥 et des personnages inoubliables 👕! \n\nLa Team Raimon 🏆 et ses héros comme Mark Evans 🧢, Axel Blaze 🔥 et la légende de la Tornado 🔄 qui nous font vibrer à chaque épisode! 😍⚡\n\nQui est votre joueur préféré? 🤔🎮 \n#InazumaEleven #Football #Anime #GénérationTornade',
     author: {
@@ -168,8 +171,7 @@ async function getTwit(): Promise<Twit> {
       username: 'johndoe',
       biography: 'Passionate about technology and coding.',
       birthdate: '1995-06-15',
-      profileImgPath:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maupassant_par_Nadar.jpg/440px-Maupassant_par_Nadar.jpg',
+      profileImgPath: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maupassant_par_Nadar.jpg/440px-Maupassant_par_Nadar.jpg',
       private: false,
       active: true,
       banned: false,
@@ -177,7 +179,7 @@ async function getTwit(): Promise<Twit> {
       conversations: [],
       messages: [],
       userIdentifier: '@johndoe123',
-    } as User,
+    } as unknown as User,
     status: Twit.status.PUBLISHED,
     parent: null,
     createdAt: '2025-03-07T08:54:25+00:00',
@@ -200,6 +202,10 @@ function commentDialogAction(confirm: boolean, data?: unknown) {
     // Todo with APIs
   }
   commentTwitDialog.value = false
+}
+
+function openTwit(id: number) {
+  router.push({ name: PageNameEnum.TWIT, params : { idTwit: id } })
 }
 
 </script>

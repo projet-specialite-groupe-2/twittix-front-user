@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import router from '@/router'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
 import AddTwitPopupComponent from '../twit/addTwitPopupComponent.vue'
 import { ref } from 'vue'
 import { useLoginStore } from '@/stores/loginStore'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const { t } = useI18n()
 const loginStore = useLoginStore()
 const props = defineProps<{ footerMode: boolean }>()

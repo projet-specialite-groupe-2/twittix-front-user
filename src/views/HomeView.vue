@@ -91,9 +91,10 @@ import AddTwitComponent from '@/components/twit/addTwitComponent.vue'
 import TwitComponent from '@/components/twit/twitComponent.vue'
 import { Twit, type User } from '@/core/api'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
-import router from '@/router'
 import { ref, type Ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter();
 const isForYouView = ref<boolean>(true)
 const twitId = ref<number>(1)
 
