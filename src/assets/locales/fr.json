@@ -46,7 +46,11 @@
             "username": "Nom d'utilisateur",
             "registerSuccess": "Inscription réussie. Veuillez vérifier votre e-mail pour confirmer votre compte.",
             "registerError": "Erreur lors de l'inscription",
-            "loginError": "Erreur de connexion"
+            "loginError": "Erreur de connexion",
+            "authCodeError": "Erreur de code d'authentification",
+            "validateAuthCode": "Valider le code",
+            "authCode": "Code d'authentification",
+            "emailAuthCode": "Un code de validation a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception."
         },
         "messagesPage": {
             "title": "Messages",
@@ -90,6 +94,7 @@
         }
     },
     "errors": {
-        "somethingWentWrong": "Quelque chose s'est mal passé"
+        "somethingWentWrong": "Quelque chose s'est mal passé",
+        "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter."
     }
 }

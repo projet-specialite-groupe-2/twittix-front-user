@@ -4,8 +4,10 @@ import router from '@/router'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
 import AddTwitPopupComponent from '../twit/addTwitPopupComponent.vue'
 import { ref } from 'vue'
+import { useLoginStore } from '@/stores/loginStore'
 
 const { t } = useI18n()
+const loginStore = useLoginStore()
 const props = defineProps<{ footerMode: boolean }>()
 const addTwitDialog = ref<boolean>()
 
@@ -44,8 +46,7 @@ function createPost() {
 }
 
 function disconnectUser() {
-  console.log('disconnect user')
-  // TODO
+  loginStore.logout()
 }
 
 function addTwitDialogAction(confirm: boolean, data?: unknown) {

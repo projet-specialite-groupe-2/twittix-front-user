@@ -415,10 +415,16 @@
                       >
                       </v-btn>
                       <v-btn
-                        v-else
+                        v-else-if="connectionStep === 2"
                         icon="mdi-arrow-left"
                         size="large"
                         @click="connectionStep = 1"
+                      ></v-btn>
+                      <v-btn
+                        v-else
+                        icon="mdi-arrow-left"
+                        size="large"
+                        @click="connectionStep = 2"
                       ></v-btn>
                     </v-col>
                     <v-col class="d-flex align-center justify-center">
@@ -451,34 +457,45 @@
                         {{ $t('view.loginPage.connectezVous') }}
                       </v-card-title>
 
-                      <v-text-field
-                        type="email"
-                        :label="$t('view.loginPage.adresseEmail')"
-                        :disabled="connectionStep == 2"
-                        v-model="loginData.email"
-                        :rules="[required, email]"
-                      ></v-text-field>
+                      <template v-if="connectionStep !== 3">
+                        <v-text-field
+                          type="email"
+                          :label="$t('view.loginPage.adresseEmail')"
+                          :disabled="connectionStep === 2"
+                          v-model="loginData.email"
+                          :rules="[required, email]"
+                        ></v-text-field>
 
-                      <v-text-field
-                        v-if="connectionStep == 2"
-                        :type="showPassword ? 'text' : 'password'"
-                        :label="$t('view.loginPage.motDePasse')"
-                        v-model="loginData.password"
-                        :rules="[required]"
-                      >
-                        <template v-slot:append>
-                          <v-btn
-                            class="bg-black"
-                            :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                            @click="showPassword = !showPassword"
-                          ></v-btn>
-                        </template>
-                      </v-text-field>
+                        <v-text-field
+                          v-if="connectionStep === 2"
+                          :type="showPassword ? 'text' : 'password'"
+                          :label="$t('view.loginPage.motDePasse')"
+                          v-model="loginData.password"
+                          :rules="[required]"
+                        >
+                          <template v-slot:append>
+                            <v-btn
+                              class="bg-black"
+                              :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                              @click="showPassword = !showPassword"
+                            ></v-btn>
+                          </template>
+                        </v-text-field>
+                      </template>
+                      <template v-else>
+                        <v-text-field
+                          type="number"
+                          :label="$t('view.loginPage.authCode')"
+                          v-model="askedCodeForAuth"
+                          control-variant="hidden"
+                          :rules="[required]"
+                        ></v-text-field>
+                      </template>
                     </div>
 
                     <div class="mt-auto px-12 pb-8">
                       <v-btn
-                        v-if="connectionStep == 1"
+                        v-if="connectionStep === 1"
                         size="large"
                         class="bg-white w-100"
                         :disabled="
@@ -488,14 +505,25 @@
                       >
                         {{ $t('view.loginPage.suivant') }}
                       </v-btn>
+
                       <v-btn
-                        v-else
+                        v-else-if="connectionStep === 2"
                         :disabled="loginData.password === ''"
                         size="large"
                         class="bg-white w-100"
                         type="submit"
                       >
                         {{ $t('view.loginPage.seConnecter') }}
+                      </v-btn>
+
+                      <v-btn
+                        v-else-if="connectionStep === 3"
+                        :disabled="askedCodeForAuth === ''"
+                        size="large"
+                        class="bg-white w-100"
+                        type="submit"
+                      >
+                        {{ $t('view.loginPage.validateAuthCode') }}
                       </v-btn>
 
                       <v-btn variant="outlined" class="w-100 mt-6">
@@ -540,10 +568,16 @@
                       >
                       </v-btn>
                       <v-btn
-                        v-else
+                        v-else-if="connectionStep === 2"
                         icon="mdi-arrow-left"
                         size="large"
                         @click="connectionStep = 1"
+                      ></v-btn>
+                      <v-btn
+                        v-else
+                        icon="mdi-arrow-left"
+                        size="large"
+                        @click="connectionStep = 2"
                       ></v-btn>
                     </v-col>
                     <v-col class="d-flex align-center justify-center">
@@ -558,7 +592,11 @@
                   </v-row>
                 </v-card-actions>
 
-                <v-form class="d-flex flex-column fill-height" @submit.prevent="login">
+                <v-form
+                  class="d-flex flex-column fill-height"
+                  style="height: 550px !important"
+                  @submit.prevent="login"
+                >
                   <div
                     v-if="loginStore.loading"
                     class="fill-height d-flex justify-center align-center"
@@ -572,34 +610,45 @@
                         {{ $t('view.loginPage.connectezVous') }}
                       </v-card-title>
 
-                      <v-text-field
-                        type="email"
-                        :label="$t('view.loginPage.adresseEmail')"
-                        :disabled="connectionStep == 2"
-                        v-model="loginData.email"
-                        :rules="[required, email]"
-                      ></v-text-field>
+                      <template v-if="connectionStep !== 3">
+                        <v-text-field
+                          type="email"
+                          :label="$t('view.loginPage.adresseEmail')"
+                          :disabled="connectionStep === 2"
+                          v-model="loginData.email"
+                          :rules="[required, email]"
+                        ></v-text-field>
 
-                      <v-text-field
-                        v-if="connectionStep == 2"
-                        :type="showPassword ? 'text' : 'password'"
-                        :label="$t('view.loginPage.motDePasse')"
-                        v-model="loginData.password"
-                        :rules="[required]"
-                      >
-                        <template v-slot:append>
-                          <v-btn
-                            class="bg-black"
-                            :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                            @click="showPassword = !showPassword"
-                          ></v-btn>
-                        </template>
-                      </v-text-field>
+                        <v-text-field
+                          v-if="connectionStep === 2"
+                          :type="showPassword ? 'text' : 'password'"
+                          :label="$t('view.loginPage.motDePasse')"
+                          v-model="loginData.password"
+                          :rules="[required]"
+                        >
+                          <template v-slot:append>
+                            <v-btn
+                              class="bg-black"
+                              :icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                              @click="showPassword = !showPassword"
+                            ></v-btn>
+                          </template>
+                        </v-text-field>
+                      </template>
+                      <template v-else>
+                        <v-text-field
+                          type="number"
+                          :label="$t('view.loginPage.authCode')"
+                          v-model="askedCodeForAuth"
+                          control-variant="hidden"
+                          :rules="[required]"
+                        ></v-text-field>
+                      </template>
                     </div>
 
                     <div class="mt-auto px-12 pb-8">
                       <v-btn
-                        v-if="connectionStep == 1"
+                        v-if="connectionStep === 1"
                         size="large"
                         class="bg-white w-100"
                         :disabled="
@@ -609,14 +658,25 @@
                       >
                         {{ $t('view.loginPage.suivant') }}
                       </v-btn>
+
                       <v-btn
-                        v-else
+                        v-else-if="connectionStep === 2"
                         :disabled="loginData.password === ''"
                         size="large"
                         class="bg-white w-100"
                         type="submit"
                       >
                         {{ $t('view.loginPage.seConnecter') }}
+                      </v-btn>
+
+                      <v-btn
+                        v-else-if="connectionStep === 3"
+                        :disabled="askedCodeForAuth === ''"
+                        size="large"
+                        class="bg-white w-100"
+                        type="submit"
+                      >
+                        {{ $t('view.loginPage.validateAuthCode') }}
                       </v-btn>
 
                       <v-btn variant="outlined" class="w-100 mt-6">
@@ -636,7 +696,7 @@
 
 <script setup lang="ts">
 import { useLoginStore } from '@/stores/loginStore'
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { toast, type Id } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
@@ -667,6 +727,8 @@ const dialogRegisterModelValue = ref<boolean>(false)
 const dialogMobilModelValue = ref<boolean>(false)
 const dialogRegisterMobilModelValue = ref<boolean>(false)
 
+let askedCodeForAuth = ref<string | null>('')
+
 let loginData = reactive({
   email: '',
   password: '',
@@ -689,17 +751,36 @@ const handleDialogClose = (isOpen: boolean) => {
 }
 
 const login = async () => {
+  if (connectionStep.value === 3) {
+    await askForAuthToken()
+    return
+  }
+
   const res = await loginStore.login(loginData)
 
   if (res) {
+    // Pass to the last step
+    connectionStep.value = 3
+    toast.success(t('view.loginPage.emailAuthCode') as string)
+  } else {
+    toast.error(t('view.loginPage.loginError') as string)
+  }
+}
+
+const askForAuthToken = async () => {
+  const resToken = await loginStore.askCodeForToken({
+    email: loginData.email,
+    code: Number(askedCodeForAuth.value),
+  })
+
+  if (resToken) {
     // Close dialog
     setFalseToDialog()
 
-    router.push({
-      name: PageNameEnum.MAIN,
-    })
+    // Redirect to the main page
+    router.push({ name: PageNameEnum.MAIN })
   } else {
-    toast.error(t('view.loginPage.loginError') as string)
+    toast.error(t('view.loginPage.authCodeError') as string)
   }
 }
 
@@ -733,6 +814,7 @@ const resetState = () => {
   registerData.year = null
   registerData.password = ''
   registerData.confirmPassword = ''
+  askedCodeForAuth.value = ''
 }
 
 const setFalseToDialog = () => {

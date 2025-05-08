@@ -93,9 +93,22 @@ watch(
   }
 )
 
+watch(
+  () => loginStore.refreshToken,
+  (newRefreshToken: string | null) => {
+    // If the refresh token is null, remove it from localStorage
+    if (newRefreshToken) localStorage.setItem('refreshToken', newRefreshToken)
+    else {
+      localStorage.removeItem('refreshToken')
+    }
+  }
+)
+
 onMounted(() => {
   const token = window.localStorage.getItem('token')
+  const refreshToken = window.localStorage.getItem('refreshToken')
   if (token) loginStore.token = token
+  if (refreshToken) loginStore.refreshToken = refreshToken
 })
 </script>
 

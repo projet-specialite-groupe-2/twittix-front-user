@@ -46,7 +46,11 @@
             "username": "Username",
             "registerSuccess": "Registration successful. Please check your email to confirm your account.",
             "registerError": "Registration error",
-            "loginError": "Login error"
+            "loginError": "Login error",
+            "authCodeError": "Authentication code error",
+            "validateAuthCode": "Validate code",
+            "authCode": "Authentication code",
+            "emailAuthCode": "A validation code has been sent to your email address. Please check your inbox."
         },
         "messagesPage": {
             "title": "Messages",
@@ -81,6 +85,7 @@
         }
     },
     "errors": {
-        "somethingWentWrong": "Something went wrong"
+        "somethingWentWrong": "Something went wrong",
+        "sessionExpired": "Session expired"
     }
 }
