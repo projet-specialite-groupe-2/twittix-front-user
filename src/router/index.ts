@@ -1,5 +1,12 @@
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import {
+  createRouter,
+  createWebHistory,
+  type NavigationGuardNext,
+  type RouteLocationNormalized,
+  type RouteRecordRaw,
+} from 'vue-router'
+import { useLoginStore } from '@/stores/loginStore'
 
 const routes = [
   {
@@ -8,6 +15,7 @@ const routes = [
     component: () => import('../views/HomeView.vue'),
     meta: {
       sidebar: true,
+      mustBeAuthenticated: true,
     },
   },
   {
@@ -16,6 +24,7 @@ const routes = [
     component: () => import('../views/LoginView.vue'),
     meta: {
       sidebar: false,
+      mustBeUnauthenticated: true,
     },
   },
   {
@@ -25,7 +34,7 @@ const routes = [
       default: () => import('../views/MessagesView.vue'),
       message_details: () => import('../components/Message/MessageDetails.vue'),
     },
-    meta: { sidebar: true },
+    meta: { sidebar: true, mustBeAuthenticated: true },
   },
   {
     path: '/messages/:id',
@@ -34,7 +43,7 @@ const routes = [
       default: () => import('../views/MessagesView.vue'),
       message_details: () => import('../components/Message/MessageDetails.vue'),
     },
-    meta: { sidebar: true },
+    meta: { sidebar: true, mustBeAuthenticated: true },
   },
   {
     path: '/messages/:id/info',
@@ -43,7 +52,7 @@ const routes = [
       default: () => import('../views/MessagesView.vue'),
       message_details_info: () => import('../components/Message/MessageDetailsInfo.vue'),
     },
-    meta: { sidebar: true },
+    meta: { sidebar: true, mustBeAuthenticated: true },
   },
   {
     path: '/profil',
@@ -51,6 +60,7 @@ const routes = [
     component: () => import('@/views/ProfilView.vue'),
     meta: {
       sidebar: true,
+      mustBeAuthenticated: true,
     },
   },
   {
@@ -59,6 +69,7 @@ const routes = [
     component: () => import('@/views/ProfilView.vue'),
     meta: {
       sidebar: true,
+      mustBeAuthenticated: true,
     },
   },
 ] as RouteRecordRaw[]
@@ -68,22 +79,28 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach(
-//     (to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
-//         if (to.name === PageNameEnum.LOGIN && storeAuth().token) {
-//             next({ name: PageNameEnum.PROJECTS })
-//             return
-//         }
-//         if (to.meta.authenticated) {
-//             if (!storeAuth().token) {
-//                 next({ name: PageNameEnum.LOGIN })
-//                 return
-//             } else {
-//                 apiInterceptor()
-//             }
-//         }
-//         next()
-//     },
-// )
+router.beforeEach(
+  (to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
+    const userStore = useLoginStore()
+
+    if (to.meta.mustBeUnauthenticated && userStore.isLogged) {
+      // Avoid infinite redirection if the user is already on the target route
+      if (to.name !== PageNameEnum.MAIN) {
+        next({ name: PageNameEnum.MAIN })
+      } else {
+        next()
+      }
+    } else if (to.meta.mustBeAuthenticated && !userStore.isLogged) {
+      // Avoid infinite redirection if the user is already on the target route
+      if (to.name !== PageNameEnum.LOGIN) {
+        next({ name: PageNameEnum.LOGIN })
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
+  }
+)
 
 export default router

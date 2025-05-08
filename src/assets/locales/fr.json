@@ -22,6 +22,13 @@
             "title": "Ça se passe maintenant",
             "inscription": "Inscrivez-vous.",
             "createAccount": "Créer un compte",
+            "setPassword": "Définir votre mot de passe",
+            "password": "Mot de passe",
+            "passwordConfirmation": "Confirmation du mot de passe",
+            "fieldRequired": "Ce champ est requis",
+            "invalidEmail": "Adresse e-mail invalide",
+            "invalidUsername": "Nom d'utilisateur invalide",
+            "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
             "hasAccount": "Vous avez déjà un compte ?",
             "confidentialite": "En vous inscrivant, vous acceptez les Conditions d'utilisation et la Politique de confidentialité, notamment l'Utilisation des cookies.",
             "seConnecter": "Se connecter",
@@ -35,7 +42,15 @@
             "motDePasseOublie": "Mot de passe oublié ?",
             "adresseEmail": "Adresse e-mail",
             "motDePasse": "Mot de passe",
-            "connectezVous": "Connectez-vous à Twittix"
+            "connectezVous": "Connectez-vous à Twittix",
+            "username": "Nom d'utilisateur",
+            "registerSuccess": "Inscription réussie. Veuillez vérifier votre e-mail pour confirmer votre compte.",
+            "registerError": "Erreur lors de l'inscription",
+            "loginError": "Erreur de connexion",
+            "authCodeError": "Erreur de code d'authentification",
+            "validateAuthCode": "Valider le code",
+            "authCode": "Code d'authentification",
+            "emailAuthCode": "Un code de validation a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception."
         },
         "messagesPage": {
             "title": "Messages",
@@ -79,6 +94,7 @@
         }
     },
     "errors": {
-        "somethingWentWrong": "Quelque chose s'est mal passé"
+        "somethingWentWrong": "Quelque chose s'est mal passé",
+        "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter."
     }
 }

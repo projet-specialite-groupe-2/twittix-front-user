@@ -65,17 +65,51 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
 import { useRoute } from 'vue-router'
 import NavigationComponent from './components/shared/NavigationComponent.vue'
 import MessageBox from './components/Message/MessageBox.vue'
 import PageNameEnum from './core/types/enums/pageNameEnum'
+import { useLoginStore } from '@/stores/loginStore'
 
 const route = useRoute()
+const loginStore = useLoginStore()
+const router = useRouter()
 
 const display = useDisplay()
 const isMobile = computed(() => display.smAndDown.value)
+
+watch(
+  () => loginStore.token,
+  (newToken: string | null) => {
+    // If the token is null, remove it from localStorage
+    if (newToken) localStorage.setItem('token', newToken)
+    else {
+      localStorage.removeItem('token')
+      router.push({ name: PageNameEnum.LOGIN })
+    }
+  }
+)
+
+watch(
+  () => loginStore.refreshToken,
+  (newRefreshToken: string | null) => {
+    // If the refresh token is null, remove it from localStorage
+    if (newRefreshToken) localStorage.setItem('refreshToken', newRefreshToken)
+    else {
+      localStorage.removeItem('refreshToken')
+    }
+  }
+)
+
+onMounted(() => {
+  const token = window.localStorage.getItem('token')
+  const refreshToken = window.localStorage.getItem('refreshToken')
+  if (token) loginStore.token = token
+  if (refreshToken) loginStore.refreshToken = refreshToken
+})
 </script>
 
 <style scoped>

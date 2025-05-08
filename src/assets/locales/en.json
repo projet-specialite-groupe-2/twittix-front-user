@@ -22,6 +22,13 @@
             "title": "It's happening now",
             "inscription": "Sign up.",
             "createAccount": "Create an account",
+            "setPassword": "Set your password",
+            "password": "Password",
+            "passwordConfirmation": "Password confirmation",
+            "fieldRequired": "This field is required",
+            "invalidEmail": "Invalid email address",
+            "invalidUsername": "Invalid username",
+            "passwordsDoNotMatch": "Passwords do not match",
             "hasAccount": "Already have an account?",
             "confidentialite": "By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.",
             "seConnecter": "Log in",
@@ -35,7 +42,15 @@
             "motDePasseOublie": "Forgot password?",
             "adresseEmail": "Email address",
             "motDePasse": "Password",
-            "connectezVous": "Log in to Twittix"
+            "connectezVous": "Log in to Twittix",
+            "username": "Username",
+            "registerSuccess": "Registration successful. Please check your email to confirm your account.",
+            "registerError": "Registration error",
+            "loginError": "Login error",
+            "authCodeError": "Authentication code error",
+            "validateAuthCode": "Validate code",
+            "authCode": "Authentication code",
+            "emailAuthCode": "A validation code has been sent to your email address. Please check your inbox."
         },
         "messagesPage": {
             "title": "Messages",
@@ -70,6 +85,7 @@
         }
     },
     "errors": {
-        "somethingWentWrong": "Something went wrong"
+        "somethingWentWrong": "Something went wrong",
+        "sessionExpired": "Session expired"
     }
 }

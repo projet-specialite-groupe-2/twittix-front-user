@@ -73,7 +73,9 @@ app.use(Vue3Toastify, {
 app.use(vuetify)
 app.use(i18n)
 
-app.use(createPinia())
+const pinia = createPinia()
+
+app.use(pinia)
 app.use(router)
 
 app.mount('#app')
