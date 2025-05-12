@@ -6,7 +6,6 @@ import { onMounted, ref, type Ref } from 'vue'
 import { useLoginStore } from '@/stores/loginStore'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
-import type { User } from '@/core/api'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -16,17 +15,13 @@ const userStore = useUserStore()
 const props = defineProps<{ footerMode: boolean }>()
 const addTwitDialog = ref<boolean>()
 
-const currentUser: Ref<User | undefined> = ref<User | undefined>(undefined)
-
 const dropdownUserItems: Ref<Array<{ title: string; click: () => void; }>> = ref([])
 
 onMounted(() => {
   userStore.fetchCurrentUser()
-  if(userStore.userProfil)
-    currentUser.value = userStore.userProfil
 
   dropdownUserItems.value = [
-  { title: `${t('components.navigationForm.disconnectFrom')} @${currentUser.value?.userIdentifier}`, click: disconnectUser },
+  { title: `${t('components.navigationForm.disconnectFrom')} @${userStore.userProfil?.userIdentifier}`, click: disconnectUser },
 ]
 })
 
@@ -157,13 +152,13 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
               v-bind="props"
             >
               <template v-slot:subtitle>
-                <p>{{ currentUser?.userIdentifier }}</p>
+                <p>{{ userStore.userProfil?.userIdentifier }}</p>
               </template>
               <template v-slot:title>
-                <p>{{ currentUser?.username }}</p>
+                <p>{{ userStore.userProfil?.username }}</p>
               </template>
               <template v-slot:prepend>
-                <v-avatar :image="currentUser?.profileImgPath" size="45"></v-avatar>
+                <v-avatar :image="userStore.userProfil?.profileImgPath" size="45"></v-avatar>
               </template>
               <template v-slot:append>
                 <v-icon icon="mdi-dots-horizontal"></v-icon>
@@ -203,7 +198,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
   <v-overlay v-model="addTwitDialog" persistent />
   <AddTwitPopupComponent
     v-if="addTwitDialog"
-    :user-picture-url="currentUser?.profileImgPath ?? ''"
+    :user-picture-url="userStore.userProfil?.profileImgPath ?? ''"
     :open="addTwitDialog"
     v-on:submit:form="addTwitDialogAction"
   ></AddTwitPopupComponent>

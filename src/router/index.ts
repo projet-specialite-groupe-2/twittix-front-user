@@ -87,28 +87,28 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach(
-//   (to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
-//     const userStore = useLoginStore()
+router.beforeEach(
+  (to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
+    const userStore = useLoginStore()
 
-//     if (to.meta.mustBeUnauthenticated && userStore.isLogged) {
-//       // Avoid infinite redirection if the user is already on the target route
-//       if (to.name !== PageNameEnum.MAIN) {
-//         next({ name: PageNameEnum.MAIN })
-//       } else {
-//         next()
-//       }
-//     } else if (to.meta.mustBeAuthenticated && !userStore.isLogged) {
-//       // Avoid infinite redirection if the user is already on the target route
-//       if (to.name !== PageNameEnum.LOGIN) {
-//         next({ name: PageNameEnum.LOGIN })
-//       } else {
-//         next()
-//       }
-//     } else {
-//       next()
-//     }
-//   }
-// )
+    if (to.meta.mustBeUnauthenticated && userStore.isLogged) {
+      // Avoid infinite redirection if the user is already on the target route
+      if (to.name !== PageNameEnum.MAIN) {
+        next({ name: PageNameEnum.MAIN })
+      } else {
+        next()
+      }
+    } else if (to.meta.mustBeAuthenticated && !userStore.isLogged) {
+      // Avoid infinite redirection if the user is already on the target route
+      if (to.name !== PageNameEnum.LOGIN) {
+        next({ name: PageNameEnum.LOGIN })
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
+  }
+)
 
 export default router
