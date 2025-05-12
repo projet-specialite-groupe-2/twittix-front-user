@@ -72,6 +72,16 @@
             date="12 Janv"
             sub-title="Ca va ?"
           />
+
+          <MessageCard
+            v-for="conversation in conversationList"
+            :key="conversation.id"
+            :id="conversation.id?.toString() ?? ''"
+            :profile-name="conversation.title ?? ''"
+            :username="conversation.title ?? ''"
+            :date="conversation.createdAt ?? ''"
+            :sub-title="''"
+          />
         </v-col>
       </v-col>
     </v-row>
@@ -79,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import SearchInput from '@/components/Fields/SearchInput.vue'
 import MessageCard from '@/components/Message/MessageCard.vue'
 import NewMessageDialog from '@/components/Message/NewMessageDialog.vue'
@@ -93,11 +103,13 @@ onMounted(() => {
 })
 
 const conversationList = computed(() => {
-  if (conversationStore.loading || !conversationStore.conversationList) {
-    return null
+  if (conversationStore.loading || !conversationStore.conversationList?.length) {
+    return []
   }
   return conversationStore.conversationList
 })
 
-console.log(conversationList.value)
+watch(conversationList, newVal => {
+  console.log('Liste des conversations :', newVal)
+})
 </script>

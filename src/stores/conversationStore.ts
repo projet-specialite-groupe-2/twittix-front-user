@@ -15,13 +15,13 @@ export const useConversationStore = defineStore('conversation', {
       const projectService: ConversationService = new ConversationService(request)
       this.loading = true
 
-      const conversation: Array<Conversation> = await projectService.apiConversationsGetCollection({
+      const conversation = await projectService.apiConversationsGetCollection({
         page: 1,
       })
 
       this.loading = false
 
-      if (!conversation || conversation.length === 0) {
+      if (conversation?.length === 0) {
         this.conversationList = []
         return
       }
