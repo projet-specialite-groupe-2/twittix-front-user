@@ -28,7 +28,6 @@ const vuetify = createVuetify({
       ripple: false,
       style: 'text-transform: none; letter-spacing: 0; font-weight: bold;',
     },
-
     VDialog: {
       maxWidth: '600',
       minHeight: '630',
@@ -43,7 +42,7 @@ const vuetify = createVuetify({
   theme: {
     themes: {
       light: {
-        dark: false,
+        dark: true,
         colors: {
           background: '#000000',
           primary: '#000000',

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { toRef } from 'vue';
 import AddTwitComponent from './addTwitComponent.vue';
-import { da } from 'vuetify/locale';
 
 
 const props = defineProps<{
