@@ -82,6 +82,11 @@
             "userNotFound": "User not found",
             "name": "Name",
             "bio": "Bio"
+        },
+        "twitView": {
+            "posts": "Posts",
+            "comment": "Post your reply",
+            "reply": "Reply"
         }
     },
     "errors": {

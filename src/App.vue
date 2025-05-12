@@ -8,7 +8,7 @@
         </v-col>
 
         <v-col cols="4" md="8" lg="4" class="fill-height">
-          <router-view id="content_page" v-slot="{ Component }">
+          <router-view :key="$route.fullPath" id="content_page" v-slot="{ Component }">
             <component :is="Component" />
           </router-view>
         </v-col>

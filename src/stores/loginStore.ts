@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { requestAuth } from './storeConfig'
 import { jwtDecode } from 'jwt-decode'
+import type { JwtPayload } from 'jwt-decode'
 
 interface TempTokenResponse {
   temporary_token: string
@@ -26,10 +27,10 @@ export const useLoginStore = defineStore('login', {
   getters: {
     isLogged() {
       if (this.token) {
-        const payload = this.decodedPayloadToken
+        const payload = this.decodedPayloadToken as JwtPayload
         if (!payload) return false
 
-        return payload.exp >= Math.floor(Date.now() / 1000)
+        return payload.exp !== undefined && payload.exp >= Math.floor(Date.now() / 1000)
       }
       return false
     },
@@ -46,7 +47,7 @@ export const useLoginStore = defineStore('login', {
       this.loading = false
     },
 
-    async login(data: Object) {
+    async login(data: object) {
       try {
         this.loading = true
 
@@ -61,14 +62,14 @@ export const useLoginStore = defineStore('login', {
         if (token.temporary_token !== undefined) this.temporaryToken = token.temporary_token
 
         return true
-      } catch (error) {
+      } catch {
         this.loading = false
         this.temporaryToken = null
         return false
       }
     },
 
-    async askCodeForToken(data: Object) {
+    async askCodeForToken(data: object) {
       try {
         this.loading = true
 
@@ -87,7 +88,7 @@ export const useLoginStore = defineStore('login', {
         if (token.refresh_token !== undefined) this.refreshToken = token.refresh_token
 
         return true
-      } catch (error) {
+      } catch {
         this.loading = false
         this.token = null
         this.refreshToken = null
@@ -95,7 +96,7 @@ export const useLoginStore = defineStore('login', {
       }
     },
 
-    async register(data: Object) {
+    async register(data: object) {
       try {
         this.loading = true
 
@@ -107,7 +108,7 @@ export const useLoginStore = defineStore('login', {
 
         this.loading = false
         return res
-      } catch (error) {
+      } catch {
         this.loading = false
         return null
       }
