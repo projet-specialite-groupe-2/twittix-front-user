@@ -79,7 +79,25 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted } from 'vue'
 import SearchInput from '@/components/Fields/SearchInput.vue'
 import MessageCard from '@/components/Message/MessageCard.vue'
 import NewMessageDialog from '@/components/Message/NewMessageDialog.vue'
+import { useConversationStore } from '@/stores/conversationStore'
+
+const conversationStore = useConversationStore()
+
+onMounted(() => {
+  // Load conversation list
+  conversationStore.fetchConversationList()
+})
+
+const conversationList = computed(() => {
+  if (conversationStore.loading || !conversationStore.conversationList) {
+    return null
+  }
+  return conversationStore.conversationList
+})
+
+console.log(conversationList.value)
 </script>

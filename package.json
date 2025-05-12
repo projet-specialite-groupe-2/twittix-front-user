@@ -14,7 +14,7 @@
         "lint": "eslint . --fix",
         "format": "prettier --write src/",
         "openapi:local": "rm -rf ./src/core/api && npx openapi-typescript-codegen -i .openapi.json -o ./src/core/api -c axios --name ApiClient --useOptions",
-        "openapi:generate": "node ./src/scripts/generate-api-service.js && eslint --fix ./src/core/api --ext ts --ext tsx --ext js --ext jsx"
+        "openapi:generate": "node ./src/scripts/generate-api-service.js && eslint --fix ./src/core/api"
     },
     "dependencies": {
         "@mdi/font": "^7.4.47",
