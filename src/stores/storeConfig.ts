@@ -38,7 +38,7 @@ async function refreshToken() {
     loginStore.token = token
     loginStore.refreshToken = newRefreshToken
     return token
-  } catch (error) {
+  } catch {
     loginStore.token = null
     loginStore.refreshToken = null
     throw new Error('Failed to refresh token')

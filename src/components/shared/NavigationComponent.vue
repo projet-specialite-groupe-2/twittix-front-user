@@ -2,40 +2,46 @@
 import { useI18n } from 'vue-i18n'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
 import AddTwitPopupComponent from '../twit/addTwitPopupComponent.vue'
-import { ref } from 'vue'
+import { onMounted, ref, type Ref } from 'vue'
 import { useLoginStore } from '@/stores/loginStore'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
+import type { User } from '@/core/api'
 
 const router = useRouter()
 const { t } = useI18n()
 const loginStore = useLoginStore()
+const userStore = useUserStore()
+
 const props = defineProps<{ footerMode: boolean }>()
 const addTwitDialog = ref<boolean>()
 
-const userId = '@RealEl_Floww'
-const username = 'Florent'
-const userPictureURL =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maupassant_par_Nadar.jpg/440px-Maupassant_par_Nadar.jpg'
+const currentUser: Ref<User | undefined> = ref<User | undefined>(undefined)
 
-const dropdownUserItems = [
-  { title: `${t('components.navigationForm.disconnectFrom')} ${userId}`, click: disconnectUser },
+const dropdownUserItems: Ref<Array<{ title: string; click: () => void; }>> = ref([])
+
+onMounted(() => {
+  userStore.fetchCurrentUser()
+  if(userStore.userProfil)
+    currentUser.value = userStore.userProfil
+
+  dropdownUserItems.value = [
+  { title: `${t('components.navigationForm.disconnectFrom')} @${currentUser.value?.userIdentifier}`, click: disconnectUser },
 ]
+})
+
 
 function goToHome() {
-  console.log('home')
   router.push('/')
 }
 
 function goToExplore() {
-  console.log('explore')
   router.push('/explore')
   // TODO
 }
 
 function goToMessages() {
-  console.log('messages')
   router.push('/messages')
-  // TODO
 }
 
 function goToProfil() {
@@ -151,13 +157,13 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
               v-bind="props"
             >
               <template v-slot:subtitle>
-                <p>{{ userId }}</p>
+                <p>{{ currentUser?.userIdentifier }}</p>
               </template>
               <template v-slot:title>
-                <p>{{ username }}</p>
+                <p>{{ currentUser?.username }}</p>
               </template>
               <template v-slot:prepend>
-                <v-avatar :image="userPictureURL" size="45"></v-avatar>
+                <v-avatar :image="currentUser?.profileImgPath" size="45"></v-avatar>
               </template>
               <template v-slot:append>
                 <v-icon icon="mdi-dots-horizontal"></v-icon>
@@ -197,7 +203,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
   <v-overlay v-model="addTwitDialog" persistent />
   <AddTwitPopupComponent
     v-if="addTwitDialog"
-    :user-picture-url="userPictureURL"
+    :user-picture-url="currentUser?.profileImgPath ?? ''"
     :open="addTwitDialog"
     v-on:submit:form="addTwitDialogAction"
   ></AddTwitPopupComponent>

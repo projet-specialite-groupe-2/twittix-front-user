@@ -91,6 +91,11 @@
             "userNotFound": "Utilisateur introuvable",
             "name": "Nom",
             "bio": "Bio"
+        },
+        "twitView": {
+            "posts": "Posts",
+            "comment": "Poster votre réponse",
+            "reply": "Répondre"
         }
     },
     "errors": {

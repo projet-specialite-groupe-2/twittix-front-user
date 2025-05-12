@@ -1,14 +1,18 @@
 import { defineStore } from 'pinia'
-import { UserService, type User } from '@/core/api'
+import { Twit, UserService, type User } from '@/core/api'
 import request from './storeConfig'
+import { TwitsMockWithUser } from '@/core/mocks/twitMock'
+import { createUserMock } from '@/core/mocks/userMock'
 
 export const useUserStore = defineStore('user', {
   state: (): {
-    userProfil: User | null
+    userProfil: User | undefined
+    userTwits: Array<Twit>
     loading: boolean
   } => ({
-    userProfil: null,
+    userProfil: undefined,
     loading: false,
+    userTwits: [],
   }),
   actions: {
     async fetchUserProfil(username: string) {
@@ -23,7 +27,7 @@ export const useUserStore = defineStore('user', {
       this.loading = false
 
       if (!userProfil || userProfil.length === 0) {
-        this.userProfil = null
+        this.userProfil = undefined
         return
       }
 
@@ -42,7 +46,7 @@ export const useUserStore = defineStore('user', {
       this.loading = false
 
       if (!userProfil) {
-        this.userProfil = null
+        this.userProfil = undefined
         return { success: false }
       }
 
@@ -50,5 +54,18 @@ export const useUserStore = defineStore('user', {
 
       return { success: true }
     },
+
+    async fetchUserTwits() {
+      this.loading = true
+
+      this.userTwits = TwitsMockWithUser
+
+      this.loading = false
+    },
+    async fetchCurrentUser() {
+      this.loading = true
+      this.userProfil = createUserMock();
+      this.loading = false
+    }
   },
 })

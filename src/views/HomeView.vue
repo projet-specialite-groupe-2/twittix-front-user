@@ -43,12 +43,12 @@
         </v-col>
         <v-col>
           <v-col>
-            <AddTwitComponent :user-picture-url="userPictureURL"></AddTwitComponent>
+            <AddTwitComponent :user-picture-url="currentUser?.profileImgPath ?? ''"></AddTwitComponent>
           </v-col>
           <v-divider class="border-opacity-25"></v-divider>
         </v-col>
-        <v-infinite-scroll :items="items" @load="load">
-          <template v-for="item in items" :key="item">
+        <v-infinite-scroll :items="twits" @load="load">
+          <template v-for="item in twits" :key="item">
             <TwitComponent
               :twit-id="item.id ?? 0"
               :twit-content="item.content ?? ''"
@@ -56,14 +56,14 @@
               :user-id="item.author?.userIdentifier ?? ''"
               :username="item.author?.username ?? ''"
               :user-picture-url="item.author?.profileImgPath ?? ''"
-              :twit-like-number="'976'"
+              :twit-like-number="item.likes?.length.toString() ?? '0'"
               :twit-message-number="'9786'"
-              :twit-re-twit-number="'876'"
+              :twit-re-twit-number="item.reposts?.length.toString() ?? '0'"
               :is-liked="item.isLiked ?? false"
-              :id-re-twit="item.isRetwit ?? false"
+              :id-re-twit="item.isReposted ?? false"
               v-on:openTwit="openTwit"
               v-on:like="likeTwit"
-              v-on:retwit="reTwit"
+              v-on:retwit="rePost"
               v-on:comment="openCommentDialog(item)"
             />
           </template>
@@ -77,7 +77,8 @@
       :twit-date="addEditTwit?.createdAt ?? ''"
       :user-id="addEditTwit?.author?.userIdentifier ?? ''"
       :username="addEditTwit?.author?.username ?? ''"
-      :user-picture-url="addEditTwit?.author?.profileImgPath ?? ''"
+      :user-twit-picture-url="addEditTwit?.author?.profileImgPath ?? ''"
+      :user-comment-picture-url="currentUser?.profileImgPath ?? ''"
       :open="commentTwitDialog"
       v-on:submit:form="commentDialogAction"
     />
@@ -91,78 +92,57 @@ import AddTwitComponent from '@/components/twit/addTwitComponent.vue'
 import TwitComponent from '@/components/twit/twitComponent.vue'
 import { Twit, type User } from '@/core/api'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
-import { ref, type Ref } from 'vue'
+import { useTwitStore } from '@/stores/twitStore'
+import { useUserStore } from '@/stores/userStore'
+import { onMounted, ref, type Ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
 const isForYouView = ref<boolean>(true)
-const twitId = ref<number>(1)
+const twitStore = useTwitStore()
+const userStore = useUserStore()
 
 const commentTwitDialog = ref<boolean>(false)
 const addEditTwit = ref<Twit | undefined>()
 
-const userPictureURL =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maupassant_par_Nadar.jpg/440px-Maupassant_par_Nadar.jpg'
+const currentUser = ref<User | undefined>()
+const twits: Ref<Array<Twit>> = ref([])
 
-const items: Ref<Array<Twit>> = ref([])
+onMounted(async () => {
+  await userStore.fetchCurrentUser()
+  currentUser.value = userStore.userProfil
 
+})
 function likeTwit(id: number) {
-  const twit = items.value.find(p => p.id === id)
+  const twit = twits.value.find(p => p.id === id);
   if (twit) {
-    twit.isLiked = !twit.isLiked
+    if (twit.isLiked) {
+      twit.likes?.pop();
+    } else {
+      twit.likes = [...(twit.likes || []), Date.now().toString()];
+    }
+    twit.isLiked = !twit.isLiked;
   }
 }
 
-function reTwit(id: number) {
-  const twit = items.value.find(p => p.id === id)
+function rePost(id: number) {
+  const twit = twits.value.find(p => p.id === id)
   if (twit) {
-    twit.isRetwit = !twit.isRetwit
+    if (twit.isReposted) {
+      twit.reposts?.pop();
+    } else {
+      twit.reposts = [...(twit.reposts || []), Date.now().toString()];
+    }
+    twit.isReposted = !twit.isReposted;
   }
 }
 
-function incrementId(): number {
-  twitId.value = twitId.value + 1
-  return twitId.value
-}
-async function load({ done }) {
+async function load({ done }: { done: (arg: string) => void }) {
   // Perform API call
-  for (let i = 0; i < 30; i++) {
-    const res = await api()
-    items.value.push(res)
-  }
+  await twitStore.fetchTwit()
+  twits.value.push(...twitStore.twits)
 
   done('ok')
-}
-
-async function api(): Promise<Twit> {
-  return {
-    id: incrementId(),
-    content:
-      '⚽🔥 *Inazuma Eleven* : Le rêve de tous les fans de foot ⚡! Des matchs de folie, des techniques super puissantes 💥 et des personnages inoubliables 👕! \n\nLa Team Raimon 🏆 et ses héros comme Mark Evans 🧢, Axel Blaze 🔥 et la légende de la Tornado 🔄 qui nous font vibrer à chaque épisode! 😍⚡\n\nQui est votre joueur préféré? 🤔🎮 \n#InazumaEleven #Football #Anime #GénérationTornade',
-    author: {
-      id: 123,
-      createdAt: '2024-03-01T12:00:00+00:00',
-      updatedAt: '2024-03-05T14:30:00+00:00',
-      deletedAt: null,
-      email: 'johndoe@example.com',
-      roles: ['USER'],
-      username: 'johndoe',
-      biography: 'Passionate about technology and coding.',
-      birthdate: '1995-06-15',
-      profileImgPath:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maupassant_par_Nadar.jpg/440px-Maupassant_par_Nadar.jpg',
-      private: false,
-      active: true,
-      banned: false,
-      twits: [],
-      conversations: [],
-      messages: [],
-      userIdentifier: '@johndoe123',
-    } as User,
-    status: Twit.status.PUBLISHED,
-    parent: null,
-    createdAt: '2025-03-07T08:54:25+00:00',
-  }
 }
 
 function setForYouView(item: boolean) {
@@ -176,7 +156,7 @@ function commentDialogAction(confirm: boolean, data?: unknown) {
   commentTwitDialog.value = false
 }
 function openCommentDialog(data: Twit) {
-  addEditTwit.value = items.value.find(p => p.id === data.id)
+  addEditTwit.value = twits.value.find(p => p.id === data.id)
   commentTwitDialog.value = true
 }
 

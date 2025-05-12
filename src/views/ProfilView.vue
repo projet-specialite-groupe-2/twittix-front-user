@@ -374,7 +374,7 @@
             :twit-message-number="'9786'"
             :twit-re-twit-number="'876'"
             :is-liked="item.isLiked ?? false"
-            :id-re-twit="item.isRetwit ?? false"
+            :id-re-twit="item.isReposted ?? false"
             v-on:like="likeTwit"
             v-on:retwit="reTwit"
             v-on:comment="openCommentDialog(item)"
@@ -389,7 +389,8 @@
         :twit-date="addEditTwit?.createdAt ?? ''"
         :user-id="addEditTwit?.author?.userIdentifier ?? ''"
         :username="addEditTwit?.author?.username ?? ''"
-        :user-picture-url="addEditTwit?.author?.profileImgPath ?? ''"
+        :user-comment-picture-url="userStore.userProfil?.profileImgPath ?? ''"
+        :user-twit-picture-url="addEditTwit?.author?.profileImgPath ?? ''"
         :open="commentTwitDialog"
         v-on:submit:form="commentDialogAction"
       />
@@ -416,7 +417,7 @@ import 'dayjs/locale/en-gb'
 import { ref, watch, onMounted, type Ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import TwitComponent from '@/components/twit/twitComponent.vue'
-import { Twit, type User } from '@/core/api'
+import { Twit } from '@/core/api'
 import { useUserStore } from '@/stores/userStore'
 import { useI18n } from 'vue-i18n'
 import { toast } from 'vue3-toastify'
@@ -431,7 +432,6 @@ const twitLimit = 280
 const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
-const twitId = ref<number>(1)
 const profilNotFound = ref<boolean>(false)
 
 const items: Ref<Array<Twit>> = ref([])
@@ -455,11 +455,6 @@ const userProfilUpdated = ref<EditUserInterface>({
   username: '',
 })
 
-function incrementId(): number {
-  twitId.value = twitId.value + 1
-  return twitId.value
-}
-
 function likeTwit(id: number) {
   const twit = items.value.find(p => p.id === id)
   if (twit) {
@@ -470,7 +465,7 @@ function likeTwit(id: number) {
 function reTwit(id: number) {
   const twit = items.value.find(p => p.id === id)
   if (twit) {
-    twit.isRetwit = !twit.isRetwit
+    twit.isReposted = !twit.isReposted
   }
 }
 
@@ -483,8 +478,9 @@ function handleDialogClose(isOpen: boolean) {
 async function load({ done }) {
   // Perform API call
   for (let i = 0; i < 30; i++) {
-    const res = await api()
-    items.value.push(res)
+
+    await userStore.fetchUserTwits()
+    items.value.push(...userStore.userTwits)
   }
 
   done('ok')
@@ -500,38 +496,6 @@ function commentDialogAction(confirm: boolean, data?: unknown) {
 function openCommentDialog(data: Twit) {
   addEditTwit.value = items.value.find(p => p.id === data.id)
   commentTwitDialog.value = true
-}
-
-async function api(): Promise<Twit> {
-  return {
-    id: incrementId(),
-    content:
-      '⚽🔥 *Inazuma Eleven* : Le rêve de tous les fans de foot ⚡! Des matchs de folie, des techniques super puissantes 💥 et des personnages inoubliables 👕! \n\nLa Team Raimon 🏆 et ses héros comme Mark Evans 🧢, Axel Blaze 🔥 et la légende de la Tornado 🔄 qui nous font vibrer à chaque épisode! 😍⚡\n\nQui est votre joueur préféré? 🤔🎮 \n#InazumaEleven #Football #Anime #GénérationTornade',
-    author: {
-      id: 123,
-      createdAt: '2024-03-01T12:00:00+00:00',
-      updatedAt: '2024-03-05T14:30:00+00:00',
-      deletedAt: null,
-      email: 'johndoe@example.com',
-      roles: ['USER'],
-      password: '',
-      username: 'johndoe',
-      biography: 'Passionate about technology and coding.',
-      birthdate: '1995-06-15',
-      profileImgPath:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maupassant_par_Nadar.jpg/440px-Maupassant_par_Nadar.jpg',
-      private: false,
-      active: true,
-      banned: false,
-      twits: [],
-      conversations: [],
-      messages: [],
-      userIdentifier: '@johndoe123',
-    } as User,
-    status: Twit.status.PUBLISHED,
-    parent: null,
-    createdAt: '2025-03-07T08:54:25+00:00',
-  }
 }
 
 const saveEdit = async () => {

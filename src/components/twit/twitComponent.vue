@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import PageNameEnum from '@/core/types/enums/pageNameEnum';
 import dayjs from 'dayjs';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
 const { locale } = useI18n()
+const router = useRouter()
 
 const props = defineProps<{
     twitId: number
@@ -33,7 +36,6 @@ const formattedDate = computed(() => {
 
 function openTwit() {
     emit('openTwit', props.twitId)
-    console.log('twit opened')
 }
 
 function likeTwit() {
@@ -41,26 +43,26 @@ function likeTwit() {
 }
 function reTwit() {
     emit('retwit', props.twitId)
-    
+
 }
 function commentTwit() {
     emit('comment', props.twitId)
 }
 
 function redirectToProfile() {
-    console.log('profile')
+    router.push({ name: PageNameEnum.PROFIL, params: { username: `@${props.username}` } })
 }
 
 </script>
 
 <template>
     <v-container class="py-0 px-3">
-        <v-card 
+        <v-card
             class="mx-auto w-100 h-100 bg-black pa-5"
-            style="border-radius: 0 !important;" 
-            link 
+            style="border-radius: 0 !important;"
+            link
             :ripple="false"
-            v-on:click="openTwit" 
+            v-on:click="openTwit"
         >
         <v-row>
             <v-col cols="1" class="pt-0">

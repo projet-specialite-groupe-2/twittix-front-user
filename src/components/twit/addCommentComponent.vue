@@ -9,7 +9,8 @@ const props = defineProps<{
     username: string
     twitDate: string
     twitContent: string
-    userPictureUrl: string
+    userTwitPictureUrl: string
+    userCommentPictureUrl: string
 	open: boolean
 }>()
 
@@ -59,7 +60,7 @@ function progressCircularColor(): string {
         <v-container>
             <v-row>
                 <v-col cols="1" class="pt-0">
-                    <v-avatar :image="props.userPictureUrl"></v-avatar>
+                    <v-avatar :image="props.userTwitPictureUrl"></v-avatar>
                     <v-divider :vertical="true"></v-divider>
                 </v-col>
                 <v-col cols="11">
@@ -86,7 +87,7 @@ function progressCircularColor(): string {
             >
             <template v-slot:prepend>
                 <v-avatar size="40">
-                    <v-img :src="props.userPictureUrl" alt="Avatar" />
+                    <v-img :src="props.userCommentPictureUrl" alt="Avatar" />
                 </v-avatar>
             </template>
             </v-textarea>
