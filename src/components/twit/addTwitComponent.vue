@@ -52,6 +52,7 @@ function progressCircularColor(): string {
       <v-divider class="pa-1 border-opacity-25"></v-divider>
       <div class="h-100">
         <v-progress-circular
+          v-if="twitLenght > 0"
           :model-value="twitPourcentage"
           :size="35"
           width="5"

@@ -696,8 +696,8 @@
 
 <script setup lang="ts">
 import { useLoginStore } from '@/stores/loginStore'
-import { ref, reactive, computed, watch } from 'vue'
-import { toast, type Id } from 'vue3-toastify'
+import { ref, reactive, computed } from 'vue'
+import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
@@ -727,14 +727,14 @@ const dialogRegisterModelValue = ref<boolean>(false)
 const dialogMobilModelValue = ref<boolean>(false)
 const dialogRegisterMobilModelValue = ref<boolean>(false)
 
-let askedCodeForAuth = ref<string | null>('')
+const askedCodeForAuth = ref<string | null>('')
 
-let loginData = reactive({
+const loginData = reactive({
   email: '',
   password: '',
 })
 
-let registerData = reactive({
+const registerData = reactive({
   username: '',
   email: '',
   day: null,
