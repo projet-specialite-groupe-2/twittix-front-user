@@ -18,13 +18,14 @@ const routes = [
       mustBeAuthenticated: true,
     },
   },
-    {
+  {
     path: '/twit/:idTwit',
     name: PageNameEnum.TWIT,
     component: () => import('../views/TwitView.vue'),
     meta: {
       sidebar: true,
-      },
+      mustBeAuthenticated: true,
+    },
   },
   {
     path: '/login',
@@ -78,6 +79,15 @@ const routes = [
     meta: {
       sidebar: true,
       mustBeAuthenticated: true,
+    },
+  },
+  {
+    path: '/confirm-email',
+    name: PageNameEnum.CONFIRM_EMAIL,
+    component: () => import('@/views/ConfirmEmailView.vue'),
+    meta: {
+      sidebar: false,
+      mustBeUnauthenticated: true,
     },
   },
 ] as RouteRecordRaw[]

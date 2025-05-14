@@ -127,5 +127,27 @@ export const useLoginStore = defineStore('login', {
         return null
       }
     },
+
+    async verifyEmail(token: string, email: string) {
+      try {
+        this.loading = true
+
+        const res: { data?: any } = await requestAuth.request({
+          method: 'GET',
+          url: '/confirm-email?token=' + token + '&email=' + email,
+        })
+
+        this.loading = false
+
+        if (res.data && res.data === 'success') {
+          return true
+        }
+
+        return false
+      } catch {
+        this.loading = false
+        return null
+      }
+    },
   },
 })
