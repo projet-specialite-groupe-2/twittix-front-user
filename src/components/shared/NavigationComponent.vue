@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
 import AddTwitPopupComponent from '../twit/addTwitPopupComponent.vue'
-import { onMounted, ref, type Ref } from 'vue'
+import { onMounted, ref, watch, type Ref } from 'vue'
 import { useLoginStore } from '@/stores/loginStore'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
@@ -18,8 +18,6 @@ const addTwitDialog = ref<boolean>()
 const dropdownUserItems: Ref<Array<{ title: string; click: () => void }>> = ref([])
 
 onMounted(() => {
-  userStore.fetchCurrentUser()
-
   dropdownUserItems.value = [
     {
       title: `${t('components.navigationForm.disconnectFrom')} @${userStore.userProfil?.userIdentifier}`,
@@ -27,6 +25,14 @@ onMounted(() => {
     },
   ]
 })
+
+watch(
+  () => userStore.userProfil,
+  (newValue: string | null) => {
+    if (newValue)
+      dropdownUserItems.value[0].title = `${t('components.navigationForm.disconnectFrom')} @${newValue?.username}`
+  }
+)
 
 function goToHome() {
   router.push('/')
@@ -42,7 +48,7 @@ function goToMessages() {
 }
 
 function goToProfil() {
-  router.push({ name: PageNameEnum.PROFIL, params: { username: '@user' } })
+  router.push({ name: PageNameEnum.PROFIL, params: { username: '@' + userStore.getUsername } })
 }
 
 function createPost() {
@@ -154,7 +160,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
               v-bind="props"
             >
               <template v-slot:subtitle>
-                <p>{{ userStore.userProfil?.userIdentifier }}</p>
+                <p>@{{ userStore.userProfil?.username }}</p>
               </template>
               <template v-slot:title>
                 <p>{{ userStore.userProfil?.username }}</p>
@@ -170,7 +176,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
 
           <v-list class="mb-5 bg-black rounded-xl border-white border-md" :border="true">
             <v-list-item v-for="(item, index) in dropdownUserItems" :key="index">
-              <v-list-item-title v-on:click="item.click" class="user-select-none">
+              <v-list-item-title v-on:click="item.click" class="user-select-none hoverable">
                 {{ item.title }}
               </v-list-item-title>
             </v-list-item>

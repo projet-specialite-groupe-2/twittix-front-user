@@ -2,8 +2,28 @@
   <v-container class="pa-0" fluid>
     <v-row>
       <v-col justify="center" align="center" class="pa-0 overflow-y-scroll h-screen">
-        <v-col class="position-sticky top-0" style="z-index: 1">
-          <v-row no-gutters style="backdrop-filter: blur(10px)">
+        <v-col class="position-sticky top-0 pb-0" style="z-index: 1; backdrop-filter: blur(10px)">
+          <v-row class="d-md-none d-flex pa-3 pb-1" no-gutters>
+            <v-col cols="4" class="d-flex justify-start">
+              <div class="hoverable" @click="goToProfilPage">
+                <v-avatar :image="userStore.userProfil?.profileImgPath" size="40"></v-avatar>
+              </div>
+            </v-col>
+            <v-col cols="4" class="d-flex justify-center">
+              <div class="hoverable" @click="goToHomePage">
+                <v-avatar size="45">
+                  <v-img
+                    class="user-select-none"
+                    aspect-ratio="16/9"
+                    cover
+                    src="/src/assets/images/logo.png"
+                  ></v-img>
+                </v-avatar>
+              </div>
+            </v-col>
+            <v-col cols="4"></v-col>
+          </v-row>
+          <v-row no-gutters>
             <v-col class="px-0">
               <v-btn
                 block
@@ -111,7 +131,7 @@ const currentUser = ref<User | undefined>()
 const twits: Ref<Array<Twit>> = ref([])
 
 onMounted(async () => {
-  await userStore.fetchCurrentUser()
+  await userStore.fetchUserProfilByEmail()
   currentUser.value = userStore.userProfil
 })
 function likeTwit(id: number) {
@@ -124,6 +144,14 @@ function likeTwit(id: number) {
     }
     twit.isLiked = !twit.isLiked
   }
+}
+
+function goToProfilPage() {
+  router.push({ name: PageNameEnum.PROFIL, params: { username: '@' + userStore.getUsername } })
+}
+
+function goToHomePage() {
+  router.push({ name: PageNameEnum.HOME })
 }
 
 function rePost(id: number) {
