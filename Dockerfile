@@ -1,4 +1,6 @@
-FROM nginx:alpine
+FROM nginx:alpine   
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copier les fichiers buildés
 COPY dist/ /usr/share/nginx/html/
