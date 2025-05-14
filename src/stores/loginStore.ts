@@ -23,11 +23,13 @@ export const useLoginStore = defineStore('login', {
     refreshToken: string | null
     temporaryToken: string | null
     loading: boolean
+    loginEmail: string | null
   } => ({
     token: null,
     refreshToken: null,
     temporaryToken: null,
     loading: false,
+    loginEmail: null,
   }),
   getters: {
     isLogged() {
@@ -61,7 +63,7 @@ export const useLoginStore = defineStore('login', {
       this.loading = false
     },
 
-    async login(data: object) {
+    async login(data: { email: string; [key: string]: any }) {
       try {
         this.loading = true
 
@@ -74,6 +76,8 @@ export const useLoginStore = defineStore('login', {
         this.loading = false
 
         if (token.temporary_token !== undefined) this.temporaryToken = token.temporary_token
+
+        this.loginEmail = data.email
 
         return true
       } catch {

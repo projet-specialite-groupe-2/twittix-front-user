@@ -60,5 +60,9 @@ onMounted(async () => {
   }
 
   isConfirmed.value = await loginStore.verifyEmail(token, email)
+
+  if (isConfirmed.value) {
+    loginStore.loginEmail = email
+  }
 })
 </script>

@@ -20,7 +20,7 @@
         <!-- FORMULAIRE DE CREATION DE COMPTE -->
         <div class="d-flex flex-column mb-14" style="max-width: 330px">
           <div class="d-none d-sm-flex">
-            <v-dialog v-model="dialogModelValue" @update:model-value="handleDialogClose">
+            <v-dialog v-model="dialogRegisterModelValue" @update:model-value="handleDialogClose">
               <template v-slot:activator="{ props: activatorProps }">
                 <v-btn v-bind="activatorProps" size="large" class="bg-red w-100 mb-2">
                   {{ $t('view.loginPage.createAccount') }}
@@ -203,6 +203,7 @@
               v-model="dialogRegisterMobilModelValue"
               transition="dialog-bottom-transition"
               fullscreen
+              @update:model-value="handleDialogClose"
             >
               <template v-slot:activator="{ props: activatorProps }">
                 <v-btn v-bind="activatorProps" size="large" class="bg-red bg-red w-100 mb-2">
@@ -388,7 +389,7 @@
         </h3>
 
         <div class="d-none d-sm-flex">
-          <v-dialog v-model="dialogRegisterModelValue">
+          <v-dialog v-model="dialogModelValue" @update:model-value="handleDialogClose">
             <template v-slot:activator="{ props: activatorProps }">
               <v-btn
                 v-bind="activatorProps"
@@ -541,6 +542,7 @@
             v-model="dialogMobilModelValue"
             transition="dialog-bottom-transition"
             fullscreen
+            @update:model-value="handleDialogClose"
           >
             <template v-slot:activator="{ props: activatorProps }">
               <v-btn
@@ -696,13 +698,13 @@
 
 <script setup lang="ts">
 import { useLoginStore } from '@/stores/loginStore'
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
 const { locale, t } = useI18n()
-
+import { useDisplay } from 'vuetify'
 import dayjs from 'dayjs'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import 'dayjs/locale/fr'
@@ -724,10 +726,14 @@ const registerStep = ref<number>(1)
 const showPassword = ref<boolean>(false)
 const dialogModelValue = ref<boolean>(false)
 const dialogRegisterModelValue = ref<boolean>(false)
+
 const dialogMobilModelValue = ref<boolean>(false)
 const dialogRegisterMobilModelValue = ref<boolean>(false)
+const display = useDisplay()
 
 const askedCodeForAuth = ref<string | null>('')
+
+const isMobile = computed(() => display.smAndDown.value)
 
 const loginData = reactive({
   email: '',
@@ -742,6 +748,20 @@ const registerData = reactive({
   year: null,
   password: '',
   confirmPassword: '',
+})
+
+onMounted(() => {
+  // Verify if user is already exist
+  if (loginStore.loginEmail) {
+    if (isMobile) dialogModelValue.value = true
+    else dialogMobilModelValue.value = true
+
+    // Set email
+    loginData.email = loginStore.loginEmail
+
+    // Go to the step 2
+    connectionStep.value = 2
+  }
 })
 
 const handleDialogClose = (isOpen: boolean) => {
@@ -803,10 +823,11 @@ const register = async () => {
 
 const resetState = () => {
   connectionStep.value = 1
-  registerStep.value = 1
-  showPassword.value = false
   loginData.email = ''
   loginData.password = ''
+  askedCodeForAuth.value = ''
+  registerStep.value = 1
+  showPassword.value = false
   registerData.username = ''
   registerData.email = ''
   registerData.day = null
@@ -814,7 +835,6 @@ const resetState = () => {
   registerData.year = null
   registerData.password = ''
   registerData.confirmPassword = ''
-  askedCodeForAuth.value = ''
 }
 
 const setFalseToDialog = () => {
