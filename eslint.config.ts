@@ -17,7 +17,13 @@ export default defineConfigWithVueTs(
 
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/mock-server/**'],
+    ignores: [
+      '**/dist/**',
+      '**/dist-ssr/**',
+      '**/coverage/**',
+      '**/mock-server/**',
+      '**/cypress/**',
+    ],
   },
 
   pluginVue.configs['flat/essential'],
