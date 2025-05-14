@@ -18,13 +18,13 @@ const routes = [
       mustBeAuthenticated: true,
     },
   },
-    {
+  {
     path: '/twit/:idTwit',
     name: PageNameEnum.TWIT,
     component: () => import('../views/TwitView.vue'),
     meta: {
       sidebar: true,
-      },
+    },
   },
   {
     path: '/login',
