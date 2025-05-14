@@ -51,6 +51,7 @@ jobs:
             dist/
             compose.yml
             nginx.conf
+            Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
