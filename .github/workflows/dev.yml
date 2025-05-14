@@ -49,7 +49,7 @@ jobs:
           name: front-artifacts
           path: |
             dist/
-            docker-compose.yml
+            compose.yml
             nginx.conf
 
   deploy:
