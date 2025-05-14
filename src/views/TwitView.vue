@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid class="pa-0" style="height: 100vh !important; overflow-y: scroll">
+  <v-container fluid class="pa-0" style="height: 100vh !important; overflow-y: scroll">
     <v-row class="position-sticky top-0" style="z-index: 10 !important">
       <v-col cols="12" class="py-0">
         <div
@@ -20,47 +20,48 @@
       </v-col>
     </v-row>
     <v-row class="position-relative mt-6">
-      <TwitComponent v-if="twit"
-          :twit-id="twit.id ?? 0"
-          :twit-content="twit.content ?? ''"
-          :twit-date="twit.createdAt ?? ''"
-          :user-id="twit.author?.userIdentifier ?? ''"
-          :username="twit.author?.username ?? ''"
-          :user-picture-url="twit.author?.profileImgPath ?? ''"
-          :twit-message-number="'9786'"
-          :twit-like-number="twit.likes?.length.toString() ?? '0'"
-          :twit-re-twit-number="twit.reposts?.length.toString() ?? '0'"
-          :is-liked="twit.isLiked ?? false"
-          :id-re-twit="twit.isReposted ?? false"
-          v-on:like="likeTwit"
-          v-on:retwit="rePost"
-          v-on:comment="openCommentDialog"
-        />
+      <TwitComponent
+        v-if="twit"
+        :twit-id="twit.id ?? 0"
+        :twit-content="twit.content ?? ''"
+        :twit-date="twit.createdAt ?? ''"
+        :user-id="twit.author?.userIdentifier ?? ''"
+        :username="twit.author?.username ?? ''"
+        :user-picture-url="twit.author?.profileImgPath ?? ''"
+        :twit-message-number="'9786'"
+        :twit-like-number="twit.likes?.length.toString() ?? '0'"
+        :twit-re-twit-number="twit.reposts?.length.toString() ?? '0'"
+        :is-liked="twit.isLiked ?? false"
+        :id-re-twit="twit.isReposted ?? false"
+        v-on:like="likeTwit"
+        v-on:retwit="rePost"
+        v-on:comment="openCommentDialog"
+      />
 
-        <v-container>
-          <v-textarea
-            class="mx-2 ma-5"
-            :label="$t('view.twitView.comment')"
-            variant="plain"
-            auto-grow
-            rows="2"
-            v-model="twitText"
-            :maxlength="twitLimit"
-          >
-            <template v-slot:prepend>
-              <v-avatar size="40">
-                <v-img :src="currentUser?.profileImgPath" alt="Avatar" />
-              </v-avatar>
-            </template>
-          </v-textarea>
-          <v-row justify="end">
-            <div>
-              <v-progress-circular
+      <v-container>
+        <v-textarea
+          class="mx-2 ma-5"
+          :label="$t('view.twitView.comment')"
+          variant="plain"
+          auto-grow
+          rows="2"
+          v-model="twitText"
+          :maxlength="twitLimit"
+        >
+          <template v-slot:prepend>
+            <v-avatar size="40">
+              <v-img :src="currentUser?.profileImgPath" alt="Avatar" />
+            </v-avatar>
+          </template>
+        </v-textarea>
+        <v-row justify="end">
+          <div>
+            <v-progress-circular
               :model-value="twitPourcentage"
               :size="35"
               width="5"
               :color="progressCircularColor()"
-              >
+            >
               <template v-slot:default v-if="twitPourcentage >= 80">
                 {{ twitLimit - twitLenght }}
               </template>
@@ -70,11 +71,12 @@
             </v-btn>
           </div>
           <v-divider class="pa-1 border-opacity-25"></v-divider>
-          </v-row>
-        </v-container>
+        </v-row>
+      </v-container>
 
-        <div v-for="item in commentary" :key="item.id">
-          <TwitComponent v-if="twit"
+      <div v-for="item in commentary" :key="item.id">
+        <TwitComponent
+          v-if="twit"
           :twit-id="item.id ?? 0"
           :twit-content="item.content ?? ''"
           :twit-date="item.createdAt ?? ''"
@@ -91,7 +93,7 @@
           v-on:retwit="rePost"
           v-on:comment="openCommentDialog"
         />
-        </div>
+      </div>
     </v-row>
 
     <AddComment
@@ -111,15 +113,15 @@
 </template>
 
 <script setup lang="ts">
-import AddComment from '@/components/twit/addCommentComponent.vue';
-import TwitComponent from '@/components/twit/twitComponent.vue';
-import { Twit, type User } from '@/core/api';
-import PageNameEnum from '@/core/types/enums/pageNameEnum';
-import { useTwitStore } from '@/stores/twitStore';
-import { useUserStore } from '@/stores/userStore';
-import type { Ref } from 'vue';
-import { onMounted, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import AddComment from '@/components/twit/addCommentComponent.vue'
+import TwitComponent from '@/components/twit/twitComponent.vue'
+import { Twit, type User } from '@/core/api'
+import PageNameEnum from '@/core/types/enums/pageNameEnum'
+import { useTwitStore } from '@/stores/twitStore'
+import { useUserStore } from '@/stores/userStore'
+import type { Ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const twit: Ref<Twit | undefined> = ref(undefined)
@@ -143,7 +145,7 @@ onMounted(async () => {
 
   await twitStore.fetchTwit()
   commentary.value.push(...twitStore.twits)
-});
+})
 
 watch(
   () => twitText.value,
@@ -161,14 +163,14 @@ function progressCircularColor(): string {
 }
 
 function likeTwit(id: number) {
-  const twit = commentary.value.find(p => p.id === id);
+  const twit = commentary.value.find(p => p.id === id)
   if (twit) {
     if (twit.isLiked) {
-      twit.likes?.pop();
+      twit.likes?.pop()
     } else {
-      twit.likes = [...(twit.likes || []), Date.now().toString()];
+      twit.likes = [...(twit.likes || []), Date.now().toString()]
     }
-    twit.isLiked = !twit.isLiked;
+    twit.isLiked = !twit.isLiked
   }
 }
 
@@ -176,11 +178,11 @@ function rePost(id: number) {
   const twit = commentary.value.find(p => p.id === id)
   if (twit) {
     if (twit.isReposted) {
-      twit.reposts?.pop();
+      twit.reposts?.pop()
     } else {
-      twit.reposts = [...(twit.reposts || []), Date.now().toString()];
+      twit.reposts = [...(twit.reposts || []), Date.now().toString()]
     }
-    twit.isReposted = !twit.isReposted;
+    twit.isReposted = !twit.isReposted
   }
 }
 
@@ -196,10 +198,8 @@ function commentDialogAction(confirm: boolean, data?: unknown) {
 }
 
 function openTwit(id: number) {
-  router.push({ name: PageNameEnum.TWIT, params : { idTwit: id } })
+  router.push({ name: PageNameEnum.TWIT, params: { idTwit: id } })
 }
-
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

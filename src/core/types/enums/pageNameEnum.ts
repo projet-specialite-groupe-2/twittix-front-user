@@ -1,6 +1,6 @@
 enum PageNameEnum {
   LOGIN = 'Login',
-  TWIT = "Twit",
+  TWIT = 'Twit',
   MAIN = 'Main',
   MESSAGES = 'Messages',
   MESSAGES_DETAIL = 'MessagesDetails',

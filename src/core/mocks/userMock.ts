@@ -24,17 +24,17 @@ const baseUserMock = (): User => {
     followers: [],
     followings: [],
     likes: [],
-    reposts:[],
+    reposts: [],
     userIdentifier: faker.internet.username(),
   }
 }
 
 export const createUserMock = (): User => {
-	id += 1
-	return {
-		...baseUserMock(),
-		id,
-	}
+  id += 1
+  return {
+    ...baseUserMock(),
+    id,
+  }
 }
 
 export const UsersMock = faker.helpers.multiple<User>(createUserMock)

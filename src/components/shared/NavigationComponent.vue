@@ -15,16 +15,18 @@ const userStore = useUserStore()
 const props = defineProps<{ footerMode: boolean }>()
 const addTwitDialog = ref<boolean>()
 
-const dropdownUserItems: Ref<Array<{ title: string; click: () => void; }>> = ref([])
+const dropdownUserItems: Ref<Array<{ title: string; click: () => void }>> = ref([])
 
 onMounted(() => {
   userStore.fetchCurrentUser()
 
   dropdownUserItems.value = [
-  { title: `${t('components.navigationForm.disconnectFrom')} @${userStore.userProfil?.userIdentifier}`, click: disconnectUser },
-]
+    {
+      title: `${t('components.navigationForm.disconnectFrom')} @${userStore.userProfil?.userIdentifier}`,
+      click: disconnectUser,
+    },
+  ]
 })
-
 
 function goToHome() {
   router.push('/')

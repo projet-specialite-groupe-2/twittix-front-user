@@ -15,9 +15,9 @@ export const useTwitStore = defineStore('twit', {
       this.loading = true
 
       // Simulate an API call
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await new Promise(resolve => setTimeout(resolve, 500))
 
-      const result: Array<Twit> = TwitsMock;
+      const result: Array<Twit> = TwitsMock
       this.setTwit(result)
 
       this.loading = false
@@ -29,12 +29,12 @@ export const useTwitStore = defineStore('twit', {
       this.loading = true
 
       // Simulate an API call
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await new Promise(resolve => setTimeout(resolve, 500))
 
-      const twit: Twit = TwitsMock.filter((twit) => twit.id === id)[0];
+      const twit: Twit = TwitsMock.filter(twit => twit.id === id)[0]
 
       this.loading = false
       return twit
-    }
+    },
   },
 })

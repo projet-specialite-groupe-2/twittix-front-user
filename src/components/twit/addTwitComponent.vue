@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-
+import { ref, watch } from 'vue'
 
 const props = defineProps<{
   userPictureUrl: string
 }>()
 
 const emit = defineEmits<{
-	(eventName: 'submit:form', dialog: boolean, data?: string): void
+  (eventName: 'submit:form', dialog: boolean, data?: string): void
 }>()
 
 const twitLimit = 280

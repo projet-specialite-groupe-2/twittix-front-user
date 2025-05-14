@@ -2,32 +2,48 @@ import { faker } from '@faker-js/faker'
 import { Twit, type User } from '../api'
 import { createUserMock } from './userMock'
 
-
 const getRandomEmoji = () => {
-  const emojis = ['😂', '🔥', '🎉', '😎', '💪', '🙌', '🚀', '❤️', '✨', '🥳', '🐱', '🐶', '🍕', '☕️', '🌈', '🎶', '📱'];
-  return emojis[Math.floor(Math.random() * emojis.length)];
-};
+  const emojis = [
+    '😂',
+    '🔥',
+    '🎉',
+    '😎',
+    '💪',
+    '🙌',
+    '🚀',
+    '❤️',
+    '✨',
+    '🥳',
+    '🐱',
+    '🐶',
+    '🍕',
+    '☕️',
+    '🌈',
+    '🎶',
+    '📱',
+  ]
+  return emojis[Math.floor(Math.random() * emojis.length)]
+}
 
 const generateTwitContent = () => {
-  const sentenceCount = faker.number.int({ min: 1, max: 3 });
-  let content = '';
+  const sentenceCount = faker.number.int({ min: 1, max: 3 })
+  let content = ''
 
   for (let i = 0; i < sentenceCount; i++) {
-    const sentence = faker.lorem.sentence(faker.number.int({ min: 5, max: 15 }));
-    const emojiChance = Math.random();
+    const sentence = faker.lorem.sentence(faker.number.int({ min: 5, max: 15 }))
+    const emojiChance = Math.random()
 
     // Ajoute un emoji aléatoirement à la fin de la phrase
-    content += sentence;
+    content += sentence
     if (emojiChance > 0.3) {
-      content += ' ' + getRandomEmoji();
+      content += ' ' + getRandomEmoji()
     }
 
-    content += ' ';
+    content += ' '
   }
 
-  return content.trim();
-};
-
+  return content.trim()
+}
 
 const currentUser: User = createUserMock()
 
@@ -64,21 +80,20 @@ const baseTwitMockWithUser = (): Twit => {
   }
 }
 
-
 export const createTwitMock = (): Twit => {
-	id += 1
-	return {
+  id += 1
+  return {
     ...baseTwitMock(),
-		id,
-	}
+    id,
+  }
 }
 
 export const createTwitMockWithUser = (): Twit => {
-	id += 1
-	return {
+  id += 1
+  return {
     ...baseTwitMockWithUser(),
-		id,
-	}
+    id,
+  }
 }
 
 export const TwitsMock = faker.helpers.multiple<Twit>(createTwitMock, { count: 20 })

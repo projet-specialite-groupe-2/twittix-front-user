@@ -43,7 +43,9 @@
         </v-col>
         <v-col>
           <v-col>
-            <AddTwitComponent :user-picture-url="currentUser?.profileImgPath ?? ''"></AddTwitComponent>
+            <AddTwitComponent
+              :user-picture-url="currentUser?.profileImgPath ?? ''"
+            ></AddTwitComponent>
           </v-col>
           <v-divider class="border-opacity-25"></v-divider>
         </v-col>
@@ -97,7 +99,7 @@ import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref, type Ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 const isForYouView = ref<boolean>(true)
 const twitStore = useTwitStore()
 const userStore = useUserStore()
@@ -111,17 +113,16 @@ const twits: Ref<Array<Twit>> = ref([])
 onMounted(async () => {
   await userStore.fetchCurrentUser()
   currentUser.value = userStore.userProfil
-
 })
 function likeTwit(id: number) {
-  const twit = twits.value.find(p => p.id === id);
+  const twit = twits.value.find(p => p.id === id)
   if (twit) {
     if (twit.isLiked) {
-      twit.likes?.pop();
+      twit.likes?.pop()
     } else {
-      twit.likes = [...(twit.likes || []), Date.now().toString()];
+      twit.likes = [...(twit.likes || []), Date.now().toString()]
     }
-    twit.isLiked = !twit.isLiked;
+    twit.isLiked = !twit.isLiked
   }
 }
 
@@ -129,11 +130,11 @@ function rePost(id: number) {
   const twit = twits.value.find(p => p.id === id)
   if (twit) {
     if (twit.isReposted) {
-      twit.reposts?.pop();
+      twit.reposts?.pop()
     } else {
-      twit.reposts = [...(twit.reposts || []), Date.now().toString()];
+      twit.reposts = [...(twit.reposts || []), Date.now().toString()]
     }
-    twit.isReposted = !twit.isReposted;
+    twit.isReposted = !twit.isReposted
   }
 }
 
@@ -161,6 +162,6 @@ function openCommentDialog(data: Twit) {
 }
 
 function openTwit(id: number) {
-  router.push({ name: PageNameEnum.TWIT, params : { idTwit: id } })
+  router.push({ name: PageNameEnum.TWIT, params: { idTwit: id } })
 }
 </script>

@@ -478,7 +478,6 @@ function handleDialogClose(isOpen: boolean) {
 async function load({ done }) {
   // Perform API call
   for (let i = 0; i < 30; i++) {
-
     await userStore.fetchUserTwits()
     items.value.push(...userStore.userTwits)
   }
