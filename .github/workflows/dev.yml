@@ -51,7 +51,6 @@ jobs:
           path: |
             dist/
             compose.yml
-            nginx.conf
             Dockerfile
 
   deploy:
