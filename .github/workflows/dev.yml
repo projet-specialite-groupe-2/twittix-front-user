@@ -20,20 +20,6 @@ jobs:
       - name: Generate API client
         run: npm run openapi:local
 
-      - name: Run Prettier
-        run: npm run format
-
-      - name: Commit and push changes
-        if: ${{ github.actor != 'github-actions[bot]' }}
-        run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git diff --cached --quiet || git commit -m "Apply Prettier changes"
-          git pull --rebase origin "${GITHUB_REF#refs/heads/}"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          git push origin "${GITHUB_REF#refs/heads/}"
-
       - name: Create .env file for production
         run: |
           echo "VUE_APP_API_BASE=${{ secrets.API_URL }}" >> .env
