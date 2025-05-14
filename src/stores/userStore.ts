@@ -25,6 +25,14 @@ export const useUserStore = defineStore('user', {
     },
   },
   actions: {
+    itsMe(mail: string): boolean {
+      if (!this.userProfil) {
+        return false
+      }
+
+      return this.userProfil.email === mail
+    },
+
     async fetchUserProfil(username: string) {
       const projectService: UserService = new UserService(request)
       this.loading = true
@@ -37,13 +45,12 @@ export const useUserStore = defineStore('user', {
       this.loading = false
 
       if (!userProfil || userProfil.length === 0) {
-        this.userProfil = undefined
-        return
+        return null
       }
 
-      this.userProfil = userProfil[0]
+      userProfil[0].profileImgPath = 'https://picsum.photos/200'
 
-      this.setUserImageProfil()
+      return userProfil[0]
     },
 
     async fetchUserProfilByEmail() {
@@ -72,13 +79,7 @@ export const useUserStore = defineStore('user', {
 
       this.userProfil = userProfil[0]
 
-      this.setUserImageProfil()
-    },
-
-    setUserImageProfil() {
-      if (this.userProfil) {
-        this.userProfil.profileImgPath = 'https://picsum.photos/200'
-      }
+      this.userProfil.profileImgPath = 'https://picsum.photos/200'
     },
 
     async updateUserProfil(user: User) {

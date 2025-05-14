@@ -29,7 +29,6 @@ onMounted(() => {
 watch(
   () => userStore.userProfil,
   (newValue: string | null) => {
-    console.log('userProfil', newValue)
     if (newValue)
       dropdownUserItems.value[0].title = `${t('components.navigationForm.disconnectFrom')} @${newValue?.username}`
   }

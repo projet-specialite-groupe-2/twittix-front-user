@@ -77,7 +77,7 @@
             "conversationPlaceholder": "Écrire un message..."
         },
         "profilPage": {
-            "editProfil": "Éditer les profils",
+            "editProfil": "Éditer mon profil",
             "save": "Enregistrer",
             "edit": "Éditer",
             "following": "abonnements",
@@ -91,7 +91,10 @@
             "profileNotFound": "Nous n'avons pas pu trouver le profil que vous recherchez.",
             "userNotFound": "Utilisateur introuvable",
             "name": "Nom",
-            "bio": "Bio"
+            "bio": "Bio",
+            "birthDate": "Date de naissance",
+            "follow": "Suivre",
+            "unfollow": "Ne plus suivre"
         },
         "twitView": {
             "posts": "Posts",

@@ -82,7 +82,10 @@
             "profileNotFound": "We couldn't find the profile you are looking for.",
             "userNotFound": "User not found",
             "name": "Name",
-            "bio": "Bio"
+            "bio": "Bio",
+            "birthDate": "Date of birth",
+            "follow": "Follow",
+            "unfollow": "Unfollow"
         },
         "twitView": {
             "posts": "Posts",

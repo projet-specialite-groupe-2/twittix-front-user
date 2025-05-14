@@ -131,6 +131,7 @@ const currentUser = ref<User | undefined>()
 const twits: Ref<Array<Twit>> = ref([])
 
 onMounted(async () => {
+  await userStore.fetchUserProfilByEmail()
   currentUser.value = userStore.userProfil
 })
 function likeTwit(id: number) {
