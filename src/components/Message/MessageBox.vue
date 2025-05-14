@@ -35,13 +35,13 @@
     <v-expand-transition>
       <v-col v-show="expand" class="mx-auto overflow-y-scroll" style="height: 400px; width: 100%">
         <MessageCard
-          v-for="i in 30"
-          :key="i"
-          :id="i.toString()"
-          profile-name="Swann"
-          username="@Swann"
-          date="12 Janv"
-          sub-title="Ca va ?"
+          v-for="conversation in conversationList"
+          :key="conversation.id"
+          :id="conversation.id?.toString() ?? ''"
+          :profile-name="conversation.title ?? ''"
+          :username="conversation.title ?? ''"
+          :date="dayjs(conversation.createdAt).format('DD/MM/YYYY HH:mm')"
+          :sub-title="conversation.lastMessage?.content ?? ''"
         />
       </v-col>
     </v-expand-transition>
@@ -49,11 +49,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import MessageCard from '@/components/Message/MessageCard.vue'
 import NewMessageDialog from '@/components/Message/NewMessageDialog.vue'
-
+import { useConversationStore } from '@/stores/conversationStore'
+import dayjs from 'dayjs'
 const expand = ref(false)
+
+const conversationStore = useConversationStore()
+
+onMounted(() => {
+  // Load conversation list
+  conversationStore.fetchConversationList()
+})
+
+const conversationList = computed(() => {
+  if (conversationStore.loading || !conversationStore.conversationList?.length) {
+    return []
+  }
+  return conversationStore.conversationList
+})
 </script>
 
 <style scoped>

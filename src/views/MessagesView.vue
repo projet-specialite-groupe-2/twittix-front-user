@@ -62,25 +62,14 @@
               </v-col>
             </v-row>
           </v-hover>
-
-          <MessageCard
-            v-for="i in 20"
-            :key="i"
-            :id="i.toString()"
-            profile-name="Swann"
-            username="@Swann"
-            date="12 Janv"
-            sub-title="Ca va ?"
-          />
-
           <MessageCard
             v-for="conversation in conversationList"
             :key="conversation.id"
             :id="conversation.id?.toString() ?? ''"
             :profile-name="conversation.title ?? ''"
             :username="conversation.title ?? ''"
-            :date="conversation.createdAt ?? ''"
-            :sub-title="''"
+            :date="dayjs(conversation.createdAt).format('DD/MM/YYYY HH:mm')"
+            :sub-title="conversation.lastMessage?.content ?? ''"
           />
         </v-col>
       </v-col>
@@ -89,11 +78,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted } from 'vue'
 import SearchInput from '@/components/Fields/SearchInput.vue'
 import MessageCard from '@/components/Message/MessageCard.vue'
 import NewMessageDialog from '@/components/Message/NewMessageDialog.vue'
 import { useConversationStore } from '@/stores/conversationStore'
+import dayjs from 'dayjs'
 
 const conversationStore = useConversationStore()
 
@@ -107,9 +97,5 @@ const conversationList = computed(() => {
     return []
   }
   return conversationStore.conversationList
-})
-
-watch(conversationList, newVal => {
-  console.log('Liste des conversations :', newVal)
 })
 </script>

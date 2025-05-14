@@ -14,7 +14,7 @@
         "format": "prettier --write src/",
         "test": "concurrently \"swagger-faker gen && ./src/utils/fix-utils.sh\" \"swagger-faker run\" \"cross-env NODE_ENV=test vite --mode test\" \"cypress open\"",
         "openapi:local": "rm -rf ./src/core/api && npx openapi-typescript-codegen -i .openapi.json -o ./src/core/api -c axios --name ApiClient --useOptions",
-        "openapi:generate": "node ./src/scripts/generate-api-service.js && eslint --fix ./src/core/api --ext ts --ext tsx --ext js --ext jsx",
+        "openapi:generate": "node ./src/scripts/generate-api-service.js && eslint --fix ./src/core/api",
         "generate-mock": "swagger-faker gen && ./src/utils/fix-utils.sh",
         "start-mock": "swagger-faker run"
     },
