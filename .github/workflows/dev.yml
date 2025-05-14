@@ -30,10 +30,9 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git diff --cached --quiet || git commit -m "Apply Prettier changes"
-          git pull --rebase origin ${{ github.ref }}
-          git push origin ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git pull --rebase origin "${GITHUB_REF#refs/heads/}"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git push origin "${GITHUB_REF#refs/heads/}"
 
       # - name: Run ESLint
       #   run: npm run lint
