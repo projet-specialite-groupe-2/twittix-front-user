@@ -1,0 +1,74 @@
+name: CI/CD Twittix API
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate API client
+        run: npm run openapi:local
+
+      - name: Run Prettier
+        run: npm run format
+
+      - name: Commit and push changes
+        if: ${{ github.actor != 'github-actions[bot]' }}
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git diff --cached --quiet || git commit -m "Apply Prettier changes"
+          git pull --rebase origin "${GITHUB_REF#refs/heads/}"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git push origin "${GITHUB_REF#refs/heads/}"
+
+      - name: Create .env file for production
+        run: |
+          echo "VUE_APP_API_BASE=${{ secrets.API_URL }}" >> .env
+          echo "VUE_APP_API_AUTH=${{ secrets.API_AUTH_URL }}" >> .env
+          echo "VUE_APP_OPEN_API_HOST=${{ secrets.OPENAPI_URL }} " >> .env
+          echo "VUE_APP_OPEN_API_PORT=${{ secrets.OPENAPI_PORT }}" >> .env
+          echo "VUE_APP_OPENAPI_PROTOCOL=http" >> .env
+
+      - name: Build the app
+        run: npm run build
+
+      - name: Save build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: front-artifacts
+          path: |
+            dist/
+            compose.yml
+            Dockerfile
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+
+      - name: Download dist folder
+        uses: actions/download-artifact@v4
+        with:
+          name: front-artifacts
+          path: ./
+
+      - name: Deploy via SSH
+        uses: easingthemes/ssh-deploy@v5.1.0
+        with:
+          # Paramètres pour la connexion SSH
+          SSH_PRIVATE_KEY: ${{ secrets.DEV_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.DEV_SERVER_IP }}
+          REMOTE_USER: ${{ secrets.DEV_HOST }}
+          TARGET: ./dev/front-user/
