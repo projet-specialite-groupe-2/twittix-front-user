@@ -19,6 +19,14 @@ const routes = [
     },
   },
   {
+    path: '/twit/:idTwit',
+    name: PageNameEnum.TWIT,
+    component: () => import('../views/TwitView.vue'),
+    meta: {
+      sidebar: true,
+    },
+  },
+  {
     path: '/login',
     name: PageNameEnum.LOGIN,
     component: () => import('../views/LoginView.vue'),

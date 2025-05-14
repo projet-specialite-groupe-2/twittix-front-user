@@ -1,44 +1,54 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import router from '@/router'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
 import AddTwitPopupComponent from '../twit/addTwitPopupComponent.vue'
-import { ref } from 'vue'
+import { onMounted, ref, watch, type Ref } from 'vue'
 import { useLoginStore } from '@/stores/loginStore'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
 
+const router = useRouter()
 const { t } = useI18n()
 const loginStore = useLoginStore()
+const userStore = useUserStore()
+
 const props = defineProps<{ footerMode: boolean }>()
 const addTwitDialog = ref<boolean>()
 
-const userId = '@RealEl_Floww'
-const username = 'Florent'
-const userPictureURL =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Maupassant_par_Nadar.jpg/440px-Maupassant_par_Nadar.jpg'
+const dropdownUserItems: Ref<Array<{ title: string; click: () => void }>> = ref([])
 
-const dropdownUserItems = [
-  { title: `${t('components.navigationForm.disconnectFrom')} ${userId}`, click: disconnectUser },
-]
+onMounted(() => {
+  dropdownUserItems.value = [
+    {
+      title: `${t('components.navigationForm.disconnect')}`,
+      click: disconnectUser,
+    },
+  ]
+})
+
+watch(
+  () => userStore.userProfil,
+  (newValue: string | null) => {
+    if (newValue)
+      dropdownUserItems.value[0].title = `${t('components.navigationForm.disconnectFrom')} @${newValue?.username}`
+  }
+)
 
 function goToHome() {
-  console.log('home')
   router.push('/')
 }
 
 function goToExplore() {
-  console.log('explore')
   router.push('/explore')
   // TODO
 }
 
 function goToMessages() {
-  console.log('messages')
   router.push('/messages')
-  // TODO
 }
 
 function goToProfil() {
-  router.push({ name: PageNameEnum.PROFIL, params: { username: '@user' } })
+  router.push({ name: PageNameEnum.PROFIL, params: { username: '@' + userStore.getUsername } })
 }
 
 function createPost() {
@@ -150,13 +160,13 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
               v-bind="props"
             >
               <template v-slot:subtitle>
-                <p>{{ userId }}</p>
+                <p>@{{ userStore.userProfil?.username }}</p>
               </template>
               <template v-slot:title>
-                <p>{{ username }}</p>
+                <p>{{ userStore.userProfil?.username }}</p>
               </template>
               <template v-slot:prepend>
-                <v-avatar :image="userPictureURL" size="45"></v-avatar>
+                <v-avatar :image="userStore.userProfil?.profileImgPath" size="45"></v-avatar>
               </template>
               <template v-slot:append>
                 <v-icon icon="mdi-dots-horizontal"></v-icon>
@@ -166,7 +176,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
 
           <v-list class="mb-5 bg-black rounded-xl border-white border-md" :border="true">
             <v-list-item v-for="(item, index) in dropdownUserItems" :key="index">
-              <v-list-item-title v-on:click="item.click" class="user-select-none">
+              <v-list-item-title v-on:click="item.click" class="user-select-none hoverable">
                 {{ item.title }}
               </v-list-item-title>
             </v-list-item>
@@ -196,7 +206,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
   <v-overlay v-model="addTwitDialog" persistent />
   <AddTwitPopupComponent
     v-if="addTwitDialog"
-    :user-picture-url="userPictureURL"
+    :user-picture-url="userStore.userProfil?.profileImgPath ?? ''"
     :open="addTwitDialog"
     v-on:submit:form="addTwitDialogAction"
   ></AddTwitPopupComponent>

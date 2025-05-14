@@ -18,3 +18,7 @@
 .text-red {
   color: rgb(203, 63, 73) !important;
 }
+
+.hoverable {
+  cursor: pointer;
+}
