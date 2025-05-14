@@ -11,7 +11,7 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+//
 //
 //
 // -- This is a child command --
@@ -25,13 +25,25 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      setFakeToken(): Chainable<void>
+    }
+  }
+}
+
+import { faker } from '@faker-js/faker'
+
+Cypress.Commands.add('setFakeToken', () => {
+  const fakeToken = faker.string.uuid()
+  cy.window().then(win => {
+    win.localStorage.setItem('auth_token', fakeToken)
+  })
+})
+
+// Ce code s'exécute avant tous les tests
+before(() => {
+  cy.visit('/') // charge la page pour accéder au window/localStorage
+  cy.setFakeToken()
+})
