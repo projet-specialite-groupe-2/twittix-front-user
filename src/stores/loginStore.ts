@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia'
 import { requestAuth } from './storeConfig'
 import { jwtDecode } from 'jwt-decode'
-import type { JwtPayload } from 'jwt-decode'
+import type { JwtPayload as BaseJwtPayload } from 'jwt-decode'
+
+interface payload {
+  exp: number
+  email: string
+}
 
 interface TempTokenResponse {
   temporary_token: string
@@ -27,7 +32,7 @@ export const useLoginStore = defineStore('login', {
   getters: {
     isLogged() {
       if (this.token) {
-        const payload = this.decodedPayloadToken as JwtPayload
+        const payload = this.decodedPayloadToken as payload
         if (!payload) return false
 
         return payload.exp !== undefined && payload.exp >= Math.floor(Date.now() / 1000)
@@ -37,6 +42,15 @@ export const useLoginStore = defineStore('login', {
     decodedPayloadToken(this: { token: string | null }) {
       if (!this.token) return null
       return jwtDecode(this.token)
+    },
+    getEmail() {
+      if (this.token) {
+        const payload = this.decodedPayloadToken as payload
+        if (!payload) return null
+
+        return payload.email as string
+      }
+      return null
     },
   },
   actions: {

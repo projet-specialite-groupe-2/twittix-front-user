@@ -1,6 +1,19 @@
 <template>
   <v-container fluid class="pa-0" style="height: 100vh !important; overflow-y: scroll">
-    <template v-if="userProfil !== null">
+    <div v-if="userStore.loading" class="fill-height d-flex justify-center align-center">
+      <v-progress-circular indeterminate></v-progress-circular>
+    </div>
+    <div v-else-if="profilNotFound" class="text-center mt-8">
+      <v-icon size="64" color="red" class="mb-4">mdi-account-off</v-icon>
+      <div class="text-red font-weight-bold text-h5">{{ $t('view.profilPage.userNotFound') }}</div>
+      <div class="text-grey text-subtitle-1 mt-2">
+        {{ $t('view.profilPage.profileNotFound') }}
+      </div>
+      <v-btn size="large" class="bg-white mt-6 px-16" @click="$router.push({ name: 'Main' })">
+        {{ $t('view.profilPage.backToMain') }}
+      </v-btn>
+    </div>
+    <template v-else-if="userProfil !== null && !profilNotFound">
       <v-row class="position-sticky top-0" style="z-index: 10 !important">
         <v-col cols="12" class="py-0">
           <div
@@ -49,248 +62,259 @@
           <v-avatar
             v-if="!userProfilLoading"
             class="avatar-absolute ms-4"
-            image="https://picsum.photos/200"
+            :image="userProfil.image"
           ></v-avatar>
 
           <div class="d-flex flex-column">
-            <div class="d-none d-sm-flex">
-              <v-dialog v-model="dialog" @update:model-value="handleDialogClose">
-                <template v-slot:activator="{ props: activatorProps }">
-                  <v-btn
-                    v-if="!userProfilLoading"
-                    v-bind="activatorProps"
-                    size="large"
-                    variant="outlined"
-                    style="position: absolute; right: 15px; bottom: 0"
-                    class="me-4"
-                  >
-                    {{ $t('view.profilPage.editProfil') }}
-                  </v-btn>
-                </template>
+            <template v-if="userStore.itsMe(userProfil.email)">
+              <div class="d-none d-sm-flex">
+                <v-dialog v-model="dialog" @update:model-value="handleDialogClose">
+                  <template v-slot:activator="{ props: activatorProps }">
+                    <v-btn
+                      v-if="!userProfilLoading"
+                      v-bind="activatorProps"
+                      size="large"
+                      variant="outlined"
+                      style="position: absolute; right: 15px; bottom: 0"
+                      class="me-4"
+                    >
+                      {{ $t('view.profilPage.editProfil') }}
+                    </v-btn>
+                  </template>
 
-                <template v-slot:default="{ isActive }">
-                  <v-card class="bg-black overflow-hidden">
-                    <v-card-actions>
-                      <v-row>
-                        <v-col cols="7" class="d-flex align-center justify-start pt-1 mb-1">
-                          <v-btn icon="mdi-close" size="large" @click="isActive.value = false">
-                          </v-btn>
+                  <template v-slot:default="{ isActive }">
+                    <v-card class="bg-black overflow-hidden">
+                      <v-card-actions>
+                        <v-row>
+                          <v-col cols="7" class="d-flex align-center justify-start pt-1 mb-1">
+                            <v-btn icon="mdi-close" size="large" @click="isActive.value = false">
+                            </v-btn>
 
-                          <h2 class="ms-3 text-h5">{{ $t('view.profilPage.editProfil') }}</h2>
-                        </v-col>
-                        <v-col cols="5" class="d-flex align-center justify-end pt-1 mb-1">
-                          <v-btn
-                            size="large"
-                            class="bg-white px-6 py-2 mr-2 h-auto"
-                            @click="saveEdit"
+                            <h2 class="ms-3 text-h5">{{ $t('view.profilPage.editProfil') }}</h2>
+                          </v-col>
+                          <v-col cols="5" class="d-flex align-center justify-end pt-1 mb-1">
+                            <v-btn
+                              size="large"
+                              class="bg-white px-6 py-2 mr-2 h-auto"
+                              @click="saveEdit"
+                            >
+                              {{ $t('view.profilPage.save') }}
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+                      </v-card-actions>
+
+                      <v-row class="position-relative" style="max-height: 250px">
+                        <v-col class="pa-0 position-relative">
+                          <v-img
+                            width="auto"
+                            aspect-ratio="16/9"
+                            cover
+                            src="https://picsum.photos/1920/1080"
+                            max-height="170px"
+                            height="100%"
+                            class="d-flex align-center position-relative"
                           >
-                            {{ $t('view.profilPage.save') }}
-                          </v-btn>
-                        </v-col>
-                      </v-row>
-                    </v-card-actions>
+                            <div class="smoke-screen"></div>
+                            <div class="d-flex justify-center align-center">
+                              <v-btn
+                                icon="mdi-camera"
+                                class="mx-3 text-white"
+                                style="background-color: rgba(0, 0, 0, 0.5)"
+                              >
+                              </v-btn>
+                              <v-btn
+                                icon="mdi-close"
+                                class="mx-3 text-white"
+                                style="background-color: rgba(0, 0, 0, 0.5)"
+                              >
+                              </v-btn>
+                            </div>
+                          </v-img>
 
-                    <v-row class="position-relative" style="max-height: 250px">
-                      <v-col class="pa-0 position-relative">
-                        <v-img
-                          width="auto"
-                          aspect-ratio="16/9"
-                          cover
-                          src="https://picsum.photos/1920/1080"
-                          max-height="170px"
-                          height="100%"
-                          class="d-flex align-center position-relative"
-                        >
-                          <div class="smoke-screen"></div>
-                          <div class="d-flex justify-center align-center">
+                          <v-avatar class="avatar-absolute-edit">
+                            <v-img :src="userProfil.image"></v-img>
+                            <div class="smoke-screen"></div>
+
                             <v-btn
                               icon="mdi-camera"
-                              class="mx-3 text-white"
+                              class="mx-3 text-white position-absolute"
                               style="background-color: rgba(0, 0, 0, 0.5)"
                             >
                             </v-btn>
-                            <v-btn
-                              icon="mdi-close"
-                              class="mx-3 text-white"
-                              style="background-color: rgba(0, 0, 0, 0.5)"
-                            >
-                            </v-btn>
-                          </div>
-                        </v-img>
-
-                        <v-avatar class="avatar-absolute-edit">
-                          <v-img src="https://picsum.photos/200"></v-img>
-                          <div class="smoke-screen"></div>
-
-                          <v-btn
-                            icon="mdi-camera"
-                            class="mx-3 text-white position-absolute"
-                            style="background-color: rgba(0, 0, 0, 0.5)"
-                          >
-                          </v-btn>
-                        </v-avatar>
-                      </v-col>
-                    </v-row>
-
-                    <v-row class="px-8 py-4">
-                      <v-col class="pa-0">
-                        <v-text-field
-                          class="pb-4"
-                          :label="$t('view.profilPage.name')"
-                          v-model="userProfilUpdated.username"
-                        >
-                        </v-text-field>
-
-                        <v-text-field
-                          class="pb-4"
-                          :label="$t('view.profilPage.bio')"
-                          v-model="userProfilUpdated.biography"
-                        >
-                        </v-text-field>
-
-                        <div>
-                          <span class="opacity-50 text-subtitle-2"
-                            >{{ $t('view.profilPage.dateDeNaissance') }} •
-                          </span>
-                          <button
-                            type="button"
-                            class="text-subtitle-2 text-red"
-                            @click="editBirthday = !editBirthday"
-                          >
-                            {{ $t('view.profilPage.edit') }}
-                          </button>
-                        </div>
-
-                        <div v-if="!editBirthday">{{ userProfilUpdated.birthday }}</div>
-                        <v-text-field v-else class="pb-4" v-model="birthdayInput" type="date" />
-                      </v-col>
-                    </v-row>
-                  </v-card>
-                </template>
-              </v-dialog>
-            </div>
-
-            <div class="d-flex d-sm-none">
-              <v-dialog
-                transition="dialog-bottom-transition"
-                fullscreen
-                v-model="dialogMobile"
-                @update:model-value="handleDialogClose"
-              >
-                <template v-slot:activator="{ props: activatorProps }">
-                  <v-btn
-                    v-if="!userProfilLoading"
-                    v-bind="activatorProps"
-                    size="large"
-                    variant="outlined"
-                    style="position: absolute; right: 15px; bottom: 0"
-                    class="me-4"
-                  >
-                    {{ $t('view.profilPage.editProfil') }}
-                  </v-btn>
-                </template>
-
-                <template v-slot:default="{ isActive }">
-                  <v-card class="bg-black overflow-hidden">
-                    <v-card-actions>
-                      <v-row>
-                        <v-col cols="7" class="d-flex align-center justify-start pt-1 mb-1">
-                          <v-btn icon="mdi-close" size="large" @click="isActive.value = false">
-                          </v-btn>
-
-                          <h2 class="ms-3 text-h6">{{ $t('view.profilPage.editProfil') }}</h2>
-                        </v-col>
-                        <v-col cols="5" class="d-flex align-center justify-end pt-1 mb-1">
-                          <v-btn
-                            size="large"
-                            class="bg-white px-6 py-2 mr-2 h-auto"
-                            @click="saveEdit"
-                          >
-                            {{ $t('view.profilPage.save') }}
-                          </v-btn>
+                          </v-avatar>
                         </v-col>
                       </v-row>
-                    </v-card-actions>
 
-                    <v-row class="position-relative" style="max-height: 250px">
-                      <v-col class="pa-0 position-relative">
-                        <v-img
-                          width="auto"
-                          aspect-ratio="16/9"
-                          cover
-                          src="https://picsum.photos/1920/1080"
-                          max-height="170px"
-                          height="100%"
-                          class="d-flex align-center position-relative"
-                        >
-                          <div class="smoke-screen"></div>
-                          <div class="d-flex justify-center align-center">
+                      <v-row class="px-8 py-4">
+                        <v-col class="pa-0">
+                          <v-text-field
+                            class="pb-4"
+                            :label="$t('view.profilPage.name')"
+                            v-model="userProfilUpdated.username"
+                          >
+                          </v-text-field>
+
+                          <v-text-field
+                            class="pb-4"
+                            :label="$t('view.profilPage.bio')"
+                            v-model="userProfilUpdated.biography"
+                          >
+                          </v-text-field>
+
+                          <div>
+                            <span class="opacity-50 text-subtitle-2"
+                              >{{ $t('view.profilPage.birthDate') }} •
+                            </span>
+                            <button
+                              type="button"
+                              class="text-subtitle-2 text-red"
+                              @click="editBirthday = !editBirthday"
+                            >
+                              {{ $t('view.profilPage.edit') }}
+                            </button>
+                          </div>
+
+                          <div v-if="!editBirthday">{{ userProfilUpdated.birthday }}</div>
+                          <v-text-field v-else class="pb-4" v-model="birthdayInput" type="date" />
+                        </v-col>
+                      </v-row>
+                    </v-card>
+                  </template>
+                </v-dialog>
+              </div>
+
+              <div class="d-flex d-sm-none">
+                <v-dialog
+                  transition="dialog-bottom-transition"
+                  fullscreen
+                  v-model="dialogMobile"
+                  @update:model-value="handleDialogClose"
+                >
+                  <template v-slot:activator="{ props: activatorProps }">
+                    <v-btn
+                      v-if="!userProfilLoading"
+                      v-bind="activatorProps"
+                      size="large"
+                      variant="outlined"
+                      style="position: absolute; right: 15px; bottom: 0"
+                      class="me-4"
+                    >
+                      {{ $t('view.profilPage.editProfil') }}
+                    </v-btn>
+                  </template>
+
+                  <template v-slot:default="{ isActive }">
+                    <v-card class="bg-black overflow-hidden">
+                      <v-card-actions>
+                        <v-row>
+                          <v-col cols="7" class="d-flex align-center justify-start pt-1 mb-1">
+                            <v-btn icon="mdi-close" size="large" @click="isActive.value = false">
+                            </v-btn>
+
+                            <h2 class="ms-3 text-h6">{{ $t('view.profilPage.editProfil') }}</h2>
+                          </v-col>
+                          <v-col cols="5" class="d-flex align-center justify-end pt-1 mb-1">
+                            <v-btn
+                              size="large"
+                              class="bg-white px-6 py-2 mr-2 h-auto"
+                              @click="saveEdit"
+                            >
+                              {{ $t('view.profilPage.save') }}
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+                      </v-card-actions>
+
+                      <v-row class="position-relative" style="max-height: 250px">
+                        <v-col class="pa-0 position-relative">
+                          <v-img
+                            width="auto"
+                            aspect-ratio="16/9"
+                            cover
+                            src="https://picsum.photos/1920/1080"
+                            max-height="170px"
+                            height="100%"
+                            class="d-flex align-center position-relative"
+                          >
+                            <div class="smoke-screen"></div>
+                            <div class="d-flex justify-center align-center">
+                              <v-btn
+                                icon="mdi-camera"
+                                class="mx-3 text-white"
+                                style="background-color: rgba(0, 0, 0, 0.5)"
+                              >
+                              </v-btn>
+                              <v-btn
+                                icon="mdi-close"
+                                class="mx-3 text-white"
+                                style="background-color: rgba(0, 0, 0, 0.5)"
+                              >
+                              </v-btn>
+                            </div>
+                          </v-img>
+
+                          <v-avatar class="avatar-absolute-edit">
+                            <v-img :src="userProfil.image"></v-img>
+                            <div class="smoke-screen"></div>
+
                             <v-btn
                               icon="mdi-camera"
-                              class="mx-3 text-white"
+                              class="mx-3 text-white position-absolute"
                               style="background-color: rgba(0, 0, 0, 0.5)"
                             >
                             </v-btn>
-                            <v-btn
-                              icon="mdi-close"
-                              class="mx-3 text-white"
-                              style="background-color: rgba(0, 0, 0, 0.5)"
+                          </v-avatar>
+                        </v-col>
+                      </v-row>
+
+                      <v-row class="px-8 py-4">
+                        <v-col class="pa-0">
+                          <v-text-field
+                            class="pb-4"
+                            :label="$t('view.profilPage.name')"
+                            v-model="userProfilUpdated.username"
+                          >
+                          </v-text-field>
+
+                          <v-text-field
+                            class="pb-4"
+                            :label="$t('view.profilPage.bio')"
+                            v-model="userProfilUpdated.biography"
+                          >
+                          </v-text-field>
+
+                          <div>
+                            <span class="opacity-50 text-subtitle-2"
+                              >{{ $t('view.profilPage.birthDate') }} •
+                            </span>
+                            <button
+                              type="button"
+                              class="text-subtitle-2 text-red"
+                              @click="editBirthday = !editBirthday"
                             >
-                            </v-btn>
+                              {{ $t('view.profilPage.edit') }}
+                            </button>
                           </div>
-                        </v-img>
 
-                        <v-avatar class="avatar-absolute-edit">
-                          <v-img src="https://picsum.photos/200"></v-img>
-                          <div class="smoke-screen"></div>
-
-                          <v-btn
-                            icon="mdi-camera"
-                            class="mx-3 text-white position-absolute"
-                            style="background-color: rgba(0, 0, 0, 0.5)"
-                          >
-                          </v-btn>
-                        </v-avatar>
-                      </v-col>
-                    </v-row>
-
-                    <v-row class="px-8 py-4">
-                      <v-col class="pa-0">
-                        <v-text-field
-                          class="pb-4"
-                          :label="$t('view.profilPage.name')"
-                          v-model="userProfilUpdated.username"
-                        >
-                        </v-text-field>
-
-                        <v-text-field
-                          class="pb-4"
-                          :label="$t('view.profilPage.bio')"
-                          v-model="userProfilUpdated.biography"
-                        >
-                        </v-text-field>
-
-                        <div>
-                          <span class="opacity-50 text-subtitle-2"
-                            >{{ $t('view.profilPage.dateDeNaissance') }} •
-                          </span>
-                          <button
-                            type="button"
-                            class="text-subtitle-2 text-red"
-                            @click="editBirthday = !editBirthday"
-                          >
-                            {{ $t('view.profilPage.edit') }}
-                          </button>
-                        </div>
-
-                        <div v-if="!editBirthday">{{ userProfilUpdated.birthday }}</div>
-                        <v-text-field v-else class="pb-4" v-model="birthdayInput" type="date" />
-                      </v-col>
-                    </v-row>
-                  </v-card>
-                </template>
-              </v-dialog>
-            </div>
+                          <div v-if="!editBirthday">{{ userProfilUpdated.birthday }}</div>
+                          <v-text-field v-else class="pb-4" v-model="birthdayInput" type="date" />
+                        </v-col>
+                      </v-row>
+                    </v-card>
+                  </template>
+                </v-dialog>
+              </div>
+            </template>
+            <v-btn
+              v-else
+              size="large"
+              variant="outlined"
+              style="position: absolute; right: 15px; bottom: 0"
+              class="me-4"
+            >
+              {{ $t('view.profilPage.follow') }}
+            </v-btn>
           </div>
         </v-col>
       </v-row>
@@ -396,16 +420,6 @@
       />
       <v-overlay v-model="commentTwitDialog" persistent />
     </template>
-    <div v-else class="text-center mt-8">
-      <v-icon size="64" color="red" class="mb-4">mdi-account-off</v-icon>
-      <div class="text-red font-weight-bold text-h5">{{ $t('view.profilPage.userNotFound') }}</div>
-      <div class="text-grey text-subtitle-1 mt-2">
-        {{ $t('view.profilPage.profileNotFound') }}
-      </div>
-      <v-btn size="large" class="bg-white mt-6 px-16" @click="$router.push({ name: 'Main' })">
-        {{ $t('view.profilPage.backToMain') }}
-      </v-btn>
-    </div>
   </v-container>
 </template>
 
@@ -414,7 +428,7 @@ import AddComment from '@/components/twit/addCommentComponent.vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/fr'
 import 'dayjs/locale/en-gb'
-import { ref, watch, onMounted, type Ref, computed } from 'vue'
+import { ref, watch, onMounted, onUnmounted, type Ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import TwitComponent from '@/components/twit/twitComponent.vue'
 import { Twit } from '@/core/api'
@@ -433,6 +447,7 @@ const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
 const profilNotFound = ref<boolean>(false)
+const selectedUserProfil = ref<string>(null)
 
 const items: Ref<Array<Twit>> = ref([])
 
@@ -478,7 +493,6 @@ function handleDialogClose(isOpen: boolean) {
 async function load({ done }) {
   // Perform API call
   for (let i = 0; i < 30; i++) {
-
     await userStore.fetchUserTwits()
     items.value.push(...userStore.userTwits)
   }
@@ -547,23 +561,25 @@ const userProfilLoading = computed(() => {
 })
 
 const userProfil = computed(() => {
-  if (userStore.loading || !userStore.userProfil) {
-    return null
-  }
+  if (selectedUserProfil.value === null) return null
   return {
-    nbPosts: userStore.userProfil?.twits?.length ?? 0,
-    nbFollowers: userStore.userProfil?.followers?.length ?? 0,
-    nbFollowings: userStore.userProfil?.followings?.length ?? 0,
-    birthday: userStore.userProfil?.birthdate
-      ? dayjs(userStore.userProfil?.birthdate).format('D MMMM YYYY')
+    image: selectedUserProfil.value?.profileImgPath ?? '',
+    nbPosts: selectedUserProfil.value?.twits?.length ?? 0,
+    nbFollowers: selectedUserProfil.value?.followers?.length ?? 0,
+    nbFollowings: selectedUserProfil.value?.followings?.length ?? 0,
+    birthday: selectedUserProfil.value?.birthdate
+      ? dayjs(selectedUserProfil.value?.birthdate).format('D MMMM YYYY')
       : 'Pas de date définie',
-    userIdentifier: userStore.userProfil?.username ? `@${userStore.userProfil?.username}` : '',
-    biography: userStore.userProfil?.biography ?? '',
-    username: userStore.userProfil?.username ?? '',
+    userIdentifier: selectedUserProfil.value?.username
+      ? `@${selectedUserProfil.value?.username}`
+      : '',
+    biography: selectedUserProfil.value?.biography ?? '',
+    username: selectedUserProfil.value?.username ?? '',
+    email: selectedUserProfil.value?.email ?? '',
   }
 })
 
-onMounted(() => {
+onMounted(async () => {
   // Get username from route
   let username = route.params.username as string
   if (!username && username.length === 0 && username[0] !== '@') {
@@ -571,8 +587,16 @@ onMounted(() => {
     return
   }
   username = username.substring(1)
+
   // Load user profil
-  userStore.fetchUserProfil(username)
+  selectedUserProfil.value = await userStore.fetchUserProfil(username)
+  if (!selectedUserProfil.value) {
+    profilNotFound.value = true
+  }
+})
+
+onUnmounted(() => {
+  selectedUserProfil.value = ''
 })
 
 watch(
