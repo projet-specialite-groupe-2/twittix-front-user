@@ -1,9 +1,10 @@
-name: CI/CD Twittix API
+
+name: CI/CD Twittix Front User
 
 on:
   push:
     branches:
-      - develop
+      - dev
 
 jobs:
   test:
