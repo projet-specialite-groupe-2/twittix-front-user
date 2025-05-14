@@ -39,6 +39,13 @@ jobs:
       #   env:
       #     CI: true
       #   continue-on-error: true
+      - name: Create .env file for production
+        run: |
+          echo "VUE_APP_API_BASE=${{ secrets.API_URL }}" >> .env
+          echo "VUE_APP_API_AUTH=${{ secrets.API_AUTH_URL }}" >> .env
+          echo "VUE_APP_OPEN_API_HOST=${{ secrets.OPENAPI_URL}} " >> .env
+          echo "VUE_APP_OPEN_API_PORT=${{ secrets.OPENAPI_PORT}}" >> .env
+          echo "VUE_APP_OPENAPI_PROTOCOL=http" >> .env
 
       - name: Build the app
         run: npm run build
