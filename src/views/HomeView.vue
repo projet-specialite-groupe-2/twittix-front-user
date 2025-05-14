@@ -2,8 +2,28 @@
   <v-container class="pa-0" fluid>
     <v-row>
       <v-col justify="center" align="center" class="pa-0 overflow-y-scroll h-screen">
-        <v-col class="position-sticky top-0" style="z-index: 1">
-          <v-row no-gutters style="backdrop-filter: blur(10px)">
+        <v-col class="position-sticky top-0 pb-0" style="z-index: 1; backdrop-filter: blur(10px)">
+          <v-row class="d-md-none d-flex pa-3 pb-1" no-gutters>
+            <v-col cols="4" class="d-flex justify-start">
+              <div class="hoverable" @click="goToProfilPage">
+                <v-avatar :image="userStore.userProfil?.profileImgPath" size="40"></v-avatar>
+              </div>
+            </v-col>
+            <v-col cols="4" class="d-flex justify-center">
+              <div class="hoverable" @click="goToHomePage">
+                <v-avatar size="45">
+                  <v-img
+                    class="user-select-none"
+                    aspect-ratio="16/9"
+                    cover
+                    src="/src/assets/images/logo.png"
+                  ></v-img>
+                </v-avatar>
+              </div>
+            </v-col>
+            <v-col cols="4"></v-col>
+          </v-row>
+          <v-row no-gutters>
             <v-col class="px-0">
               <v-btn
                 block
@@ -43,7 +63,9 @@
         </v-col>
         <v-col>
           <v-col>
-            <AddTwitComponent :user-picture-url="currentUser?.profileImgPath ?? ''"></AddTwitComponent>
+            <AddTwitComponent
+              :user-picture-url="currentUser?.profileImgPath ?? ''"
+            ></AddTwitComponent>
           </v-col>
           <v-divider class="border-opacity-25"></v-divider>
         </v-col>
@@ -97,7 +119,7 @@ import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref, type Ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 const isForYouView = ref<boolean>(true)
 const twitStore = useTwitStore()
 const userStore = useUserStore()
@@ -109,31 +131,37 @@ const currentUser = ref<User | undefined>()
 const twits: Ref<Array<Twit>> = ref([])
 
 onMounted(async () => {
-  await userStore.fetchCurrentUser()
   currentUser.value = userStore.userProfil
-
 })
 function likeTwit(id: number) {
-  const twit = twits.value.find(p => p.id === id);
+  const twit = twits.value.find(p => p.id === id)
   if (twit) {
     if (twit.isLiked) {
-      twit.likes?.pop();
+      twit.likes?.pop()
     } else {
-      twit.likes = [...(twit.likes || []), Date.now().toString()];
+      twit.likes = [...(twit.likes || []), Date.now().toString()]
     }
-    twit.isLiked = !twit.isLiked;
+    twit.isLiked = !twit.isLiked
   }
+}
+
+function goToProfilPage() {
+  router.push({ name: PageNameEnum.PROFIL, params: { username: '@' + userStore.getUsername } })
+}
+
+function goToHomePage() {
+  router.push({ name: PageNameEnum.HOME })
 }
 
 function rePost(id: number) {
   const twit = twits.value.find(p => p.id === id)
   if (twit) {
     if (twit.isReposted) {
-      twit.reposts?.pop();
+      twit.reposts?.pop()
     } else {
-      twit.reposts = [...(twit.reposts || []), Date.now().toString()];
+      twit.reposts = [...(twit.reposts || []), Date.now().toString()]
     }
-    twit.isReposted = !twit.isReposted;
+    twit.isReposted = !twit.isReposted
   }
 }
 
@@ -161,6 +189,6 @@ function openCommentDialog(data: Twit) {
 }
 
 function openTwit(id: number) {
-  router.push({ name: PageNameEnum.TWIT, params : { idTwit: id } })
+  router.push({ name: PageNameEnum.TWIT, params: { idTwit: id } })
 }
 </script>

@@ -73,9 +73,11 @@ import NavigationComponent from './components/shared/NavigationComponent.vue'
 import MessageBox from './components/Message/MessageBox.vue'
 import PageNameEnum from './core/types/enums/pageNameEnum'
 import { useLoginStore } from '@/stores/loginStore'
+import { useUserStore } from '@/stores/userStore'
 
 const route = useRoute()
 const loginStore = useLoginStore()
+const userStore = useUserStore()
 const router = useRouter()
 
 const display = useDisplay()
@@ -104,10 +106,15 @@ watch(
   }
 )
 
-onMounted(() => {
+onMounted(async () => {
   const token = window.localStorage.getItem('token')
   const refreshToken = window.localStorage.getItem('refreshToken')
-  if (token) loginStore.token = token
+  if (token) {
+    loginStore.token = token
+
+    // Get user information from token
+    await userStore.fetchUserProfilByEmail()
+  }
   if (refreshToken) loginStore.refreshToken = refreshToken
 })
 </script>
