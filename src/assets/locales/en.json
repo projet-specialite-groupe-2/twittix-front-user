@@ -91,6 +91,16 @@
             "posts": "Posts",
             "comment": "Post your reply",
             "reply": "Reply"
+        },
+        "confirmEmail": {
+            "confirmEmail": "Email confirmed",
+            "emailConfirmMessage": "Your email has been confirmed. You can now log in to your account.",
+            "goToLogin": "Log in",
+            "confirmEmailError": "Error confirming email.",
+            "emailConfirmMessageError": "Error confirming email. Invalid or expired link. Please try again.",
+            "goToLoginPage": "Go to login page",
+            "confirmEmailWait": "Email confirmation in progress.",
+            "emailConfirmMessageWait": "Your email is being confirmed. Please wait."
         }
     },
     "errors": {
