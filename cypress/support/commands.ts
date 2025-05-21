@@ -52,6 +52,6 @@ Cypress.Commands.add('setFakeToken', () => {
 
 // Ce code s'exécute avant tous les tests
 beforeEach(() => {
-  cy.visit('/') // charge la page pour accéder au window/localStorage
   cy.setFakeToken()
+  cy.visit('/') // charge la page pour accéder au window/localStorage
 })

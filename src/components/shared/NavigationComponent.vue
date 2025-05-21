@@ -158,7 +158,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
         <v-menu location="top center">
           <template v-slot:activator="{ props }">
             <v-list-item
-              id="list-item-user"
+              id="listItemUserManagement"
               class="my-2 mb-5 user-select-none"
               rounded="xl"
               link
@@ -184,7 +184,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
 
           <v-list class="mb-5 bg-black rounded-xl border-white border-md" :border="true">
             <v-list-item v-for="(item, index) in dropdownUserItems" :key="index">
-              <v-list-item-title v-on:click="item.click" class="user-select-none hoverable">
+              <v-list-item-title id="itemDisconnectUser" v-on:click="item.click" class="user-select-none hoverable">
                 {{ item.title }}
               </v-list-item-title>
             </v-list-item>

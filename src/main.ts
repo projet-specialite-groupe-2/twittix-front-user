@@ -83,3 +83,4 @@ app.config.globalProperties.$t = i18n.global.t
 app.config.globalProperties.$toast = toast
 
 export { i18n }
+

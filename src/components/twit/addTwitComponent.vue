@@ -29,13 +29,20 @@ function progressCircularColor(): string {
   if (twitPourcentage.value < 90) return 'orange'
   return 'red'
 }
+
+function postTwit(): void {
+  if (twitText.value.length > 0) {
+    emit('submit:form', true, twitText.value)
+    twitText.value = ''
+  }
+}
 </script>
 
 <template>
   <v-container>
     <v-textarea
       class="mx-2"
-      :label="$t('view.homeView.WhatsNew')"
+      :label="$t('components.addTwitComponent.whatsNew')"
       variant="plain"
       auto-grow
       rows="2"
@@ -63,8 +70,8 @@ function progressCircularColor(): string {
           </template>
         </v-progress-circular>
         <v-divider vertical class="ml-5 h-50 border-opacity-25"></v-divider>
-        <v-btn class="bg-white ml-5" v-on:click="emit('submit:form', true, twitText)">
-          {{ $t('components.navigationForm.post') }}
+        <v-btn class="bg-white ml-5" v-on:click="postTwit">
+          {{ $t('components.addTwitComponent.post') }}
         </v-btn>
       </div>
     </v-row>

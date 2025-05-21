@@ -24,16 +24,16 @@
           :twit-id="twit.id ?? 0"
           :twit-content="twit.content ?? ''"
           :twit-date="twit.createdAt ?? ''"
-          :user-id="twit.author?.userIdentifier ?? ''"
-          :username="twit.author?.username ?? ''"
-          :user-picture-url="twit.author?.profileImgPath ?? ''"
-          :twit-message-number="'9786'"
-          :twit-like-number="twit.likes?.length.toString() ?? '0'"
-          :twit-re-twit-number="twit.reposts?.length.toString() ?? '0'"
-          :is-liked="twit.isLiked ?? false"
-          :id-re-twit="twit.isReposted ?? false"
-          v-on:like="likeTwit"
-          v-on:retwit="rePost"
+          :user-id="twit.authorId ?? ''"
+          :username="twit.authorUsername ?? ''"
+          :user-picture-url="twit.authorProfileImgPath ?? ''"
+          :twit-message-number="twit.nbComments?.toString() ?? '0'"
+          :twit-like-number="twit.nbLikes?.toString() ?? '0'"
+          :twit-re-twit-number="twit.nbReposts?.toString() ?? '0'"
+          :is-liked="twit.isLikedByUser ?? false"
+          :id-re-twit="twit.isRepostedByUser ?? false"
+          v-on:like="likeCurrentTwit"
+          v-on:retwit="rePostCurrentTwit"
           v-on:comment="openCommentDialog"
         />
 
@@ -73,19 +73,19 @@
           </v-row>
         </v-container>
 
-        <div v-for="item in commentary" :key="item.id">
+        <div class="w-100 h-100" v-for="item in commentary" :key="item.id ?? 0">
           <TwitComponent v-if="twit"
           :twit-id="item.id ?? 0"
           :twit-content="item.content ?? ''"
           :twit-date="item.createdAt ?? ''"
-          :user-id="item.author?.userIdentifier ?? ''"
-          :username="item.author?.username ?? ''"
-          :user-picture-url="item.author?.profileImgPath ?? ''"
-          :twit-message-number="'9786'"
-          :twit-like-number="item.likes?.length.toString() ?? '0'"
-          :twit-re-twit-number="item.reposts?.length.toString() ?? '0'"
-          :is-liked="item.isLiked ?? false"
-          :id-re-twit="item.isReposted ?? false"
+          :user-id="item.authorId ?? ''"
+          :username="item.authorUsername ?? ''"
+          :user-picture-url="item.authorProfileImgPath ?? ''"
+          :twit-message-number="item.nbComments?.toString() ?? '0'"
+          :twit-like-number="item.nbLikes?.toString() ?? '0'"
+          :twit-re-twit-number="item.nbReposts?.toString() ?? '0'"
+          :is-liked="item.isLikedByUser ?? false"
+          :id-re-twit="item.isRepostedByUser ?? false"
           v-on:openTwit="openTwit"
           v-on:like="likeTwit"
           v-on:retwit="rePost"
@@ -99,9 +99,9 @@
       :twit-id="twit?.id ?? 0"
       :twit-content="twit?.content ?? ''"
       :twit-date="twit?.createdAt ?? ''"
-      :user-id="twit?.author?.userIdentifier ?? ''"
-      :username="twit?.author?.username ?? ''"
-      :user-twit-picture-url="twit?.author?.profileImgPath ?? ''"
+      :user-id="twit?.authorId ?? ''"
+      :username="twit?.authorUsername ?? ''"
+      :user-twit-picture-url="twit?.authorProfileImgPath ?? ''"
       :user-comment-picture-url="currentUser?.profileImgPath ?? ''"
       :open="commentTwitDialog"
       v-on:submit:form="commentDialogAction"
@@ -113,7 +113,7 @@
 <script setup lang="ts">
 import AddComment from '@/components/twit/addCommentComponent.vue';
 import TwitComponent from '@/components/twit/twitComponent.vue';
-import { Twit, type User } from '@/core/api';
+import { Twit, type Twit_TwitCollectionDTO, type User } from '@/core/api';
 import PageNameEnum from '@/core/types/enums/pageNameEnum';
 import { useTwitStore } from '@/stores/twitStore';
 import { useUserStore } from '@/stores/userStore';
@@ -122,13 +122,13 @@ import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
-const twit: Ref<Twit | undefined> = ref(undefined)
+const twit: Ref<Twit_TwitCollectionDTO | undefined> = ref(undefined)
 const twitId: Ref<number> = ref(+router.currentRoute.value.params.idTwit)
 const twitStore = useTwitStore()
 const userStore = useUserStore()
 
 const commentTwitDialog = ref<boolean>(false)
-const commentary: Ref<Array<Twit>> = ref([])
+const commentary: Ref<Array<Twit_TwitCollectionDTO>> = ref([])
 const currentUser = ref<User | undefined>(undefined)
 
 const twitLimit = 280
@@ -141,8 +141,7 @@ onMounted(async () => {
   userStore.fetchCurrentUser()
   currentUser.value = userStore.userProfil
 
-  await twitStore.fetchTwit()
-  commentary.value.push(...twitStore.twits)
+  commentary.value.push(...twitStore.twitsForYou)
 });
 
 watch(
@@ -160,27 +159,53 @@ function progressCircularColor(): string {
   return 'red'
 }
 
-function likeTwit(id: number) {
-  const twit = commentary.value.find(p => p.id === id);
-  if (twit) {
-    if (twit.isLiked) {
-      twit.likes?.pop();
+function likeCurrentTwit() {
+  if (twit.value) {
+    // TODO Api call
+    twit.value.isLikedByUser = !twit.value.isLikedByUser
+    if(twit.value.isLikedByUser) {
+      twit.value.nbLikes = (twit.value.nbLikes ?? 0) + 1
     } else {
-      twit.likes = [...(twit.likes || []), Date.now().toString()];
+      twit.value.nbLikes = (twit.value.nbLikes ?? 0) - 1
     }
-    twit.isLiked = !twit.isLiked;
+  }
+}
+
+function rePostCurrentTwit() {
+  if (twit.value) {
+    // TODO Api call
+    twit.value.isRepostedByUser = !twit.value.isRepostedByUser
+    if(twit.value.isRepostedByUser) {
+      twit.value.nbReposts = (twit.value.nbReposts ?? 0) + 1
+    } else {
+      twit.value.nbReposts = (twit.value.nbReposts ?? 0) - 1
+    }
+  }
+}
+
+function likeTwit(id: number) {
+  const twit: Twit_TwitCollectionDTO | undefined = commentary.value.find(p => p.id === id)
+  if (twit) {
+    // TODO Api call
+    twit.isLikedByUser = !twit.isLikedByUser
+    if(twit.isLikedByUser) {
+      twit.nbLikes = (twit.nbLikes ?? 0) + 1
+    } else {
+      twit.nbLikes = (twit.nbLikes ?? 0) - 1
+    }
   }
 }
 
 function rePost(id: number) {
-  const twit = commentary.value.find(p => p.id === id)
-  if (twit) {
-    if (twit.isReposted) {
-      twit.reposts?.pop();
+  const twit: Twit_TwitCollectionDTO | undefined = commentary.value.find(p => p.id === id)
+  if(twit) {
+    // TODO Api call
+    twit.isRepostedByUser = !twit.isRepostedByUser
+    if(twit.isRepostedByUser) {
+      twit.nbReposts = (twit.nbReposts ?? 0) + 1
     } else {
-      twit.reposts = [...(twit.reposts || []), Date.now().toString()];
+      twit.nbReposts = (twit.nbReposts ?? 0) - 1
     }
-    twit.isReposted = !twit.isReposted;
   }
 }
 

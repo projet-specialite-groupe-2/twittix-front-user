@@ -73,7 +73,11 @@ function redirectToProfile() {
                     <a v-on:click.stop="redirectToProfile" class="font-weight-black mx-1 profile-name">{{ props.username }}</a>
                     <p class="mx-1 text-medium-emphasis">{{ props.userId }}</p>
                     <p class="mx-1 text-medium-emphasis">{{ formattedDate }}</p>
+                    <div class="ml-auto">
+                      <v-btn icon="mdi-dots-horizontal" variant="plain" size="small" v-on:click.stop="console.log('optn')"/>
+                    </div>
                 </v-row>
+
                 <v-row  class="ml-3">
                     <p class="text-left text-white-space">{{ props.twitContent }}</p>
                 </v-row>

@@ -13,11 +13,22 @@
         "addComment": {
             "postAnwser": "Poster votre réponse",
             "anwser": "Répondre"
+        },
+        "addTwitComponent": {
+            "whatsNew" : "Quoi de neuf ?!",
+            "post" : "Poster"
         }
     },
     "view": {
         "homeView": {
-            "WhatsNew": "Quoi de neuf ?!"
+            "forYou": "Pour vous",
+            "subscriptions": "Abonnements",
+            "twit":{
+                "post":{
+                    "success": "Poste publié avec succès",
+                    "error": "Erreur lors de la publication du poste"
+                }
+            }
         },
         "loginPage": {
             "title": "Ça se passe maintenant",
