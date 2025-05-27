@@ -72,6 +72,7 @@
                   <template v-slot:activator="{ props: activatorProps }">
                     <v-btn
                       v-if="!userProfilLoading"
+                      id="edit-profil-button"
                       v-bind="activatorProps"
                       size="large"
                       variant="outlined"
@@ -149,6 +150,7 @@
                       <v-row class="px-8 py-4">
                         <v-col class="pa-0">
                           <v-text-field
+                            id="edit-profil-name"
                             class="pb-4"
                             :label="$t('view.profilPage.name')"
                             v-model="userProfilUpdated.username"
@@ -156,6 +158,7 @@
                           </v-text-field>
 
                           <v-text-field
+                            id="edit-profil-bio"
                             class="pb-4"
                             :label="$t('view.profilPage.bio')"
                             v-model="userProfilUpdated.biography"
@@ -175,7 +178,9 @@
                             </button>
                           </div>
 
-                          <div v-if="!editBirthday">{{ userProfilUpdated.birthday }}</div>
+                          <div v-if="!editBirthday" id="edit-profil-birthday">
+                            {{ userProfilUpdated.birthday }}
+                          </div>
                           <v-text-field v-else class="pb-4" v-model="birthdayInput" type="date" />
                         </v-col>
                       </v-row>
@@ -194,6 +199,7 @@
                   <template v-slot:activator="{ props: activatorProps }">
                     <v-btn
                       v-if="!userProfilLoading"
+                      id="edit-profil-mobile"
                       v-bind="activatorProps"
                       size="large"
                       variant="outlined"
@@ -319,7 +325,7 @@
         </v-col>
       </v-row>
 
-      <div class="mt-5 px-5">
+      <div id="profil-page-user-info" class="mt-5 px-5">
         <v-skeleton-loader
           v-if="userProfilLoading"
           color="primary"
@@ -447,7 +453,7 @@ const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
 const profilNotFound = ref<boolean>(false)
-const selectedUserProfil = ref<string>(null)
+const selectedUserProfil = ref<object>(null)
 
 const items: Ref<Array<Twit>> = ref([])
 

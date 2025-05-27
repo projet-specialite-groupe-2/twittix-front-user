@@ -50,6 +50,17 @@ export const useUserStore = defineStore('user', {
 
       userProfil[0].profileImgPath = 'https://picsum.photos/200'
 
+      if (
+        import.meta.env.VUE_APP_APP_ENV &&
+        import.meta.env.VUE_APP_APP_ENV === 'test' &&
+        username === 'user'
+      ) {
+        userProfil[0].username = 'user'
+        userProfil[0].email = 'user@gmail.com'
+        userProfil[0].biography = 'bio de test'
+        userProfil[0].birthdate = '2000-01-01'
+      }
+
       return userProfil[0]
     },
 
@@ -78,6 +89,11 @@ export const useUserStore = defineStore('user', {
       }
 
       this.userProfil = userProfil[0]
+
+      if (import.meta.env.VUE_APP_APP_ENV && import.meta.env.VUE_APP_APP_ENV === 'test') {
+        this.userProfil.username = 'user'
+        this.userProfil.email = 'user@gmail.com'
+      }
 
       this.userProfil.profileImgPath = 'https://picsum.photos/200'
     },
