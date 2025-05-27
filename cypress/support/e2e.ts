@@ -17,12 +17,20 @@
 import './commands'
 import { faker } from '@faker-js/faker'
 
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      setFakeToken(): Chainable<void>
+    }
+  }
+}
+
 Cypress.Commands.add('setFakeToken', () => {
   const fakeToken = faker.internet.jwt({
     payload: {
       sub: faker.string.uuid(),
       exp: 999999999999,
-      email: faker.internet.email(),
+      email: 'user@gmail.com',
       pwd: faker.internet.password(),
       type: 'access',
     },
