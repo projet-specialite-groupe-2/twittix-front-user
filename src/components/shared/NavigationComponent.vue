@@ -138,7 +138,6 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
             rounded="xl"
             link
             :ripple="false"
-            id="btnProfile"
             v-on:click="goToProfil"
           >
             <template v-slot:prepend>
@@ -215,6 +214,8 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
   <AddTwitPopupComponent
     v-if="addTwitDialog"
     :user-picture-url="userStore.userProfil?.profileImgPath ?? ''"
+    :content="''"
+    :title="$t('components.navigationForm.addTwitTitle')"
     :open="addTwitDialog"
     v-on:submit:form="addTwitDialogAction"
   ></AddTwitPopupComponent>

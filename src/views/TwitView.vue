@@ -64,7 +64,7 @@
               {{ twitLimit - twitLenght }}
             </template>
           </v-progress-circular>
-          <v-btn class="bg-white ml-5 mb-5 me-5">
+          <v-btn class="bg-white ml-5 mb-5 me-5" v-on:click="commentCurrentDialogAction(true, twitText)">
             {{ $t('view.twitView.reply') }}
           </v-btn>
         </div>
@@ -90,7 +90,7 @@
         v-on:retwit="onClickRePost(item.id ?? 0)"
         v-on:delete-twit="deleteTwit"
         v-on:edit-twit="onClickEditTwit(item.id ?? 0)"
-        v-on:comment="openCommentDialog(item)"
+        v-on:comment="openCommentDialog(item.id ?? 0)"
       />
       </div>
   </v-row>
@@ -124,7 +124,7 @@
 import AddComment from '@/components/twit/addCommentComponent.vue';
 import AddTwitPopupComponent from '@/components/twit/addTwitPopupComponent.vue';
 import TwitComponent from '@/components/twit/twitComponent.vue';
-import { type Twit_TwitDTO, type User } from '@/core/api';
+import { Twit, type Twit_TwitDTO, type User } from '@/core/api';
 import PageNameEnum from '@/core/types/enums/pageNameEnum';
 import { useLikeStore } from '@/stores/likeStore';
 import { useRepostsStore } from '@/stores/repostsStore';
@@ -332,14 +332,36 @@ const deleteTwit = async (id: number) => {
   }
 }
 
-const openCommentDialog = (data: Twit_TwitDTO) => {
-  addEditTwit.value = comments.value.find(p => p.id === data.id)
+const openCommentDialog = (id: number) => {
+  addEditTwit.value = comments.value.find(p => p.id === id)
+  idTwitToDo.value = addEditTwit.value?.id ?? 0
   commentTwitDialog.value = true
 }
 
-const commentDialogAction = (confirm: boolean, data?: unknown) => {
+const commentCurrentDialogAction = async (confirm: boolean, data?: unknown) => {
+  idTwitToDo.value = twitId.value
+  commentDialogAction(confirm, data)
+}
+
+const commentDialogAction = async(confirm: boolean, data?: unknown) => {
   if (confirm && data) {
-    // Todo with APIs
+    const twit = {
+      content: data,
+      author: "/api/users/" + userStore.userProfil?.id,
+      status: Twit.status.PUBLISHED,
+      parent: idTwitToDo.value,
+      likes: [],
+      rePost: []
+    }
+    console.log(twit)
+    const result = await twitStore.createTwit(twit as unknown as Twit)
+
+    if (result) {
+      toast.success(t('view.homeView.twit.post.success'))
+      comments.value.unshift(result as unknown as Twit_TwitDTO)
+    } else {
+      toast.error(t('view.homeView.twit.post.error'))
+    }
   }
   commentTwitDialog.value = false
 }
