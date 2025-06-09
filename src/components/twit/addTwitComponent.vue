@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 
 const props = defineProps<{
   userPictureUrl: string
+  content: string | undefined
 }>()
 
 const emit = defineEmits<{
@@ -14,6 +15,14 @@ const twitLimit = 280
 const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
+
+onMounted(() => {
+  if (props.content) {
+    twitText.value = props.content
+    twitLenght.value = twitText.value.length
+    twitPourcentage.value = (twitLenght.value / twitLimit) * 100
+  }
+})
 
 watch(
   () => twitText.value,

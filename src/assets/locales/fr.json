@@ -11,12 +11,17 @@
             "disconnect": "Se déconnecter"
         },
         "addComment": {
+            "title": "Répondre à ce post",
             "postAnwser": "Poster votre réponse",
             "anwser": "Répondre"
         },
         "addTwitComponent": {
             "whatsNew" : "Quoi de neuf ?!",
             "post" : "Poster"
+        },
+        "twitComponent":{
+            "editPost": "Modifier le post",
+            "deletePost": "Supprimer le post"
         }
     },
     "view": {
@@ -24,9 +29,29 @@
             "forYou": "Pour vous",
             "subscriptions": "Abonnements",
             "twit":{
+                "repost":{
+                    "title": "Reposter ce poste",
+                    "create": {
+                        "success": "Poste reposté avec succès",
+                        "error": "Erreur lors du repost du poste"
+                    },
+                    "delete":{
+                        "success": "Repost supprimé avec succès",
+                        "error": "Erreur lors de la suppression du repost"
+                    }
+                },
+                "edit":{
+                    "title": "Modifier le poste",
+                    "success": "Poste modifié avec succès",
+                    "error": "Erreur lors de la modification du poste"
+                },
                 "post":{
                     "success": "Poste publié avec succès",
                     "error": "Erreur lors de la publication du poste"
+                },
+                "delete": {
+                    "success": "Poste supprimé avec succès",
+                    "error": "Erreur lors de la suppression du poste"
                 }
             }
         },

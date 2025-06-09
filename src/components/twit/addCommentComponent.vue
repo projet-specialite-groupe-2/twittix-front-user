@@ -2,6 +2,7 @@
 import dayjs from 'dayjs';
 import { computed, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useDisplay } from 'vuetify';
 
 const props = defineProps<{
     twitId: number
@@ -26,6 +27,8 @@ const twitLimit = 280
 const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
+const display = useDisplay()
+const isMobile = computed(() => display.smAndDown.value)
 
 const formattedDate = computed(() => {
   dayjs.locale(locale.value);
@@ -49,7 +52,7 @@ function progressCircularColor(): string {
 </script>
 
 <template>
-    <v-dialog v-model="refDialog" width="50%" persistent>
+    <v-dialog v-model="refDialog" :width="isMobile ? '100%' : '50%'" persistent>
         <v-card
             class="mx-auto w-100 h-auto pa-5"
             :ripple="false"
