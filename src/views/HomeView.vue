@@ -75,7 +75,7 @@
           <v-divider class="border-opacity-25"></v-divider>
         </v-col>
         <v-infinite-scroll :items="twits" @load="load">
-          <template v-for="item in twits" :key="item">
+          <template v-for="(item, index) in twits" :key="index + 1">
             <TwitComponent
               :twit-id="item.id ?? 0"
               :twit-content="item.content ?? ''"
@@ -225,11 +225,10 @@ function goToHomePage() {
   router.push({ name: PageNameEnum.MAIN })
 }
 
-async function load({ done }: { done: (arg: string) => void }) {
+async function load({ side, done }: { side: any; done: (status: any) => void }) {
   await fetchTwits()
   done('ok')
 }
-
 
 async function fetchTwits() {
   if (isForYouView.value) {
@@ -238,14 +237,14 @@ async function fetchTwits() {
     if(twitStore.twitsForYou.length === 0) {
       return
     }
-    twits.value.push(...twitStore.twitsForYou)
+    twits.value = twitStore.twitsForYou
   } else {
     await twitStore.fetchFollowTwits()
     twits.value = []
     if(twitStore.twitsFollow.length === 0) {
       return
     }
-    twits.value.push(...twitStore.twitsFollow)
+    twits.value = twitStore.twitsFollow
     }
 }
 

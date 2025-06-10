@@ -7,6 +7,7 @@
         style="backdrop-filter: blur(10px)"
       >
         <v-btn
+          id="btnTwitViewBack"
           icon="mdi-arrow-left"
           size="small"
           class="bg-black mr-6"

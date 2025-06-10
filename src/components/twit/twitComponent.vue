@@ -71,7 +71,7 @@ function redirectToProfile() {
 </script>
 
 <template>
-    <v-container class="py-0 px-3">
+    <v-container class="py-0 px-3" :id="`twit`">
         <v-card
             class="mx-auto w-100 h-100 bg-black pa-5"
             style="border-radius: 0 !important;"
@@ -143,19 +143,19 @@ function redirectToProfile() {
         </v-row>
         <v-row no-gutters class="mt-5 w-100 justify-space-evenly">
             <v-col cols="auto" class="d-flex justify-center">
-                <v-btn variant="text" class="custom-btn custom-btn-comment" v-on:click.stop="commentTwit">
+                <v-btn variant="text" class="custom-btn custom-btn-comment" id="btnMessageTwit" v-on:click.stop="commentTwit">
                     <v-icon start>mdi-message-outline</v-icon>
                     <span>{{ props.twitMessageNumber }}</span>
                 </v-btn>
             </v-col>
             <v-col cols="auto" class="d-flex justify-center">
-                <v-btn variant="text" :class="props.idReTwit ? 'custom-btn-retwit' : 'custom-btn custom-btn-retwit-hover'"  v-on:click.stop="reTwit">
+                <v-btn variant="text" :class="props.idReTwit ? 'custom-btn-retwit' : 'custom-btn custom-btn-retwit-hover'" id="btnRepostTwit"  v-on:click.stop="reTwit">
                     <v-icon start size="24">mdi-repeat-variant</v-icon>
                     <span>{{ props.twitReTwitNumber }}</span>
                 </v-btn>
             </v-col>
             <v-col cols="auto" class="d-flex justify-center">
-                <v-btn variant="text" :class="props.isLiked ? 'custom-btn-like' : 'custom-btn custom-btn-like-hover'" v-on:click.stop="likeTwit">
+                <v-btn variant="text" :class="props.isLiked ? 'custom-btn-like' : 'custom-btn custom-btn-like-hover'" id="btnLikeTwit" v-on:click.stop="likeTwit">
                     <v-icon start v-if="props.isLiked">mdi-heart</v-icon>
                     <v-icon start v-else>mdi-heart-outline</v-icon>
                     <span>{{ props.twitLikeNumber }}</span>

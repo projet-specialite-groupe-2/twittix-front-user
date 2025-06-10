@@ -48,10 +48,11 @@ function postTwit(): void {
 </script>
 
 <template>
-  <v-container>
+  <v-container id="fveqomueoqeoubmebqoumubm">
     <v-textarea
       class="mx-2"
       :label="$t('components.addTwitComponent.whatsNew')"
+      id="txtAreaAddTwitComponentComment"
       variant="plain"
       auto-grow
       rows="2"
@@ -79,7 +80,7 @@ function postTwit(): void {
           </template>
         </v-progress-circular>
         <v-divider vertical class="ml-5 h-50 border-opacity-25"></v-divider>
-        <v-btn class="bg-white ml-5" v-on:click="postTwit">
+        <v-btn class="bg-white ml-5" v-on:click="postTwit" id="btnAddTwitComponentSubmit">
           {{ $t('components.addTwitComponent.post') }}
         </v-btn>
       </div>

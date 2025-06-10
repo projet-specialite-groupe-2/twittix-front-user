@@ -55,10 +55,18 @@ export const useTwitStore = defineStore('twit', {
       this.loading = false
     },
     setForYouTwit(twits: Array<Twit_TwitDTO>) {
-      this.twitsForYou.push(...twits)
+      if (Array.isArray(twits)) {
+        this.twitsForYou.push(...twits)
+      } else {
+        this.twitsForYou.push(...[twits as any])
+      }
     },
     setFollowTwit(twits: Array<Twit_TwitDTO>) {
-      this.twitsFollow.push(...twits)
+      if (Array.isArray(twits)) {
+        this.twitsFollow.push(...twits)
+      } else {
+        this.twitsFollow.push(...[twits as any])
+      }
     },
     async fetchTwitById(id: number): Promise<Twit_TwitDTO | undefined> {
       this.loading = true

@@ -82,6 +82,7 @@ function progressCircularColor(): string {
             <v-textarea
                 class="mx-2"
                 :label="$t('components.addComment.postAnwser')"
+                id="txtAreaAddCommentComponentPost"
                 variant="plain"
                 auto-grow
                 rows="2"
@@ -101,7 +102,7 @@ function progressCircularColor(): string {
                             <template v-slot:default v-if="twitPourcentage >= 80"> {{ twitLimit - twitLenght }} </template>
                         </v-progress-circular>
                         <v-divider vertical class="ml-5 h-50 border-opacity-25"></v-divider>
-                        <v-btn v-on:click="emit('submit:form', true, twitText)" class="bg-white ml-5">
+                        <v-btn v-on:click="emit('submit:form', true, twitText)" class="bg-white ml-5" id="btnAddCommentComponentSubmit">
                             {{ $t('components.addComment.anwser') }}
                         </v-btn>
                     </div>
