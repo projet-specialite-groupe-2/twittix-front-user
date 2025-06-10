@@ -432,6 +432,7 @@
 <script setup lang="ts">
 import AddComment from '@/components/twit/addCommentComponent.vue'
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import 'dayjs/locale/fr'
 import 'dayjs/locale/en-gb'
 import { ref, watch, onMounted, onUnmounted, type Ref, computed } from 'vue'
@@ -443,6 +444,7 @@ import { useI18n } from 'vue-i18n'
 import { toast } from 'vue3-toastify'
 
 const { locale, t } = useI18n()
+dayjs.extend(customParseFormat)
 dayjs.locale(locale.value)
 
 const userStore = useUserStore()
@@ -453,7 +455,7 @@ const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
 const profilNotFound = ref<boolean>(false)
-const selectedUserProfil = ref<object>(null)
+const selectedUserProfil = ref<object | null>(null)
 
 const items: Ref<Array<Twit>> = ref([])
 
@@ -530,9 +532,10 @@ const saveEdit = async () => {
   }
 
   // Send request to update user profile
+  const parsedDate = dayjs(userProfilUpdated.value.birthday, 'D MMMM YYYY', 'fr', true)
   const userProfil = {
     ...userStore.userProfil,
-    birthdate: dayjs(userProfilUpdated.value.birthday).format('YYYY-MM-DD'),
+    birthdate: parsedDate.format('YYYY-MM-DD'),
     biography: userProfilUpdated.value.biography,
     username: userProfilUpdated.value.username,
   }
@@ -546,6 +549,8 @@ const saveEdit = async () => {
 
   if (res.success) {
     toast.success(t('view.profilPage.editProfilSuccess') as string)
+    // Call the API to fetch the updated user profile
+    selectedUserProfil.value = await userStore.fetchUserProfil(userProfil.username)
   } else {
     toast.error(t('view.profilPage.editProfilError') as string)
   }
@@ -602,7 +607,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  selectedUserProfil.value = ''
+  selectedUserProfil.value = null
 })
 
 watch(
