@@ -72,6 +72,7 @@
                   <template v-slot:activator="{ props: activatorProps }">
                     <v-btn
                       v-if="!userProfilLoading"
+                      id="edit-profil-button"
                       v-bind="activatorProps"
                       size="large"
                       variant="outlined"
@@ -149,6 +150,7 @@
                       <v-row class="px-8 py-4">
                         <v-col class="pa-0">
                           <v-text-field
+                            id="edit-profil-name"
                             class="pb-4"
                             :label="$t('view.profilPage.name')"
                             v-model="userProfilUpdated.username"
@@ -156,6 +158,7 @@
                           </v-text-field>
 
                           <v-text-field
+                            id="edit-profil-bio"
                             class="pb-4"
                             :label="$t('view.profilPage.bio')"
                             v-model="userProfilUpdated.biography"
@@ -175,7 +178,9 @@
                             </button>
                           </div>
 
-                          <div v-if="!editBirthday">{{ userProfilUpdated.birthday }}</div>
+                          <div v-if="!editBirthday" id="edit-profil-birthday">
+                            {{ userProfilUpdated.birthday }}
+                          </div>
                           <v-text-field v-else class="pb-4" v-model="birthdayInput" type="date" />
                         </v-col>
                       </v-row>
@@ -194,6 +199,7 @@
                   <template v-slot:activator="{ props: activatorProps }">
                     <v-btn
                       v-if="!userProfilLoading"
+                      id="edit-profil-mobile"
                       v-bind="activatorProps"
                       size="large"
                       variant="outlined"
@@ -319,7 +325,7 @@
         </v-col>
       </v-row>
 
-      <div class="mt-5 px-5">
+      <div id="profil-page-user-info" class="mt-5 px-5">
         <v-skeleton-loader
           v-if="userProfilLoading"
           color="primary"
@@ -426,6 +432,7 @@
 <script setup lang="ts">
 import AddComment from '@/components/twit/addCommentComponent.vue'
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import 'dayjs/locale/fr'
 import 'dayjs/locale/en-gb'
 import { ref, watch, onMounted, onUnmounted, type Ref, computed } from 'vue'
@@ -437,6 +444,7 @@ import { useI18n } from 'vue-i18n'
 import { toast } from 'vue3-toastify'
 
 const { locale, t } = useI18n()
+dayjs.extend(customParseFormat)
 dayjs.locale(locale.value)
 
 const userStore = useUserStore()
@@ -447,7 +455,7 @@ const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
 const profilNotFound = ref<boolean>(false)
-const selectedUserProfil = ref<string>(null)
+const selectedUserProfil = ref<object | null>(null)
 
 const items: Ref<Array<Twit>> = ref([])
 
@@ -524,9 +532,10 @@ const saveEdit = async () => {
   }
 
   // Send request to update user profile
+  const parsedDate = dayjs(userProfilUpdated.value.birthday, 'D MMMM YYYY', 'fr', true)
   const userProfil = {
     ...userStore.userProfil,
-    birthdate: dayjs(userProfilUpdated.value.birthday).format('YYYY-MM-DD'),
+    birthdate: parsedDate.format('YYYY-MM-DD'),
     biography: userProfilUpdated.value.biography,
     username: userProfilUpdated.value.username,
   }
@@ -540,6 +549,8 @@ const saveEdit = async () => {
 
   if (res.success) {
     toast.success(t('view.profilPage.editProfilSuccess') as string)
+    // Call the API to fetch the updated user profile
+    selectedUserProfil.value = await userStore.fetchUserProfil(userProfil.username)
   } else {
     toast.error(t('view.profilPage.editProfilError') as string)
   }
@@ -596,7 +607,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  selectedUserProfil.value = ''
+  selectedUserProfil.value = null
 })
 
 watch(

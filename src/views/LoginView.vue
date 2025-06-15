@@ -20,9 +20,14 @@
         <!-- FORMULAIRE DE CREATION DE COMPTE -->
         <div class="d-flex flex-column mb-14" style="max-width: 330px">
           <div class="d-none d-sm-flex">
-            <v-dialog v-model="dialogModelValue" @update:model-value="handleDialogClose">
+            <v-dialog v-model="dialogRegisterModelValue" @update:model-value="handleDialogClose">
               <template v-slot:activator="{ props: activatorProps }">
-                <v-btn v-bind="activatorProps" size="large" class="bg-red w-100 mb-2">
+                <v-btn
+                  id="register-button"
+                  v-bind="activatorProps"
+                  size="large"
+                  class="bg-red w-100 mb-2"
+                >
                   {{ $t('view.loginPage.createAccount') }}
                 </v-btn>
               </template>
@@ -78,6 +83,7 @@
 
                         <div class="pb-4">
                           <v-text-field
+                            id="register-username-field"
                             v-model="registerData.username"
                             class="pb-0"
                             :label="$t('view.loginPage.username')"
@@ -85,6 +91,7 @@
                           ></v-text-field>
 
                           <v-text-field
+                            id="register-email-field"
                             v-model="registerData.email"
                             type="email"
                             label="Email"
@@ -103,14 +110,7 @@
                         <v-row>
                           <v-col class="pb-0">
                             <v-select
-                              v-model="registerData.month"
-                              :label="$t('view.loginPage.mois')"
-                              :items="listOfMonths"
-                              :rules="[required]"
-                            ></v-select>
-                          </v-col>
-                          <v-col class="pb-0">
-                            <v-select
+                              id="register-day-field"
                               v-model="registerData.day"
                               :label="$t('view.loginPage.jour')"
                               :items="listOfDays"
@@ -119,6 +119,16 @@
                           </v-col>
                           <v-col class="pb-0">
                             <v-select
+                              id="register-month-field"
+                              v-model="registerData.month"
+                              :label="$t('view.loginPage.mois')"
+                              :items="listOfMonths"
+                              :rules="[required]"
+                            ></v-select>
+                          </v-col>
+                          <v-col class="pb-0">
+                            <v-select
+                              id="register-year-field"
                               v-model="registerData.year"
                               :label="$t('view.loginPage.annee')"
                               :items="listOfYears"
@@ -127,7 +137,11 @@
                           </v-col>
 
                           <v-col cols="12" class="pt-0">
-                            <span v-if="!isOver18 && isOver18 !== null" class="text-red fs-7">
+                            <span
+                              v-if="!isOver18 && isOver18 !== null"
+                              id="register-error-message-birthdate"
+                              class="text-red fs-7"
+                            >
                               Vous devez avoir au moins 18 ans pour vous inscrire.
                             </span>
                           </v-col>
@@ -140,6 +154,7 @@
 
                         <div class="pb-4">
                           <v-text-field
+                            id="register-password-field"
                             v-model="registerData.password"
                             :label="$t('view.loginPage.password')"
                             :type="showPassword ? 'text' : 'password'"
@@ -155,6 +170,7 @@
                           </v-text-field>
 
                           <v-text-field
+                            id="register-confirm-password-field"
                             v-model="registerData.confirmPassword"
                             :label="$t('view.loginPage.passwordConfirmation')"
                             :type="showPassword ? 'text' : 'password'"
@@ -174,6 +190,7 @@
                       <div class="mt-auto px-12 pb-8">
                         <v-btn
                           v-if="registerStep == 1"
+                          id="register-button-next"
                           size="large"
                           class="bg-white w-100"
                           :disabled="!canRegisterStep1 || !isOver18"
@@ -183,6 +200,7 @@
                         </v-btn>
                         <v-btn
                           v-else
+                          id="register-button-create-account"
                           size="large"
                           class="bg-white w-100"
                           type="submit"
@@ -203,6 +221,7 @@
               v-model="dialogRegisterMobilModelValue"
               transition="dialog-bottom-transition"
               fullscreen
+              @update:model-value="handleDialogClose"
             >
               <template v-slot:activator="{ props: activatorProps }">
                 <v-btn v-bind="activatorProps" size="large" class="bg-red bg-red w-100 mb-2">
@@ -388,9 +407,10 @@
         </h3>
 
         <div class="d-none d-sm-flex">
-          <v-dialog v-model="dialogRegisterModelValue">
+          <v-dialog v-model="dialogModelValue" @update:model-value="handleDialogClose">
             <template v-slot:activator="{ props: activatorProps }">
               <v-btn
+                id="login-button"
                 v-bind="activatorProps"
                 variant="outlined"
                 size="large"
@@ -459,6 +479,7 @@
 
                       <template v-if="connectionStep !== 3">
                         <v-text-field
+                          id="login-email-field"
                           type="email"
                           :label="$t('view.loginPage.adresseEmail')"
                           :disabled="connectionStep === 2"
@@ -468,6 +489,7 @@
 
                         <v-text-field
                           v-if="connectionStep === 2"
+                          id="login-password-field"
                           :type="showPassword ? 'text' : 'password'"
                           :label="$t('view.loginPage.motDePasse')"
                           v-model="loginData.password"
@@ -496,6 +518,7 @@
                     <div class="mt-auto px-12 pb-8">
                       <v-btn
                         v-if="connectionStep === 1"
+                        id="login-button-next"
                         size="large"
                         class="bg-white w-100"
                         :disabled="
@@ -508,6 +531,7 @@
 
                       <v-btn
                         v-else-if="connectionStep === 2"
+                        id="login-button-connect"
                         :disabled="loginData.password === ''"
                         size="large"
                         class="bg-white w-100"
@@ -541,6 +565,7 @@
             v-model="dialogMobilModelValue"
             transition="dialog-bottom-transition"
             fullscreen
+            @update:model-value="handleDialogClose"
           >
             <template v-slot:activator="{ props: activatorProps }">
               <v-btn
@@ -696,13 +721,13 @@
 
 <script setup lang="ts">
 import { useLoginStore } from '@/stores/loginStore'
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
 const { locale, t } = useI18n()
-
+import { useDisplay } from 'vuetify'
 import dayjs from 'dayjs'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import 'dayjs/locale/fr'
@@ -724,10 +749,14 @@ const registerStep = ref<number>(1)
 const showPassword = ref<boolean>(false)
 const dialogModelValue = ref<boolean>(false)
 const dialogRegisterModelValue = ref<boolean>(false)
+
 const dialogMobilModelValue = ref<boolean>(false)
 const dialogRegisterMobilModelValue = ref<boolean>(false)
+const display = useDisplay()
 
 const askedCodeForAuth = ref<string | null>('')
+
+const isMobile = computed(() => display.smAndDown.value)
 
 const loginData = reactive({
   email: '',
@@ -742,6 +771,20 @@ const registerData = reactive({
   year: null,
   password: '',
   confirmPassword: '',
+})
+
+onMounted(() => {
+  // Verify if user is already exist
+  if (loginStore.loginEmail) {
+    if (isMobile) dialogModelValue.value = true
+    else dialogMobilModelValue.value = true
+
+    // Set email
+    loginData.email = loginStore.loginEmail
+
+    // Go to the step 2
+    connectionStep.value = 2
+  }
 })
 
 const handleDialogClose = (isOpen: boolean) => {
@@ -803,10 +846,11 @@ const register = async () => {
 
 const resetState = () => {
   connectionStep.value = 1
-  registerStep.value = 1
-  showPassword.value = false
   loginData.email = ''
   loginData.password = ''
+  askedCodeForAuth.value = ''
+  registerStep.value = 1
+  showPassword.value = false
   registerData.username = ''
   registerData.email = ''
   registerData.day = null
@@ -814,7 +858,6 @@ const resetState = () => {
   registerData.year = null
   registerData.password = ''
   registerData.confirmPassword = ''
-  askedCodeForAuth.value = ''
 }
 
 const setFalseToDialog = () => {

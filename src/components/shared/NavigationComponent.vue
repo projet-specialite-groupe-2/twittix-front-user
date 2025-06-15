@@ -129,6 +129,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
           </v-list-item>
 
           <v-list-item
+            id="list-item-profile"
             class="mr-10 my-3 user-select-none"
             rounded="xl"
             link
@@ -151,6 +152,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
         <v-menu location="top center">
           <template v-slot:activator="{ props }">
             <v-list-item
+              id="list-item-user"
               class="my-2 mb-5 user-select-none"
               rounded="xl"
               link

@@ -24,6 +24,7 @@ const routes = [
     component: () => import('../views/TwitView.vue'),
     meta: {
       sidebar: true,
+      mustBeAuthenticated: true,
     },
   },
   {
@@ -78,6 +79,15 @@ const routes = [
     meta: {
       sidebar: true,
       mustBeAuthenticated: true,
+    },
+  },
+  {
+    path: '/confirm-email',
+    name: PageNameEnum.CONFIRM_EMAIL,
+    component: () => import('@/views/ConfirmEmailView.vue'),
+    meta: {
+      sidebar: false,
+      mustBeUnauthenticated: true,
     },
   },
 ] as RouteRecordRaw[]
