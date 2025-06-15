@@ -69,7 +69,11 @@
             :profile-name="conversation.title ?? ''"
             :username="conversation.title ?? ''"
             :date="dayjs(conversation.createdAt).format('DD/MM/YYYY HH:mm')"
-            :sub-title="conversation.lastMessage?.content ?? ''"
+            :sub-title="
+              conversation.lastMessage?.content
+                ? conversation.lastMessage.content.substring(0, 20) + '...'
+                : ''
+            "
           />
         </v-col>
       </v-col>

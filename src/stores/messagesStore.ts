@@ -19,9 +19,11 @@ export const useMessagesStore = defineStore('messages', {
         const response = await messageService.apiConversationsIdmessagesGetCollection({
           id: id,
         })
-        this.messages = response.sort((a, b) => {
-          return new Date(a.createdAt ?? '').getTime() - new Date(b.createdAt ?? '').getTime()
-        })
+        this.messages = response
+          .sort((a, b) => {
+            return new Date(a.createdAt ?? '').getTime() - new Date(b.createdAt ?? '').getTime()
+          })
+          .reverse()
         return true
       } catch {
         this.messages = []

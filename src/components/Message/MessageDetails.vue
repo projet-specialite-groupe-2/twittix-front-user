@@ -1,6 +1,6 @@
 <template>
   <v-sheet class="d-flex flex-column h-screen" flat>
-    <v-col class="position-sticky top-0" style="z-index: 1">
+    <v-col class="position-sticky top-0" style="z-index: 1; max-height: 100px">
       <v-row
         class="d-flex justify-space-between w-100 px-4 pt-8 pb-2"
         style="backdrop-filter: blur(10px)"
@@ -40,15 +40,26 @@
       </v-row>
     </v-col>
 
-    <v-card-text class="overflow-y-scroll d-flex flex-column" style="height: 100%">
-      <MessageBubble
-        v-for="(message, index) in messagesList"
-        :key="index"
-        :text="message.content"
-        :isMe="message.author?.id === user.userProfil?.id"
-        :time="dayjs(message.createdAt).format('DD/MM/YYYY HH:mm')"
-      />
-    </v-card-text>
+    <v-card style="width: 100%; height: 100%">
+      <div
+        style="
+          overflow-y: scroll;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column-reverse;
+          align-items: flex-end;
+        "
+      >
+        <MessageBubble
+          v-for="(message, index) in messagesList"
+          :key="index"
+          :text="message.content"
+          :isMe="message.author?.id === user.userProfil?.id"
+          :time="dayjs(message.createdAt).format('DD/MM/YYYY HH:mm')"
+        />
+      </div>
+    </v-card>
 
     <v-card-actions class="pa-3">
       <v-row class="d-flex align-center">
