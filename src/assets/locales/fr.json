@@ -26,6 +26,11 @@
     },
     "view": {
         "exploreView": {
+            "forYou": "Pour vous",
+            "tendances": "Tendances",
+            "actualites": "Actualités",
+            "sports": "Sports",
+            "divertissement": "Divertissement",
             "title": "Explorer",
             "searchPlaceholder": "Rechercher"
         },

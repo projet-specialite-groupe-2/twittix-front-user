@@ -8,6 +8,7 @@ enum PageNameEnum {
   PROFIL = 'Profil',
   CONFIRM_EMAIL = 'ConfirmEmail',
   EXPLORER = 'Explorer',
+  EXPLORER_DETAIL = 'ExplorerDetail',
 }
 
 export default PageNameEnum

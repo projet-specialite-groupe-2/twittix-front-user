@@ -99,6 +99,15 @@ const routes = [
       mustBeAuthenticated: true,
     },
   },
+  {
+    path: '/explore/tabs/:tab',
+    name: PageNameEnum.EXPLORER_DETAIL,
+    components: {
+      default: () => import('../views/ExploreView.vue'),
+      explore_page: () => import('../components/Explorer/ExplorePage.vue'),
+    },
+    meta: { sidebar: true, mustBeAuthenticated: true },
+  },
 ] as RouteRecordRaw[]
 
 const router = createRouter({
