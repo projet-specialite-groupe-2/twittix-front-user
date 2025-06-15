@@ -13,11 +13,16 @@
         "addComment": {
             "postAnwser": "Post your anwser",
             "anwser": "Anwser"
+        },
+        "addTwitComponent": {
+            "whatsNew" : "What's new ?!",
+            "post" : "Post"
         }
     },
     "view": {
         "homeView": {
-            "WhatsNew": "What's new ?!"
+            "forYou": "For you",
+            "subscriptions": "Subscriptions"
         },
         "loginPage": {
             "title": "It's happening now",

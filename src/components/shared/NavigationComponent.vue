@@ -28,9 +28,9 @@ onMounted(() => {
 
 watch(
   () => userStore.userProfil,
-  (newValue: string | null) => {
-    if (newValue)
-      dropdownUserItems.value[0].title = `${t('components.navigationForm.disconnectFrom')} @${newValue?.username}`
+  (newValue) => {
+    if (newValue && newValue.username)
+      dropdownUserItems.value[0].title = `${t('components.navigationForm.disconnectFrom')} @${newValue.username}`
   }
 )
 
@@ -78,6 +78,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
             link
             :ripple="false"
             v-on:click="goToHome"
+            id="btnHomeLogo"
           >
             <template v-slot:prepend>
               <v-avatar size="30">
@@ -95,6 +96,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
             rounded="xl"
             link
             :ripple="false"
+            id="btnHome"
             v-on:click="goToHome"
           >
             <template v-slot:prepend>
@@ -107,6 +109,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
             rounded="xl"
             link
             :ripple="false"
+            id="btnExplore"
             v-on:click="goToExplore"
           >
             <template v-slot:prepend>
@@ -120,6 +123,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
             rounded="xl"
             link
             :ripple="false"
+            id="btnMessages"
             v-on:click="goToMessages"
           >
             <template v-slot:prepend>
@@ -142,7 +146,8 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
             <v-list-item-title>{{ $t('components.navigationForm.profile') }}</v-list-item-title>
           </v-list-item>
 
-          <v-btn size="large" class="bg-white my-2 px-16 w-75" v-on:click="createPost">
+          <v-btn size="large" id="btnCreatePost" class="bg-white my-2 px-16 w-75" v-on:click="createPost">
+
             {{ $t('components.navigationForm.post') }}
           </v-btn>
         </v-list>
@@ -152,7 +157,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
         <v-menu location="top center">
           <template v-slot:activator="{ props }">
             <v-list-item
-              id="list-item-user"
+              id="listItemUserManagement"
               class="my-2 mb-5 user-select-none"
               rounded="xl"
               link
@@ -178,7 +183,7 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
 
           <v-list class="mb-5 bg-black rounded-xl border-white border-md" :border="true">
             <v-list-item v-for="(item, index) in dropdownUserItems" :key="index">
-              <v-list-item-title v-on:click="item.click" class="user-select-none hoverable">
+              <v-list-item-title id="itemDisconnectUser" v-on:click="item.click" class="user-select-none hoverable">
                 {{ item.title }}
               </v-list-item-title>
             </v-list-item>
@@ -193,13 +198,13 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
     <v-container class="d-flex justify-center">
       <v-row no-gutters class="w-75 justify-space-evenly">
         <v-col cols="auto" class="d-flex justify-center">
-          <v-icon size="32" icon="mdi-home" v-on:click="goToHome"></v-icon>
+          <v-icon size="32" icon="mdi-home" v-on:click="goToHome" id="btnHomeMobile"></v-icon>
         </v-col>
         <v-col cols="auto" class="d-flex justify-center">
-          <v-icon size="32" icon="mdi-magnify" v-on:click="goToExplore"></v-icon>
+          <v-icon size="32" icon="mdi-magnify" v-on:click="goToExplore" id="btnExploreMobile"></v-icon>
         </v-col>
         <v-col cols="auto" class="d-flex justify-center">
-          <v-icon size="32" icon="mdi-email" v-on:click="goToMessages"></v-icon>
+          <v-icon size="32" icon="mdi-email" v-on:click="goToMessages" id="btnMessagesMobile"></v-icon>
         </v-col>
       </v-row>
     </v-container>
@@ -209,6 +214,8 @@ function addTwitDialogAction(confirm: boolean, data?: unknown) {
   <AddTwitPopupComponent
     v-if="addTwitDialog"
     :user-picture-url="userStore.userProfil?.profileImgPath ?? ''"
+    :content="''"
+    :title="$t('components.navigationForm.addTwitTitle')"
     :open="addTwitDialog"
     v-on:submit:form="addTwitDialogAction"
   ></AddTwitPopupComponent>

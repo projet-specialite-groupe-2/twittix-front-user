@@ -2,6 +2,7 @@
 import dayjs from 'dayjs';
 import { computed, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useDisplay } from 'vuetify';
 
 const props = defineProps<{
     twitId: number
@@ -26,6 +27,8 @@ const twitLimit = 280
 const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
+const display = useDisplay()
+const isMobile = computed(() => display.smAndDown.value)
 
 const formattedDate = computed(() => {
   dayjs.locale(locale.value);
@@ -49,7 +52,7 @@ function progressCircularColor(): string {
 </script>
 
 <template>
-    <v-dialog v-model="refDialog" width="50%" persistent>
+    <v-dialog v-model="refDialog" :width="isMobile ? '100%' : '50%'" persistent>
         <v-card
             class="mx-auto w-100 h-auto pa-5"
             :ripple="false"
@@ -79,6 +82,7 @@ function progressCircularColor(): string {
             <v-textarea
                 class="mx-2"
                 :label="$t('components.addComment.postAnwser')"
+                id="txtAreaAddCommentComponentPost"
                 variant="plain"
                 auto-grow
                 rows="2"
@@ -98,7 +102,7 @@ function progressCircularColor(): string {
                             <template v-slot:default v-if="twitPourcentage >= 80"> {{ twitLimit - twitLenght }} </template>
                         </v-progress-circular>
                         <v-divider vertical class="ml-5 h-50 border-opacity-25"></v-divider>
-                        <v-btn class="bg-white ml-5">
+                        <v-btn v-on:click="emit('submit:form', true, twitText)" class="bg-white ml-5" id="btnAddCommentComponentSubmit">
                             {{ $t('components.addComment.anwser') }}
                         </v-btn>
                     </div>

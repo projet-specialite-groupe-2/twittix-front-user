@@ -15,33 +15,4 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
-import { faker } from '@faker-js/faker'
 
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      setFakeToken(): Chainable<void>
-    }
-  }
-}
-
-Cypress.Commands.add('setFakeToken', () => {
-  const fakeToken = faker.internet.jwt({
-    payload: {
-      sub: faker.string.uuid(),
-      exp: 999999999999,
-      email: 'user@gmail.com',
-      pwd: faker.internet.password(),
-      type: 'access',
-    },
-  })
-  cy.window().then(win => {
-    win.localStorage.setItem('token', fakeToken)
-  })
-})
-
-// Ce code s'exécute avant tous les tests
-before(() => {
-  cy.visit('/') // charge la page pour accéder au window/localStorage
-  cy.setFakeToken()
-})
