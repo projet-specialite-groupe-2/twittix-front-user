@@ -7,6 +7,7 @@ enum PageNameEnum {
   MESSAGES_DETAIL_INFO = 'MessagesDetailsInfo',
   PROFIL = 'Profil',
   CONFIRM_EMAIL = 'ConfirmEmail',
+  EXPLORER = 'Explorer',
 }
 
 export default PageNameEnum

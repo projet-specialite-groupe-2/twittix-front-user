@@ -2,6 +2,7 @@
   <v-dialog v-model="isActive">
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn
+        id="btnNewMessageDialog"
         v-bind="activatorProps"
         class="bg-transparent"
         density="comfortable"
@@ -23,7 +24,7 @@
               </h2>
             </v-col>
             <v-col cols="2" class="d-flex align-center justify-end pa-0">
-              <v-btn class="bg-white px-6" @click="onNextClick">
+              <v-btn id="btnNewMessageDialogNext" class="bg-white px-6" @click="onNextClick">
                 {{ $t('view.messagesPage.next') }}
               </v-btn>
             </v-col>

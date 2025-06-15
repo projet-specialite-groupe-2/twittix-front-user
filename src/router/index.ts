@@ -90,6 +90,15 @@ const routes = [
       mustBeUnauthenticated: true,
     },
   },
+  {
+    path: '/explore',
+    name: PageNameEnum.EXPLORER,
+    component: () => import('@/views/ExploreView.vue'),
+    meta: {
+      sidebar: true,
+      mustBeAuthenticated: true,
+    },
+  },
 ] as RouteRecordRaw[]
 
 const router = createRouter({

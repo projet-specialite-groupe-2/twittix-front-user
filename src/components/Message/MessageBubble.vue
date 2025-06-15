@@ -7,7 +7,7 @@
         isMe ? 'primary--text text--white' : '',
         isMe ? 'message-bubble-me' : 'message-bubble-other',
       ]"
-      max-width="70%"
+      style="height: fit-content"
     >
       <div>{{ text }}</div>
     </v-card>

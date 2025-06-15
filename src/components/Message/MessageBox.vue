@@ -1,5 +1,6 @@
 <template>
   <v-sheet
+    id="messageBox"
     class="position-absolute bottom-0 right-0 mr-10 py-2"
     style="
       border: 1px solid rgb(47, 51, 54);

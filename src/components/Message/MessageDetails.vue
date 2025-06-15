@@ -54,6 +54,7 @@
       <v-row class="d-flex align-center">
         <v-col cols="12">
           <v-text-field
+            id="txtAreaAddCommentComponentPost"
             density="compact"
             :placeholder="$t('view.messagesPage.conversationPlaceholder')"
             variant="solo"
@@ -66,7 +67,6 @@
           >
             <template v-slot:append-inner>
               <v-btn icon color="blue" @click="sendMessage(messageInput)">
-                >
                 <v-icon>mdi-send-variant-outline</v-icon>
               </v-btn>
             </template>

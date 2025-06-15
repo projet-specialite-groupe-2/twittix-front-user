@@ -56,7 +56,7 @@
                 </v-row>
                 <v-row>
                   <span class="text-caption font-weight-light text-grey">
-                    {{ $t('view.messagesPage.penddingRequests', { count: 2 }) }}
+                    {{ $t('view.messagesPage.penddingRequests', { count: 0 }) }}
                   </span>
                 </v-row>
               </v-col>

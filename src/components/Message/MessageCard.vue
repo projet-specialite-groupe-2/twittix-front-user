@@ -1,6 +1,7 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
     <v-row
+      id="conversationCard"
       v-bind="props"
       class="d-flex align-center w-100 pa-2 cursor-pointer"
       :style="{ backgroundColor: isHovering ? '#1c1c1c' : '' }"
@@ -38,6 +39,7 @@
         <v-menu v-model="menu" :close-on-content-click="false" location="start">
           <template v-slot:activator="{ props }">
             <v-btn
+              id="conversationCardMenuButton"
               v-if="isHovering || menu"
               class="bg-transparent"
               density="comfortable"
@@ -97,7 +99,12 @@
             <v-list class="w-full d-flex flex-row bg-black pa-0">
               <v-list-item class="pa-0">
                 <template v-slot:append>
-                  <v-btn class="text-red w-full bg-black" prepend-icon="mdi-trash-can-outline">
+                  <v-btn
+                    id="deleteConversationButton"
+                    class="text-red w-full bg-black"
+                    prepend-icon="mdi-trash-can-outline"
+                    @click="deleteConversation(id)"
+                  >
                     {{ $t('view.messagesPage.deleteConversation') }}
                   </v-btn>
                 </template>
@@ -156,9 +163,14 @@ export default defineComponent({
       router.push(`/messages/${id}`)
     }
 
+    const deleteConversation = async (id: string) => {
+      await conversationStore.deleteConversation(id)
+    }
+
     return {
       menu,
       navigateToConversation,
+      deleteConversation,
     }
   },
 })

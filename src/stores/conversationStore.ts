@@ -100,5 +100,11 @@ export const useConversationStore = defineStore('conversation', {
         return false
       }
     },
+    async deleteConversation(id: string) {
+      const conversationService: ConversationService = new ConversationService(request)
+      await conversationService.apiConversationsIdDelete({ id })
+
+      await this.fetchConversationList()
+    },
   },
 })

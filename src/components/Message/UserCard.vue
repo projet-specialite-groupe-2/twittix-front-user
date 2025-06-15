@@ -1,6 +1,7 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
     <v-row
+      id="userCard"
       v-bind="props"
       class="d-flex align-center w-100 py-2 px-2 cursor-pointer ga-2 pb-2"
       :style="{ backgroundColor: isHovering ? '#1c1c1c' : '' }"

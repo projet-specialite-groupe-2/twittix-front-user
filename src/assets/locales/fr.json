@@ -16,36 +16,40 @@
             "anwser": "Répondre"
         },
         "addTwitComponent": {
-            "whatsNew" : "Quoi de neuf ?!",
-            "post" : "Poster"
+            "whatsNew": "Quoi de neuf ?!",
+            "post": "Poster"
         },
-        "twitComponent":{
+        "twitComponent": {
             "editPost": "Modifier le post",
             "deletePost": "Supprimer le post"
         }
     },
     "view": {
+        "exploreView": {
+            "title": "Explorer",
+            "searchPlaceholder": "Rechercher"
+        },
         "homeView": {
             "forYou": "Pour vous",
             "subscriptions": "Abonnements",
-            "twit":{
-                "repost":{
+            "twit": {
+                "repost": {
                     "title": "Reposter ce poste",
                     "create": {
                         "success": "Poste reposté avec succès",
                         "error": "Erreur lors du repost du poste"
                     },
-                    "delete":{
+                    "delete": {
                         "success": "Repost supprimé avec succès",
                         "error": "Erreur lors de la suppression du repost"
                     }
                 },
-                "edit":{
+                "edit": {
                     "title": "Modifier le poste",
                     "success": "Poste modifié avec succès",
                     "error": "Erreur lors de la modification du poste"
                 },
-                "post":{
+                "post": {
                     "success": "Poste publié avec succès",
                     "error": "Erreur lors de la publication du poste"
                 },
