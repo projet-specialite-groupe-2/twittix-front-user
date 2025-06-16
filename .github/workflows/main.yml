@@ -38,6 +38,8 @@ jobs:
             dist/
             Dockerfile
             nginx.conf
+            compose.yml
+
 
   build:
     runs-on: ubuntu-latest
