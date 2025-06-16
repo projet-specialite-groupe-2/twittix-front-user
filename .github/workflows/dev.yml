@@ -37,6 +37,7 @@ jobs:
           path: |
             dist/
             compose.yml
+            nginx.conf
             Dockerfile
             
   # deploy:
@@ -58,4 +59,5 @@ jobs:
   #         REMOTE_HOST: ${{ secrets.DEV_SERVER_IP }}
   #         REMOTE_USER: ${{ secrets.DEV_HOST }}
   #         TARGET: ./dev/front-user/
+
 

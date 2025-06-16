@@ -34,19 +34,16 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: front-artifacts
-          path: |
-            dist/
-            compose.yml
+        
             Dockerfile
+            nginx.conf
+            compose.yml
 
   build:
     runs-on: ubuntu-latest
     needs: test
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
       - name: Download dist folder
         uses: actions/download-artifact@v4
         with:
