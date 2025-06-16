@@ -34,10 +34,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: front-artifacts
-        
+          path: |
+            dist/
             Dockerfile
             nginx.conf
-            compose.yml
 
   build:
     runs-on: ubuntu-latest
