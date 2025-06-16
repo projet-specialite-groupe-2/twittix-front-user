@@ -38,7 +38,7 @@ jobs:
             dist/
             compose.yml
             Dockerfile
-
+            
   # deploy:
   #   runs-on: ubuntu-latest
   #   needs: test
@@ -57,3 +57,5 @@ jobs:
   #         SSH_PRIVATE_KEY: ${{ secrets.DEV_SSH_KEY }}
   #         REMOTE_HOST: ${{ secrets.DEV_SERVER_IP }}
   #         REMOTE_USER: ${{ secrets.DEV_HOST }}
+  #         TARGET: ./dev/front-user/
+
