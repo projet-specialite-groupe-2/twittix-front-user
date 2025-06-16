@@ -1,10 +1,11 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
     <v-row
+      id="conversationCard"
       v-bind="props"
       class="d-flex align-center w-100 pa-2 cursor-pointer"
       :style="{ backgroundColor: isHovering ? '#1c1c1c' : '' }"
-      @click="$router.push(`/messages/${id}`)"
+      @click="navigateToConversation(id)"
     >
       <v-col cols="3" class="d-flex justify-center align-center pa-0">
         <v-sheet
@@ -25,7 +26,7 @@
             {{ profileName }}
           </span>
           <span class="d-flex text-caption font-weight-light text-grey">
-            {{ username }} . {{ date }}
+            @{{ username }} . {{ date }}
           </span>
         </v-row>
         <v-row>
@@ -38,6 +39,7 @@
         <v-menu v-model="menu" :close-on-content-click="false" location="start">
           <template v-slot:activator="{ props }">
             <v-btn
+              id="conversationCardMenuButton"
               v-if="isHovering || menu"
               class="bg-transparent"
               density="comfortable"
@@ -97,7 +99,12 @@
             <v-list class="w-full d-flex flex-row bg-black pa-0">
               <v-list-item class="pa-0">
                 <template v-slot:append>
-                  <v-btn class="text-red w-full bg-black" prepend-icon="mdi-trash-can-outline">
+                  <v-btn
+                    id="deleteConversationButton"
+                    class="text-red w-full bg-black"
+                    prepend-icon="mdi-trash-can-outline"
+                    @click="deleteConversation(id)"
+                  >
                     {{ $t('view.messagesPage.deleteConversation') }}
                   </v-btn>
                 </template>
@@ -111,7 +118,9 @@
 </template>
 
 <script lang="ts">
+import { useConversationStore } from '@/stores/conversationStore'
 import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'MessageCard',
@@ -139,9 +148,29 @@ export default defineComponent({
   },
   setup() {
     const menu = ref(false)
+    const conversationStore = useConversationStore()
+
+    const router = useRouter()
+
+    const navigateToConversation = (id: string) => {
+      conversationStore.setSelectedConversation(
+        conversationStore.conversationList.find(
+          conversation => conversation?.id?.toString() === id
+        ) ?? null
+      )
+
+      console.log(id)
+      router.push(`/messages/${id}`)
+    }
+
+    const deleteConversation = async (id: string) => {
+      await conversationStore.deleteConversation(id)
+    }
 
     return {
       menu,
+      navigateToConversation,
+      deleteConversation,
     }
   },
 })

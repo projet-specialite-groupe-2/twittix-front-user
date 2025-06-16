@@ -19,7 +19,7 @@
           lg="4"
           style="border-left: 1px solid rgb(47, 51, 54)"
         >
-          <router-view name="message_details" />
+          <router-view :key="$route.fullPath" name="message_details" />
         </v-col>
         <v-col
           v-if="$route.name === PageNameEnum.MESSAGES_DETAIL_INFO"

@@ -2,6 +2,7 @@
   <v-dialog v-model="isActive">
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn
+        id="btnNewMessageDialog"
         v-bind="activatorProps"
         class="bg-transparent"
         density="comfortable"
@@ -23,7 +24,7 @@
               </h2>
             </v-col>
             <v-col cols="2" class="d-flex align-center justify-end pa-0">
-              <v-btn class="bg-white px-6">
+              <v-btn id="btnNewMessageDialogNext" class="bg-white px-6" @click="onNextClick">
                 {{ $t('view.messagesPage.next') }}
               </v-btn>
             </v-col>
@@ -44,11 +45,26 @@
             </v-text-field>
           </v-row>
           <v-row>
+            <v-chip
+              v-for="user in usersSelectedForConversation"
+              :key="user.id"
+              class="ma-2"
+              color="blue"
+              closable
+              @click:close="onUserClick(user)"
+            >
+              <v-avatar size="20" class="mr-2">
+                <v-img
+                  style="object-fit: cover; width: 100%; height: 100%"
+                  src="https://pbs.twimg.com/profile_images/1888167261417897984/IZYKCEJg_400x400.jpg"
+                ></v-img>
+              </v-avatar>
+              {{ user.username }}
+            </v-chip>
             <v-divider></v-divider>
           </v-row>
         </v-col>
       </v-card-actions>
-
       <v-col>
         <v-hover v-slot="{ isHovering, props }">
           <v-row
@@ -77,13 +93,34 @@
         <v-row>
           <v-divider></v-divider>
         </v-row>
+
+        <v-row>
+          <v-col>
+            <v-row>
+              <v-col class="h-100">
+                <UserCard
+                  v-for="user in usersList"
+                  :key="user.id"
+                  :id="user.id?.toString() ?? ''"
+                  :username="user.username ?? ''"
+                  :profile-name="user.username ?? ''"
+                  v-on:user-click="onUserClick(user)"
+                />
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
       </v-col>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, computed, onMounted } from 'vue'
+import UserCard from './UserCard.vue'
+import { useConversationStore } from '@/stores/conversationStore'
+import type { User } from '@/core/api'
+import router from '@/router'
 
 defineProps({
   iconSize: {
@@ -92,9 +129,51 @@ defineProps({
   },
 })
 
+const usersSelectedForConversation = ref<User[]>([])
+
 const isActive = ref(false)
 const isFocused = ref(false)
 
 const onFocus = () => (isFocused.value = true)
 const onBlur = () => (isFocused.value = false)
+
+const conversationStore = useConversationStore()
+
+onMounted(() => {
+  // Load conversation list
+  conversationStore.fetchUsersList()
+})
+
+const usersList = computed(() => {
+  if (conversationStore.userListLoading || !conversationStore.usersList?.length) {
+    return []
+  }
+  return conversationStore.usersList
+})
+
+const onUserClick = (user: User) => {
+  if (usersSelectedForConversation.value.includes(user)) {
+    usersSelectedForConversation.value = usersSelectedForConversation.value.filter(
+      userId => userId !== user
+    )
+  } else {
+    usersSelectedForConversation.value.push(user)
+  }
+}
+
+const onNextClick = async () => {
+  const response = await conversationStore.createConversation(
+    usersSelectedForConversation.value,
+    usersSelectedForConversation.value.length > 1
+      ? usersSelectedForConversation.value.map(user => user.username).join(', ')
+      : (usersSelectedForConversation.value[0].username ?? '')
+  )
+
+  if (response) {
+    isActive.value = false
+    usersSelectedForConversation.value = []
+
+    router.push(`/messages/${response}`)
+  }
+}
 </script>

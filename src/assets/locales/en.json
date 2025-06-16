@@ -15,11 +15,20 @@
             "anwser": "Anwser"
         },
         "addTwitComponent": {
-            "whatsNew" : "What's new ?!",
-            "post" : "Post"
+            "whatsNew": "What's new ?!",
+            "post": "Post"
         }
     },
     "view": {
+        "exploreView": {
+            "forYou": "For you",
+            "tendances": "Trends",
+            "actualites": "News",
+            "sports": "Sports",
+            "divertissement": "Entertainment",
+            "title": "Explore",
+            "searchPlaceholder": "Search"
+        },
         "homeView": {
             "forYou": "For you",
             "subscriptions": "Subscriptions"
