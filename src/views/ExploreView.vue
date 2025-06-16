@@ -102,11 +102,15 @@
           ></v-progress-linear>
         </v-col>
       </v-row>
+      <v-col cols="12">
+        <ExplorePage />
+      </v-col>
     </v-col>
   </v-container>
 </template>
 
 <script setup lang="ts">
+import ExplorePage from '@/components/Explorer/ExplorePage.vue'
 import SearchInput from '@/components/Fields/SearchInput.vue'
 import PageNameEnum from '@/core/types/enums/pageNameEnum'
 import { ref } from 'vue'
