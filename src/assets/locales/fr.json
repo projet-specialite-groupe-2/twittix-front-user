@@ -1,0 +1,164 @@
+{
+    "title": "Twittix",
+    "components": {
+        "navigationForm": {
+            "home": "Accueil",
+            "explore": "Explorer",
+            "message": "Messages",
+            "profile": "Profil",
+            "post": "Poster",
+            "disconnectFrom": "Se déconnecter de",
+            "disconnect": "Se déconnecter"
+        },
+        "addComment": {
+            "title": "Répondre à ce post",
+            "postAnwser": "Poster votre réponse",
+            "anwser": "Répondre"
+        },
+        "addTwitComponent": {
+            "whatsNew": "Quoi de neuf ?!",
+            "post": "Poster"
+        },
+        "twitComponent": {
+            "editPost": "Modifier le post",
+            "deletePost": "Supprimer le post"
+        }
+    },
+    "view": {
+        "exploreView": {
+            "forYou": "Pour vous",
+            "tendances": "Tendances",
+            "actualites": "Actualités",
+            "sports": "Sports",
+            "divertissement": "Divertissement",
+            "title": "Explorer",
+            "searchPlaceholder": "Rechercher"
+        },
+        "homeView": {
+            "forYou": "Pour vous",
+            "subscriptions": "Abonnements",
+            "twit": {
+                "repost": {
+                    "title": "Reposter ce poste",
+                    "create": {
+                        "success": "Poste reposté avec succès",
+                        "error": "Erreur lors du repost du poste"
+                    },
+                    "delete": {
+                        "success": "Repost supprimé avec succès",
+                        "error": "Erreur lors de la suppression du repost"
+                    }
+                },
+                "edit": {
+                    "title": "Modifier le poste",
+                    "success": "Poste modifié avec succès",
+                    "error": "Erreur lors de la modification du poste"
+                },
+                "post": {
+                    "success": "Poste publié avec succès",
+                    "error": "Erreur lors de la publication du poste"
+                },
+                "delete": {
+                    "success": "Poste supprimé avec succès",
+                    "error": "Erreur lors de la suppression du poste"
+                }
+            }
+        },
+        "loginPage": {
+            "title": "Ça se passe maintenant",
+            "inscription": "Inscrivez-vous.",
+            "createAccount": "Créer un compte",
+            "setPassword": "Définir votre mot de passe",
+            "password": "Mot de passe",
+            "passwordConfirmation": "Confirmation du mot de passe",
+            "fieldRequired": "Ce champ est requis",
+            "invalidEmail": "Adresse e-mail invalide",
+            "invalidUsername": "Nom d'utilisateur invalide",
+            "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+            "hasAccount": "Vous avez déjà un compte ?",
+            "confidentialite": "En vous inscrivant, vous acceptez les Conditions d'utilisation et la Politique de confidentialité, notamment l'Utilisation des cookies.",
+            "seConnecter": "Se connecter",
+            "createYourAccount": "Créez votre compte",
+            "dateDeNaissance": "Date de naissance",
+            "dateNaissanceParagraphe": "Cette information ne sera pas affichée publiquement. Confirmez votre âge, même si ce compte est pour une entreprise, un animal de compagnie ou autre chose.",
+            "mois": "Mois",
+            "jour": "Jour",
+            "annee": "Année",
+            "suivant": "Suivant",
+            "motDePasseOublie": "Mot de passe oublié ?",
+            "adresseEmail": "Adresse e-mail",
+            "motDePasse": "Mot de passe",
+            "connectezVous": "Connectez-vous à Twittix",
+            "username": "Nom d'utilisateur",
+            "registerSuccess": "Inscription réussie. Veuillez vérifier votre e-mail pour confirmer votre compte.",
+            "registerError": "Erreur lors de l'inscription",
+            "loginError": "Erreur de connexion",
+            "authCodeError": "Erreur de code d'authentification",
+            "validateAuthCode": "Valider le code",
+            "authCode": "Code d'authentification",
+            "emailAuthCode": "Un code de validation a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception."
+        },
+        "messagesPage": {
+            "title": "Messages",
+            "placeholder": "Cherchez dans les Messages Privés",
+            "messagesRequests": "Demandes de messages",
+            "penddingRequests": "{count} demande en attente",
+            "pinConversation": "Épingler la conversation",
+            "muteConversation": "Mettre la conversation en sommeil",
+            "deleteConversation": "Supprimer la conversation",
+            "signalConversation": "Signaler la conversation",
+            "newMessage": "Nouveau message",
+            "searchPeople": "Rechercher des personnes",
+            "next": "Suivant",
+            "createGroup": "Créer un groupe",
+            "notifications": "Notifications",
+            "blockMessages": "Bloquer les MP",
+            "blockAll": "Tout bloquer",
+            "report": "Signaler",
+            "reportContent": "Signaler le contenu comme illégal dans l'UE",
+            "leaveConversation": "Quitter la conversation",
+            "receiveNotifications": "Recevoir les notifications",
+            "conversationInfos": "Infos de la conversation",
+            "conversationPlaceholder": "Écrire un message..."
+        },
+        "profilPage": {
+            "editProfil": "Éditer mon profil",
+            "save": "Enregistrer",
+            "edit": "Éditer",
+            "following": "abonnements",
+            "followers": "abonnés",
+            "likes": "J'aime",
+            "posts": "Posts",
+            "editProfilSuccess": "Profil modifié avec succès",
+            "editProfilError": "Erreur lors de la modification du profil",
+            "fillAllFields": "Veuillez remplir tous les champs",
+            "backToMain": "Retour à l'accueil",
+            "profileNotFound": "Nous n'avons pas pu trouver le profil que vous recherchez.",
+            "userNotFound": "Utilisateur introuvable",
+            "name": "Nom",
+            "bio": "Bio",
+            "birthDate": "Date de naissance",
+            "follow": "Suivre",
+            "unfollow": "Ne plus suivre"
+        },
+        "twitView": {
+            "posts": "Posts",
+            "comment": "Poster votre réponse",
+            "reply": "Répondre"
+        },
+        "confirmEmail": {
+            "confirmEmail": "Email confirmé",
+            "emailConfirmMessage": "Votre adresse e-mail a été confirmée avec succès. Vous pouvez maintenant vous connecter à votre compte.",
+            "goToLogin": "Se connecter",
+            "confirmEmailError": "Erreur de confirmation de l'e-mail",
+            "emailConfirmMessageError": "Erreur lors de la confirmation de l'e-mail. Lien invalide ou expiré. Veuillez réessayer.",
+            "goToLoginPage": "Retourner à la page de connexion",
+            "confirmEmailWait": "Email en cours de confirmation",
+            "emailConfirmMessageWait": "Votre adresse e-mail est en cours de confirmation. Veuillez patienter."
+        }
+    },
+    "errors": {
+        "somethingWentWrong": "Quelque chose s'est mal passé",
+        "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter."
+    }
+}

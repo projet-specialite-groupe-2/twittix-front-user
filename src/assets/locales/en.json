@@ -1,0 +1,124 @@
+{
+    "title": "Twittix",
+    "components": {
+        "navigationForm": {
+            "home": "Home",
+            "explore": "Explore",
+            "message": "Messages",
+            "profile": "Profile",
+            "post": "Post",
+            "disconnectFrom": "Disconnect from",
+            "disconnect": "Disconnect"
+        },
+        "addComment": {
+            "postAnwser": "Post your anwser",
+            "anwser": "Anwser"
+        },
+        "addTwitComponent": {
+            "whatsNew": "What's new ?!",
+            "post": "Post"
+        }
+    },
+    "view": {
+        "exploreView": {
+            "forYou": "For you",
+            "tendances": "Trends",
+            "actualites": "News",
+            "sports": "Sports",
+            "divertissement": "Entertainment",
+            "title": "Explore",
+            "searchPlaceholder": "Search"
+        },
+        "homeView": {
+            "forYou": "For you",
+            "subscriptions": "Subscriptions"
+        },
+        "loginPage": {
+            "title": "It's happening now",
+            "inscription": "Sign up.",
+            "createAccount": "Create an account",
+            "setPassword": "Set your password",
+            "password": "Password",
+            "passwordConfirmation": "Password confirmation",
+            "fieldRequired": "This field is required",
+            "invalidEmail": "Invalid email address",
+            "invalidUsername": "Invalid username",
+            "passwordsDoNotMatch": "Passwords do not match",
+            "hasAccount": "Already have an account?",
+            "confidentialite": "By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.",
+            "seConnecter": "Log in",
+            "createYourAccount": "Create your account",
+            "dateDeNaissance": "Date of birth",
+            "dateNaissanceParagraphe": "This information will not be publicly displayed. Confirm your age, even if this account is for a business, a pet, or something else.",
+            "mois": "Month",
+            "jour": "Day",
+            "annee": "Year",
+            "suivant": "Next",
+            "motDePasseOublie": "Forgot password?",
+            "adresseEmail": "Email address",
+            "motDePasse": "Password",
+            "connectezVous": "Log in to Twittix",
+            "username": "Username",
+            "registerSuccess": "Registration successful. Please check your email to confirm your account.",
+            "registerError": "Registration error",
+            "loginError": "Login error",
+            "authCodeError": "Authentication code error",
+            "validateAuthCode": "Validate code",
+            "authCode": "Authentication code",
+            "emailAuthCode": "A validation code has been sent to your email address. Please check your inbox."
+        },
+        "messagesPage": {
+            "title": "Messages",
+            "placeholder": "Search in Direct Messages",
+            "messagesRequests": "Message requests",
+            "penddingRequests": "{count} pending request",
+            "pinConversation": "Pin conversation",
+            "muteConversation": "Mute conversation",
+            "deleteConversation": "Delete conversation",
+            "signalConversation": "Report conversation",
+            "newMessage": "New message",
+            "searchPeople": "Search people",
+            "next": "Next",
+            "createGroup": "Create group"
+        },
+        "profilPage": {
+            "editProfil": "Edit profile",
+            "save": "Save",
+            "edit": "Edit",
+            "following": "following",
+            "followers": "followers",
+            "likes": "I like",
+            "posts": "Posts",
+            "editProfilSuccess": "Profile successfully modified",
+            "editProfilError": "Error modifying profile",
+            "fillAllFields": "Please fill in all fields",
+            "backToMain": "Back to main page",
+            "profileNotFound": "We couldn't find the profile you are looking for.",
+            "userNotFound": "User not found",
+            "name": "Name",
+            "bio": "Bio",
+            "birthDate": "Date of birth",
+            "follow": "Follow",
+            "unfollow": "Unfollow"
+        },
+        "twitView": {
+            "posts": "Posts",
+            "comment": "Post your reply",
+            "reply": "Reply"
+        },
+        "confirmEmail": {
+            "confirmEmail": "Email confirmed",
+            "emailConfirmMessage": "Your email has been confirmed. You can now log in to your account.",
+            "goToLogin": "Log in",
+            "confirmEmailError": "Error confirming email.",
+            "emailConfirmMessageError": "Error confirming email. Invalid or expired link. Please try again.",
+            "goToLoginPage": "Go to login page",
+            "confirmEmailWait": "Email confirmation in progress.",
+            "emailConfirmMessageWait": "Your email is being confirmed. Please wait."
+        }
+    },
+    "errors": {
+        "somethingWentWrong": "Something went wrong",
+        "sessionExpired": "Session expired"
+    }
+}
