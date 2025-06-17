@@ -54,7 +54,7 @@
             width="auto"
             aspect-ratio="16/9"
             cover
-            src="https://picsum.photos/1920/1080"
+            src="/src/assets/images/banner.jpg"
             max-height="200px"
             height="100%"
           ></v-img>
@@ -111,7 +111,7 @@
                             width="auto"
                             aspect-ratio="16/9"
                             cover
-                            src="https://picsum.photos/1920/1080"
+                            src="/src/assets/images/banner.jpg"
                             max-height="170px"
                             height="100%"
                             class="d-flex align-center position-relative"
@@ -238,7 +238,7 @@
                             width="auto"
                             aspect-ratio="16/9"
                             cover
-                            src="https://picsum.photos/1920/1080"
+                            src="/src/assets/images/banner.jpg"
                             max-height="170px"
                             height="100%"
                             class="d-flex align-center position-relative"
@@ -500,7 +500,7 @@ function handleDialogClose(isOpen: boolean) {
 
 async function load({ done }) {
   // Perform API call
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 1; i++) {
     await userStore.fetchUserTwits()
     items.value.push(...userStore.userTwits)
   }
