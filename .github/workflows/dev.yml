@@ -43,7 +43,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: test
-
+    
     steps:
       - name: Download dist folder
         uses: actions/download-artifact@v4
