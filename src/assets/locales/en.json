@@ -8,7 +8,8 @@
             "profile": "Profile",
             "post": "Post",
             "disconnectFrom": "Disconnect from",
-            "disconnect": "Disconnect"
+            "disconnect": "Disconnect",
+            "addTwitTitle": "Post a new tweet"
         },
         "addComment": {
             "postAnwser": "Post your anwser",

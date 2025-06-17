@@ -6,11 +6,15 @@ import { onMounted, ref, watch, type Ref } from 'vue'
 import { useLoginStore } from '@/stores/loginStore'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
+import { Twit, type Twit_TwitDTO } from '@/core/api'
+import { useTwitStore } from '@/stores/twitStore'
+import { toast } from 'vue3-toastify'
 
 const router = useRouter()
 const { t } = useI18n()
 const loginStore = useLoginStore()
 const userStore = useUserStore()
+const twitStore = useTwitStore()
 
 const props = defineProps<{ footerMode: boolean }>()
 const addTwitDialog = ref<boolean>()
@@ -58,10 +62,25 @@ function disconnectUser() {
   loginStore.logout()
 }
 
-function addTwitDialogAction(confirm: boolean, data?: unknown) {
+const addTwitDialogAction = async (confirm: boolean, data?: unknown) => {
   if (confirm && data) {
-    // Todo with APIs
-  } else if (!confirm) addTwitDialog.value = false
+    const twit = {
+      content: data,
+      author: "/api/users/" + userStore.userProfil?.id,
+      status: Twit.status.PUBLISHED,
+      likes: [],
+      rePost: []
+    }
+    const result = await twitStore.createTwit(twit as unknown as Twit)
+
+    if (result) {
+      toast.success(t('view.homeView.twit.post.success'))
+      twitStore.twitsForYou.unshift(result as unknown as Twit_TwitDTO)
+    } else {
+      toast.error(t('view.homeView.twit.post.error'))
+    }
+  }
+  addTwitDialog.value = false
 }
 </script>
 
