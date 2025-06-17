@@ -162,9 +162,9 @@ const twitText = ref<string>('')
 
 onMounted(async () => {
   twit.value = await twitStore.fetchTwitById(twitId.value)
-  userStore.fetchCurrentUser()
   currentUser.value = userStore.userProfil
 
+  await twitStore.fetchForYouTwit()
   comments.value.push(...twitStore.twitsForYou)
 });
 

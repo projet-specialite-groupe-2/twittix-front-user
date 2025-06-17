@@ -125,10 +125,5 @@ export const useUserStore = defineStore('user', {
 
       this.loading = false
     },
-    async fetchCurrentUser() {
-      this.loading = true
-      this.userProfil = createUserMock()
-      this.loading = false
-    },
   },
 })
