@@ -1029,7 +1029,7 @@
                     "200": {
                         "description": "Like added or removed",
                         "content": {
-                            "application\/json": {
+                            "application\/ld+json": {
                                 "schema": {
                                     "oneOf": [
                                         {
@@ -3645,6 +3645,14 @@
                             "format": "iri-reference",
                             "example": "https:\/\/example.com\/"
                         }
+                    },
+                    "viewers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
                     }
                 },
                 "required": ["content", "author"]
@@ -3746,6 +3754,14 @@
                             "format": "iri-reference",
                             "example": "https:\/\/example.com\/"
                         }
+                    },
+                    "viewers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
                     }
                 },
                 "required": ["content", "author"]
@@ -3836,6 +3852,15 @@
                         }
                     },
                     "reposts": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    },
+                    "viewedTwits": {
+                        "readOnly": true,
                         "type": "array",
                         "items": {
                             "type": "string",
@@ -3999,6 +4024,15 @@
                         }
                     },
                     "reposts": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "iri-reference",
+                            "example": "https:\/\/example.com\/"
+                        }
+                    },
+                    "viewedTwits": {
+                        "readOnly": true,
                         "type": "array",
                         "items": {
                             "type": "string",

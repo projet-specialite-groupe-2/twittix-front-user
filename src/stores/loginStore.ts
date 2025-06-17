@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia'
 import { requestAuth } from './storeConfig'
 import { jwtDecode } from 'jwt-decode'
-import type { JwtPayload as BaseJwtPayload } from 'jwt-decode'
+import { UserService, type User } from '@/core/api'
+import request from './storeConfig'
+import { useUserStore } from './userStore'
 
 interface payload {
   exp: number
@@ -114,6 +116,20 @@ export const useLoginStore = defineStore('login', {
 
         if (token.token !== undefined) this.token = token.token
         if (token.refresh_token !== undefined) this.refreshToken = token.refresh_token
+
+        // get USER after connection
+        const projectService: UserService = new UserService(request)
+        const userProfil: Array<User> = await projectService.apiUsersGetCollection({
+          page: 1,
+          email: this.loginEmail ?? '',
+        })
+
+        const userStore = useUserStore()
+        userStore.userProfil = userProfil[0] ?? undefined
+
+        if (userStore.userProfil) userProfil[0].profileImgPath = '/src/assets/images/banner.jpg'
+
+        this.loading = false
 
         return true
       } catch {

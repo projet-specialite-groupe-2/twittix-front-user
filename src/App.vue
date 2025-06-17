@@ -122,7 +122,7 @@ onMounted(async () => {
     loginStore.token = token
 
     // Get user information from token
-    await userStore.fetchUserProfilByEmail()
+    if (!userStore.userProfil) await userStore.fetchUserProfilByEmail()
   }
   if (refreshToken) loginStore.refreshToken = refreshToken
 })

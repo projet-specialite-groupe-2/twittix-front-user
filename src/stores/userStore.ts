@@ -48,7 +48,7 @@ export const useUserStore = defineStore('user', {
         return null
       }
 
-      userProfil[0].profileImgPath = 'https://picsum.photos/200'
+      userProfil[0].profileImgPath = '/src/assets/images/banner.jpg'
 
       if (
         import.meta.env.VUE_APP_APP_ENV &&
@@ -83,19 +83,18 @@ export const useUserStore = defineStore('user', {
 
       this.loading = false
 
-      if (!userProfil || userProfil.length === 0) {
-        this.userProfil = undefined
+      this.userProfil = userProfil[0] ?? undefined
+
+      if (!this.userProfil) {
         return
       }
-
-      this.userProfil = userProfil[0]
 
       if (import.meta.env.VUE_APP_APP_ENV && import.meta.env.VUE_APP_APP_ENV === 'test') {
         this.userProfil.username = 'user'
         this.userProfil.email = 'user@gmail.com'
       }
 
-      this.userProfil.profileImgPath = 'https://picsum.photos/200'
+      this.userProfil.profileImgPath = '/src/assets/images/banner.jpg'
     },
 
     async updateUserProfil(user: User) {
