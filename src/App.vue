@@ -109,7 +109,16 @@ watch(
 onMounted(async () => {
   const token = window.localStorage.getItem('token')
   const refreshToken = window.localStorage.getItem('refreshToken')
-  if (token) {
+
+  if (token && !loginStore.tokenIsValid(token)) {
+    // If the token is not valid, remove it from localStorage
+    localStorage.removeItem('token')
+    localStorage.removeItem('refreshToken')
+    router.push({ name: PageNameEnum.LOGIN })
+  }
+
+  // If token is valid
+  if (token && loginStore.tokenIsValid(token)) {
     loginStore.token = token
 
     // Get user information from token
