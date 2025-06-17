@@ -136,7 +136,6 @@ import { ref, watch, type Ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { toast } from 'vue3-toastify'
-import type { VCol } from 'vuetify/components'
 import { useLikeStore } from '@/stores/likeStore'
 import { useRepostsStore } from '@/stores/repostsStore'
 import AddTwitPopupComponent from '@/components/twit/addTwitPopupComponent.vue'
@@ -164,7 +163,6 @@ const likeTwit = async(id: number) => {
   if (twit) {
     const updated = await likeStore.switchLike(id)
     if (updated) {
-      toast.success(t('view.homeView.twit.like.success'))
       twit.isLikedByUser = !twit.isLikedByUser
       if(twit.isLikedByUser) {
         twit.nbLikes = (twit.nbLikes ?? 0) + 1
@@ -172,7 +170,6 @@ const likeTwit = async(id: number) => {
         twit.nbLikes = (twit.nbLikes ?? 0) - 1
       }
     } else {
-      toast.error(t('view.homeView.twit.like.error'))
     }
   }
 }

@@ -15,10 +15,7 @@ export const useLikeStore = defineStore('like', {
 
       const result: Like | null = await likeService.apiTwitsTwitIdlikePost({
         twitId: twitId.toString(),
-        requestBody: {
-          author: "",
-          twit: ""
-        },
+        requestBody: {} as Like
       })
 
       this.loading = false
