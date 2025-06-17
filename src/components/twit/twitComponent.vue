@@ -81,7 +81,7 @@ function redirectToProfile() {
         >
         <v-row>
             <v-col cols="1" class="pt-0">
-                <v-avatar :image="props.userPictureUrl"></v-avatar>
+                <v-avatar image="/banner.jpg"></v-avatar>
             </v-col>
             <v-col cols="11">
                 <v-row class="ml-2">
