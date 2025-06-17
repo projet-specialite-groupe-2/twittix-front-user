@@ -127,7 +127,7 @@ export const useLoginStore = defineStore('login', {
         const userStore = useUserStore()
         userStore.userProfil = userProfil[0] ?? undefined
 
-        if (userStore.userProfil) userProfil[0].profileImgPath = '/src/assets/images/banner.jpg'
+        if (userStore.userProfil) userProfil[0].profileImgPath = '/banner.jpg'
 
         this.loading = false
 

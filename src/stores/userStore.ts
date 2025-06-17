@@ -48,7 +48,7 @@ export const useUserStore = defineStore('user', {
         return null
       }
 
-      userProfil[0].profileImgPath = '/src/assets/images/banner.jpg'
+      userProfil[0].profileImgPath = '/banner.jpg'
 
       if (
         import.meta.env.VUE_APP_APP_ENV &&
@@ -94,7 +94,7 @@ export const useUserStore = defineStore('user', {
         this.userProfil.email = 'user@gmail.com'
       }
 
-      this.userProfil.profileImgPath = '/src/assets/images/banner.jpg'
+      this.userProfil.profileImgPath = '/banner.jpg'
     },
 
     async updateUserProfil(user: User) {

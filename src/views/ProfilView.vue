@@ -54,7 +54,7 @@
             width="auto"
             aspect-ratio="16/9"
             cover
-            src="/src/assets/images/banner.jpg"
+            src="/banner.jpg"
             max-height="200px"
             height="100%"
           ></v-img>
@@ -111,7 +111,7 @@
                             width="auto"
                             aspect-ratio="16/9"
                             cover
-                            src="/src/assets/images/banner.jpg"
+                            src="/banner.jpg"
                             max-height="170px"
                             height="100%"
                             class="d-flex align-center position-relative"
@@ -238,7 +238,7 @@
                             width="auto"
                             aspect-ratio="16/9"
                             cover
-                            src="/src/assets/images/banner.jpg"
+                            src="/banner.jpg"
                             max-height="170px"
                             height="100%"
                             class="d-flex align-center position-relative"

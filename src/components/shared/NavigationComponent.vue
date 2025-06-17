@@ -66,10 +66,10 @@ const addTwitDialogAction = async (confirm: boolean, data?: unknown) => {
   if (confirm && data) {
     const twit = {
       content: data,
-      author: "/api/users/" + userStore.userProfil?.id,
+      author: '/api/users/' + userStore.userProfil?.id,
       status: Twit.status.PUBLISHED,
       likes: [],
-      rePost: []
+      rePost: [],
     }
     const result = await twitStore.createTwit(twit as unknown as Twit)
 
@@ -100,12 +100,7 @@ const addTwitDialogAction = async (confirm: boolean, data?: unknown) => {
           >
             <template v-slot:prepend>
               <v-avatar size="30">
-                <v-img
-                  class="user-select-none"
-                  aspect-ratio="16/9"
-                  cover
-                  src="/src/assets/images/logo.png"
-                ></v-img>
+                <v-img class="user-select-none" aspect-ratio="16/9" cover src="/logo.png"></v-img>
               </v-avatar>
             </template>
           </v-list-item>

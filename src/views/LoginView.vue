@@ -2,11 +2,11 @@
   <v-container class="fill-height" fluid>
     <v-row justify="center" align="center">
       <v-col cols="5" class="d-none d-sm-flex justify-center align-center">
-        <v-img :max-width="300" aspect-ratio="16/9" cover src="/src/assets/images/logo.png"></v-img>
+        <v-img :max-width="300" aspect-ratio="16/9" cover src="/logo.png"></v-img>
       </v-col>
 
       <v-col cols="12" class="d-flex d-sm-none" justify="start">
-        <v-img :max-width="100" aspect-ratio="16/9" cover src="/src/assets/images/logo.png"></v-img>
+        <v-img :max-width="100" aspect-ratio="16/9" cover src="/logo.png"></v-img>
       </v-col>
 
       <v-col cols="12" sm="7">
@@ -52,12 +52,7 @@
                         ></v-btn>
                       </v-col>
                       <v-col class="d-flex align-center justify-center">
-                        <v-img
-                          :max-width="50"
-                          aspect-ratio="16/9"
-                          cover
-                          src="/src/assets/images/logo.png"
-                        ></v-img
+                        <v-img :max-width="50" aspect-ratio="16/9" cover src="/logo.png"></v-img
                       ></v-col>
                       <v-col> </v-col>
                     </v-row>
@@ -249,12 +244,7 @@
                         ></v-btn>
                       </v-col>
                       <v-col class="d-flex align-center justify-center">
-                        <v-img
-                          :max-width="50"
-                          aspect-ratio="16/9"
-                          cover
-                          src="/src/assets/images/logo.png"
-                        ></v-img
+                        <v-img :max-width="50" aspect-ratio="16/9" cover src="/logo.png"></v-img
                       ></v-col>
                       <v-col> </v-col>
                     </v-row>
@@ -448,12 +438,7 @@
                       ></v-btn>
                     </v-col>
                     <v-col class="d-flex align-center justify-center">
-                      <v-img
-                        :max-width="50"
-                        aspect-ratio="16/9"
-                        cover
-                        src="/src/assets/images/logo.png"
-                      ></v-img>
+                      <v-img :max-width="50" aspect-ratio="16/9" cover src="/logo.png"></v-img>
                     </v-col>
                     <v-col> </v-col>
                   </v-row>
@@ -606,12 +591,7 @@
                       ></v-btn>
                     </v-col>
                     <v-col class="d-flex align-center justify-center">
-                      <v-img
-                        :max-width="50"
-                        aspect-ratio="16/9"
-                        cover
-                        src="/src/assets/images/logo.png"
-                      ></v-img>
+                      <v-img :max-width="50" aspect-ratio="16/9" cover src="/logo.png"></v-img>
                     </v-col>
                     <v-col> </v-col>
                   </v-row>
