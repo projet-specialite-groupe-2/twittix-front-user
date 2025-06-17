@@ -721,7 +721,7 @@
 
 <script setup lang="ts">
 import { useLoginStore } from '@/stores/loginStore'
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
@@ -785,6 +785,11 @@ onMounted(() => {
     // Go to the step 2
     connectionStep.value = 2
   }
+})
+
+onUnmounted(() => {
+  // Reset state when component is unmounted
+  resetState()
 })
 
 const handleDialogClose = (isOpen: boolean) => {

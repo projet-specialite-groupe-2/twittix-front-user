@@ -56,6 +56,16 @@ export const useLoginStore = defineStore('login', {
     },
   },
   actions: {
+    tokenIsValid(token: string) {
+      if (token) {
+        const payload = jwtDecode(token) as payload
+        if (!payload) return false
+
+        return payload.exp !== undefined && payload.exp >= Math.floor(Date.now() / 1000)
+      }
+      return false
+    },
+
     logout() {
       this.token = null
       this.refreshToken = null
