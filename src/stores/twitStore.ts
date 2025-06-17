@@ -1,6 +1,5 @@
 import { Twit, TwitService, UserService, type Twit_TwitDTO, type User } from '@/core/api'
 import { AxiosHttpRequest } from '@/core/api/core/AxiosHttpRequest'
-import { TwitsMock } from '@/core/mocks/twitMock'
 import { defineStore } from 'pinia'
 
 
