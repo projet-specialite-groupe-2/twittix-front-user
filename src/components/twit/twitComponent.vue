@@ -86,7 +86,7 @@ function redirectToProfile() {
             <v-col cols="11">
                 <v-row class="ml-2">
                     <a v-on:click.stop="redirectToProfile" class="font-weight-black mx-1 profile-name">{{ props.username }}</a>
-                    <p class="mx-1 text-medium-emphasis">{{ props.userId }}</p>
+                    <p class="mx-1 text-medium-emphasis"><p>@{{ props.username }}</p></p>
                     <p class="mx-1 text-medium-emphasis">{{ formattedDate }}</p>
 
                     <div class="ml-auto">

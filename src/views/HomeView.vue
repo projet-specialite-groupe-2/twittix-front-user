@@ -96,6 +96,11 @@
                 v-on:comment="openCommentDialog(item)"
               />
             </template>
+            <template #loading>
+              <div v-if="!twitStore.twitsForYouLoaded && isForYouView || !twitStore.twitsFollowLoaded && !isForYouView">
+                <v-progress-circular indeterminate color="white"/>
+              </div>
+            </template>
           </v-infinite-scroll>
         </div>
       </v-col>
@@ -107,8 +112,8 @@
       :twit-date="addEditTwit?.createdAt ?? ''"
       :user-id="addEditTwit?.authorId ?? ''"
       :username="addEditTwit?.authorUsername ?? ''"
-      :user-twit-picture-url="addEditTwit?.authorProfileImgPath ?? ''"
-      :user-comment-picture-url="addEditTwit?.authorProfileImgPath ?? ''"
+      :user-twit-picture-url="'/banner.jpg'"
+      :user-comment-picture-url="'/banner.jpg'"
       :open="commentTwitDialog"
       v-on:submit:form="commentDialogAction"
     />
@@ -162,15 +167,12 @@ const isEditingTwit = ref<boolean>(false)
 const likeTwit = async (id: number) => {
   const twit: Twit_TwitDTO | undefined = twits.value.find(p => p.id === id)
   if (twit) {
-    const updated = await likeStore.switchLike(id)
-    if (updated) {
-      twit.isLikedByUser = !twit.isLikedByUser
-      if (twit.isLikedByUser) {
-        twit.nbLikes = (twit.nbLikes ?? 0) + 1
-      } else {
-        twit.nbLikes = (twit.nbLikes ?? 0) - 1
-      }
+    await likeStore.switchLike(id)
+    twit.isLikedByUser = !twit.isLikedByUser
+    if (twit.isLikedByUser) {
+      twit.nbLikes = (twit.nbLikes ?? 0) + 1
     } else {
+      twit.nbLikes = (twit.nbLikes ?? 0) - 1
     }
   }
 }
@@ -207,7 +209,13 @@ const deleteTwit = async (id: number) => {
     const result = await twitStore.deleteTwit(id)
     if (result) {
       toast.success(t('view.homeView.twit.delete.success'))
-      twits.value = twits.value.filter(p => p.id !== id)
+      if(isForYouView.value) {
+        twitStore.twitsForYou = twitStore.twitsForYou.filter(p => p.id !== id)
+        twits.value = twitStore.twitsForYou.filter(p => p.id !== id)
+      } else {
+        twitStore.twitsFollow = twitStore.twitsFollow.filter(p => p.id !== id)
+        twits.value = twitStore.twitsFollow.filter(p => p.id !== id)
+      }
     } else {
       toast.error(t('view.homeView.twit.delete.error'))
     }
@@ -231,16 +239,10 @@ async function fetchTwits() {
   if (isForYouView.value) {
     await twitStore.fetchForYouTwit()
     twits.value = []
-    if (twitStore.twitsForYou.length === 0) {
-      return
-    }
     twits.value = twitStore.twitsForYou
   } else {
     await twitStore.fetchFollowTwits()
     twits.value = []
-    if (twitStore.twitsFollow.length === 0) {
-      return
-    }
     twits.value = twitStore.twitsFollow
   }
 }
@@ -267,6 +269,11 @@ watch(
 
 function setForYouView(item: boolean) {
   isForYouView.value = item
+  if(isForYouView.value) {
+    twits.value = twitStore.twitsForYou
+  } else {
+    twits.value = twitStore.twitsFollow
+  }
 }
 
 const repostTwitDialogAction = async (confirm: boolean, data?: string) => {
@@ -275,9 +282,10 @@ const repostTwitDialogAction = async (confirm: boolean, data?: string) => {
     if (twit) {
       // if editing a twit, we update the content
       if (isEditingTwit.value) {
-        const result = await repostStore.createRepost(idTwitToDo.value, data)
+        const result = await twitStore.updateTwit(idTwitToDo.value, data)
         if (result) {
           toast.success(t('view.homeView.twit.edit.success'))
+          twit.content = data
         } else {
           toast.error(t('view.homeView.twit.edit.error'))
         }
@@ -315,7 +323,10 @@ async function commentDialogAction(confirm: boolean, data?: string) {
 
     if (result) {
       toast.success(t('view.homeView.twit.post.success'))
-      twits.value.unshift(result as unknown as Twit_TwitDTO)
+      let currentTwit = twits.value.find(p => p.id === addEditTwit.value?.id)
+      if (currentTwit) {
+        currentTwit.nbComments = (currentTwit.nbComments ?? 0) + 1
+      }
     } else {
       toast.error(t('view.homeView.twit.post.error'))
     }

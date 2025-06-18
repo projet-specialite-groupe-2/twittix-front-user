@@ -35,7 +35,9 @@
         :id-re-twit="twit.isRepostedByUser ?? false"
         v-on:like="likeCurrentTwit"
         v-on:retwit="onClickCurrentRePost"
-        v-on:comment="openCommentDialog"
+        v-on:comment="openCurrentCommentDialog"
+        v-on:delete-twit="deleteCurrentTwit"
+        v-on:edit-twit="onClickEditCurrentTwit"
       />
       <v-container>
         <v-textarea
@@ -49,7 +51,7 @@
         >
           <template v-slot:prepend>
             <v-avatar size="40">
-              <v-img :src="currentUser?.profileImgPath" alt="Avatar" />
+              <v-img :src="'/banner.jpg'" alt="Avatar" />
             </v-avatar>
           </template>
         </v-textarea>
@@ -72,45 +74,51 @@
         <v-divider class="pa-1 border-opacity-25"></v-divider>
         </v-row>
       </v-container>
-
-      <div class="w-100 h-100" v-for="item in comments" :key="item.id ?? 0">
-        <TwitComponent v-if="twit"
-        :twit-id="item.id ?? 0"
-        :twit-content="item.content ?? ''"
-        :twit-date="item.createdAt ?? ''"
-        :user-id="item.authorId ?? ''"
-        :username="item.authorUsername ?? ''"
-        :user-picture-url="item.authorProfileImgPath ?? ''"
-        :twit-message-number="item.nbComments?.toString() ?? '0'"
-        :twit-like-number="item.nbLikes?.toString() ?? '0'"
-        :twit-re-twit-number="item.nbReposts?.toString() ?? '0'"
-        :is-liked="item.isLikedByUser ?? false"
-        :id-re-twit="item.isRepostedByUser ?? false"
-        v-on:openTwit="openTwit"
-        v-on:like="likeTwit"
-        v-on:retwit="onClickRePost(item.id ?? 0)"
-        v-on:delete-twit="deleteTwit"
-        v-on:edit-twit="onClickEditTwit(item.id ?? 0)"
-        v-on:comment="openCommentDialog(item.id ?? 0)"
-      />
-      </div>
+      <v-infinite-scroll class="w-100 h-100"  :items="comments" @load="load">
+        <template v-for="(item, index) in comments" :key="item.id">
+          <TwitComponent v-if="twit"
+            :twit-id="item.id ?? 0"
+            :twit-content="item.content ?? ''"
+            :twit-date="item.createdAt ?? ''"
+            :user-id="item.authorId ?? ''"
+            :username="item.authorUsername ?? ''"
+            :user-picture-url="item.authorProfileImgPath ?? ''"
+            :twit-message-number="item.nbComments?.toString() ?? '0'"
+            :twit-like-number="item.nbLikes?.toString() ?? '0'"
+            :twit-re-twit-number="item.nbReposts?.toString() ?? '0'"
+            :is-liked="item.isLikedByUser ?? false"
+            :id-re-twit="item.isRepostedByUser ?? false"
+            v-on:openTwit="openTwit"
+            v-on:like="likeTwit"
+            v-on:retwit="onClickRePost(item.id ?? 0)"
+            v-on:delete-twit="deleteTwit"
+            v-on:edit-twit="onClickEditTwit(item.id ?? 0)"
+            v-on:comment="openCommentDialog(item.id ?? 0)"
+          />
+        </template>
+        <template #loading>
+          <div v-if="!allCommentsLoaded">
+            <v-progress-circular indeterminate color="white" />
+          </div>
+        </template>
+      </v-infinite-scroll>
   </v-row>
 
   <AddComment
     v-if="commentTwitDialog"
-    :twit-id="twit?.id ?? 0"
-    :twit-content="twit?.content ?? ''"
-    :twit-date="twit?.createdAt ?? ''"
-    :user-id="twit?.authorId ?? ''"
-    :username="twit?.authorUsername ?? ''"
-    :user-twit-picture-url="twit?.authorProfileImgPath ?? ''"
-    :user-comment-picture-url="currentUser?.profileImgPath ?? ''"
+    :twit-id="addEditTwit?.id ?? 0"
+    :twit-content="addEditTwit?.content ?? ''"
+    :twit-date="addEditTwit?.createdAt ?? ''"
+    :user-id="addEditTwit?.authorId ?? ''"
+    :username="addEditTwit?.authorUsername ?? ''"
+    :user-twit-picture-url="'/banner.jpg'"
+    :user-comment-picture-url="'/banner.jpg'"
     :open="commentTwitDialog"
     v-on:submit:form="commentDialogAction"
   />
   <AddTwitPopupComponent
       v-if="addEditTwitDialog"
-      :user-picture-url="userStore.userProfil?.profileImgPath ?? ''"
+      :user-picture-url="'/banner.jpg'"
       :open="addEditTwitDialog"
       :title="isEditingTwit ? t('view.homeView.twit.edit.title') : t('view.homeView.twit.repost.title')"
       :content="addEditTwit?.content ?? ''"
@@ -154,19 +162,32 @@ const addEditTwit = ref<Twit_TwitDTO | undefined>()
 const isEditingTwit = ref<boolean>(false)
 const addEditTwitDialog = ref<boolean>(false)
 const editCurrentTwit = ref<boolean>(false)
+const allCommentsLoaded = ref<boolean>(false)
 
 const twitLimit = 280
 const twitLenght = ref<number>(0)
 const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
+const commentPageNumber = ref<number>(1)
 
 onMounted(async () => {
   twit.value = await twitStore.fetchTwitById(twitId.value)
   currentUser.value = userStore.userProfil
-
-  await twitStore.fetchForYouTwit()
-  comments.value.push(...twitStore.twitsForYou)
 });
+
+
+const fetchComments = async () => {
+  if(allCommentsLoaded.value) return
+  const res = await twitStore.fetchCommentOfTwit(twitId.value, commentPageNumber.value)
+  if(res.length === 0) {
+    allCommentsLoaded.value = true
+    return
+  }
+  commentPageNumber.value += 1
+  if (Array.isArray(res)) {
+    comments.value.push(...res)
+  }
+}
 
 watch(
   () => twitText.value,
@@ -185,19 +206,23 @@ const progressCircularColor = (): string => {
 
 const likeCurrentTwit = async() => {
   if (twit.value) {
-    const updated = await likeStore.switchLike(twit.value.id ?? 0)
-    if (updated) {
-      toast.success(t('view.homeView.twit.like.success'))
-      twit.value.isLikedByUser = !twit.value.isLikedByUser
-      if(twit.value.isLikedByUser) {
-        twit.value.nbLikes = (twit.value.nbLikes ?? 0) + 1
-      } else {
-        twit.value.nbLikes = (twit.value.nbLikes ?? 0) - 1
-      }
+    await likeStore.switchLike(twit.value.id ?? 0)
+    twit.value.isLikedByUser = !twit.value.isLikedByUser
+    if(twit.value.isLikedByUser) {
+      twit.value.nbLikes = (twit.value.nbLikes ?? 0) + 1
     } else {
-      toast.error(t('view.homeView.twit.like.error'))
+      twit.value.nbLikes = (twit.value.nbLikes ?? 0) - 1
     }
   }
+}
+
+
+const onClickEditCurrentTwit = (id: number) => {
+  idTwitToDo.value = twitId.value
+  isEditingTwit.value = true
+  addEditTwitDialog.value = true
+  addEditTwit.value = twit.value
+  editCurrentTwit.value = true
 }
 
 const onClickEditTwit = (id: number) => {
@@ -215,9 +240,9 @@ const onClickCurrentRePost = async() => {
     if (result) {
         twit.value.isRepostedByUser = !twit.value.isRepostedByUser
         twit.value.nbReposts = (twit.value.nbReposts ?? 0) - 1
-        toast.success(t('view.homeView.twit.repost.delete.success'))
+        toast.success(t('view.twitView.twit.repost.delete.success'))
       } else {
-        toast.error(t('view.homeView.twit.repost.delete.error'))
+        toast.error(t('view.twitView.twit.repost.delete.error'))
       }
   } else {
     idTwitToDo.value = twit.value?.id ?? 0
@@ -233,17 +258,18 @@ const repostTwitDialogAction = async (confirm: boolean, data?: string) => {
       if (post) {
         // if editing a twit, we update the content
         if (isEditingTwit.value) {
-          const result = await repostStore.createRepost(idTwitToDo.value, data)
+          const result = await twitStore.updateTwit(idTwitToDo.value, data)
           if(result) {
-            toast.success(t('view.homeView.twit.edit.success'))
+            toast.success(t('view.twitView.twit.edit.success'))
+            post.content = data
           } else {
-            toast.error(t('view.homeView.twit.edit.error'))
+            toast.error(t('view.twitView.twit.edit.error'))
           }
         } // else if reposting a twit
         else {
           const result = await repostStore.createRepost(idTwitToDo.value, data)
           if(result) {
-            toast.success(t('view.homeView.twit.repost.create.success'))
+            toast.success(t('view.twitView.twit.repost.create.success'))
             post.isRepostedByUser = !post.isRepostedByUser
             if(post.isRepostedByUser) {
               post.nbReposts = (post.nbReposts ?? 0) + 1
@@ -251,24 +277,25 @@ const repostTwitDialogAction = async (confirm: boolean, data?: string) => {
               post.nbReposts = (post.nbReposts ?? 0) - 1
             }
           } else {
-            toast.error(t('view.homeView.twit.repost.create.error'))
+            toast.error(t('view.twitView.twit.repost.create.error'))
           }
         }
       }
-    } else if(twit.value) {
+    } else if (twit.value) {
       // if editing a twit, we update the content
       if (isEditingTwit.value) {
-          const result = await repostStore.createRepost(idTwitToDo.value, data)
+          const result = await twitStore.updateTwit(idTwitToDo.value, data)
           if(result) {
-            toast.success(t('view.homeView.twit.edit.success'))
+            toast.success(t('view.twitView.twit.edit.success'))
+            twit.value.content = data
           } else {
-            toast.error(t('view.homeView.twit.edit.error'))
+            toast.error(t('view.twitView.twit.edit.error'))
           }
         } // else if reposting a twit
         else {
           const result = await repostStore.createRepost(idTwitToDo.value, data)
           if(result) {
-            toast.success(t('view.homeView.twit.repost.create.success'))
+            toast.success(t('view.twitView.twit.repost.create.success'))
             twit.value.isRepostedByUser = !twit.value.isRepostedByUser
             if(twit.value.isRepostedByUser) {
               twit.value.nbReposts = (twit.value.nbReposts ?? 0) + 1
@@ -276,34 +303,31 @@ const repostTwitDialogAction = async (confirm: boolean, data?: string) => {
               twit.value.nbReposts = (twit.value.nbReposts ?? 0) - 1
             }
           } else {
-            toast.error(t('view.homeView.twit.repost.create.error'))
+            toast.error(t('view.twitView.twit.repost.create.error'))
           }
         }
     }
   }
+  isEditingTwit.value = false
   addEditTwitDialog.value = false
+  idTwitToDo.value = 0
 }
 
 const likeTwit = async(id: number) => {
   const comment: Twit_TwitDTO | undefined = comments.value.find(p => p.id === id)
   if (comment) {
-    const updated = await likeStore.switchLike(id)
-    if (updated) {
-      toast.success(t('view.homeView.twit.like.success'))
-      comment.isLikedByUser = !comment.isLikedByUser
-      if(comment.isLikedByUser) {
-        comment.nbLikes = (comment.nbLikes ?? 0) + 1
-      } else {
-        comment.nbLikes = (comment.nbLikes ?? 0) - 1
-      }
+    await likeStore.switchLike(id)
+    comment.isLikedByUser = !comment.isLikedByUser
+    if(comment.isLikedByUser) {
+      comment.nbLikes = (comment.nbLikes ?? 0) + 1
     } else {
-      toast.error(t('view.homeView.twit.like.error'))
+      comment.nbLikes = (comment.nbLikes ?? 0) - 1
     }
   }
 }
 
 const onClickRePost = async(id: number) => {
-  const comment: Twit_TwitDTO | undefined = comments.value.find(p => p.id === idTwitToDo.value)
+  const comment: Twit_TwitDTO | undefined = comments.value.find(p => p.id === id)
   if (comment && comment.isRepostedByUser) {
     const result = await repostStore.deleteRepost(id)
     if (result) {
@@ -317,6 +341,17 @@ const onClickRePost = async(id: number) => {
     idTwitToDo.value = id
     addEditTwitDialog.value = true
   }
+}
+
+const deleteCurrentTwit = async() => {
+  const result = await twitStore.deleteTwit(twitId.value)
+    if(result) {
+      toast.success(t('view.homeView.twit.delete.success'))
+      comments.value = comments.value.filter(p => p.id !== twitId.value)
+    } else {
+      toast.error(t('view.homeView.twit.delete.error'))
+    }
+  router.push({ name: PageNameEnum.MAIN })
 }
 
 
@@ -335,18 +370,31 @@ const deleteTwit = async (id: number) => {
 
 const openCommentDialog = (id: number) => {
   addEditTwit.value = comments.value.find(p => p.id === id)
-  idTwitToDo.value = addEditTwit.value?.id ?? 0
+  idTwitToDo.value = id
   commentTwitDialog.value = true
+}
+
+const openCurrentCommentDialog = () => {
+  addEditTwit.value = twit.value
+  idTwitToDo.value = twitId.value
+  commentTwitDialog.value = true
+  isEditingTwit.value = false
+  addEditTwitDialog.value = false
 }
 
 const commentCurrentDialogAction = async (confirm: boolean, data?: unknown) => {
   idTwitToDo.value = twitId.value
   commentDialogAction(confirm, data)
+  if (confirm && data) {
+    twitText.value = ''
+    twitLenght.value = 0
+    twitPourcentage.value = 0
+  }
 }
 
 const commentDialogAction = async(confirm: boolean, data?: unknown) => {
   if (confirm && data) {
-    const twit = {
+    const twitCommented = {
       content: data,
       author: "/api/users/" + userStore.userProfil?.id,
       status: Twit.status.PUBLISHED,
@@ -354,21 +402,38 @@ const commentDialogAction = async(confirm: boolean, data?: unknown) => {
       likes: [],
       rePost: []
     }
-    console.log(twit)
-    const result = await twitStore.createTwit(twit as unknown as Twit)
+
+    const result = await twitStore.createTwit(twitCommented as unknown as Twit)
 
     if (result) {
       toast.success(t('view.homeView.twit.post.success'))
-      comments.value.unshift(result as unknown as Twit_TwitDTO)
+      if (idTwitToDo.value === twitId.value) {
+        comments.value.unshift(result as unknown as Twit_TwitDTO)
+        twit.value!.nbComments = (twit.value!.nbComments ?? 0) + 1
+      } else {
+        const comment: Twit_TwitDTO | undefined = comments.value.find(p => p.id === idTwitToDo.value)
+        if (comment) {
+          comment.nbComments = (comment.nbComments ?? 0) + 1
+        }
+      }
     } else {
       toast.error(t('view.homeView.twit.post.error'))
     }
   }
+  idTwitToDo.value = 0
   commentTwitDialog.value = false
+  if (addEditTwit.value) {
+    addEditTwit.value.content = ''
+  }
 }
 
 const openTwit = (id: number) => {
   router.push({ name: PageNameEnum.TWIT, params : { idTwit: id } })
+}
+
+async function load({ side, done }: { side: any; done: (status: any) => void }) {
+  await fetchComments()
+  done('ok')
 }
 
 </script>
