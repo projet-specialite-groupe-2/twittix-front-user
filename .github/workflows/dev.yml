@@ -59,3 +59,6 @@ jobs:
           REMOTE_HOST: ${{ secrets.DEV_SERVER_IP }}
           REMOTE_USER: ${{ secrets.DEV_HOST }}
           TARGET: ./dev/front-user/
+          SCRIPT_AFTER: |
+            cd ./dev/front-user/
+            sudo docker compose down && sudo docker compose up -d --build
