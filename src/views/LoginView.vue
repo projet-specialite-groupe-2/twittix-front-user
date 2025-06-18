@@ -535,9 +535,9 @@
                         {{ $t('view.loginPage.validateAuthCode') }}
                       </v-btn>
 
-                      <v-btn variant="outlined" class="w-100 mt-6">
+                      <!-- <v-btn variant="outlined" class="w-100 mt-6">
                         {{ $t('view.loginPage.motDePasseOublie') }}
-                      </v-btn>
+                      </v-btn> -->
                     </div>
                   </template>
                 </v-form>
@@ -684,9 +684,9 @@
                         {{ $t('view.loginPage.validateAuthCode') }}
                       </v-btn>
 
-                      <v-btn variant="outlined" class="w-100 mt-6">
+                      <!-- <v-btn variant="outlined" class="w-100 mt-6">
                         {{ $t('view.loginPage.motDePasseOublie') }}
-                      </v-btn>
+                      </v-btn> -->
                     </div>
                   </template>
                 </v-form>

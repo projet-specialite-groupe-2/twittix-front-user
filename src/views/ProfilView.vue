@@ -39,7 +39,11 @@
 
                 <h5 class="opacity-50">
                   {{ userProfil?.nbPosts }}
-                  {{ $t('view.profilPage.posts') }}
+                  {{
+                    userProfil?.nbPosts <= 1
+                      ? $t('view.profilPage.post')
+                      : $t('view.profilPage.posts')
+                  }}
                 </h5>
               </template>
             </div>
@@ -391,40 +395,41 @@
       </v-row>
       <v-divider class="border-opacity-25"></v-divider>
 
-      <v-infinite-scroll :items="items" @load="load">
-        <template v-for="item in items" :key="item">
-          <TwitComponent
-            :twit-id="item.id ?? 0"
-            :twit-content="item.content ?? ''"
-            :twit-date="item.createdAt ?? ''"
-            :user-id="item.author?.userIdentifier ?? ''"
-            :username="item.author?.username ?? ''"
-            :user-picture-url="item.author?.profileImgPath ?? ''"
-            :twit-like-number="'976'"
-            :twit-message-number="'9786'"
-            :twit-re-twit-number="'876'"
-            :is-liked="item.isLiked ?? false"
-            :id-re-twit="item.isReposted ?? false"
-            v-on:like="likeTwit"
-            v-on:retwit="reTwit"
-            v-on:comment="openCommentDialog(item)"
-          />
-        </template>
-      </v-infinite-scroll>
+      <template v-for="item in myTwits" :key="item.id">
+        <TwitComponent
+          :twit-id="item.id ?? 0"
+          :twit-content="item.content ?? ''"
+          :twit-date="item.createdAt ?? ''"
+          :user-id="item.authorId ?? ''"
+          :username="item.authorUsername ?? ''"
+          :user-picture-url="item.authorProfileImgPath ?? ''"
+          :twit-like-number="item.nbLikes?.toString() ?? '0'"
+          :twit-message-number="item.nbComments?.toString() ?? '0'"
+          :twit-re-twit-number="item.nbReposts?.toString() ?? '0'"
+          :is-liked="item.isLikedByUser ?? false"
+          :id-re-twit="item.isRepostedByUser ?? false"
+          v-on:openTwit="openTwit"
+          v-on:like="likeTwit"
+          v-on:retwit="onClickRePost(item.id ?? 0)"
+          v-on:delete-twit="deleteTwit"
+          v-on:edit-twit="onClickEditTwit(item.id ?? 0)"
+          v-on:comment="openCommentDialog(item)"
+        />
+      </template>
 
+      <v-overlay v-model="commentTwitDialog" persistent />
       <AddComment
         v-if="commentTwitDialog"
         :twit-id="addEditTwit?.id ?? 0"
         :twit-content="addEditTwit?.content ?? ''"
         :twit-date="addEditTwit?.createdAt ?? ''"
-        :user-id="addEditTwit?.author?.userIdentifier ?? ''"
-        :username="addEditTwit?.author?.username ?? ''"
-        :user-comment-picture-url="userStore.userProfil?.profileImgPath ?? ''"
-        :user-twit-picture-url="addEditTwit?.author?.profileImgPath ?? ''"
+        :user-id="addEditTwit?.authorId ?? ''"
+        :username="addEditTwit?.authorUsername ?? ''"
+        :user-twit-picture-url="'/banner.jpg'"
+        :user-comment-picture-url="'/banner.jpg'"
         :open="commentTwitDialog"
         v-on:submit:form="commentDialogAction"
       />
-      <v-overlay v-model="commentTwitDialog" persistent />
     </template>
   </v-container>
 </template>
@@ -435,20 +440,28 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import 'dayjs/locale/fr'
 import 'dayjs/locale/en-gb'
-import { ref, watch, onMounted, onUnmounted, type Ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, watch, onMounted, onUnmounted, onUpdated, type Ref, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import TwitComponent from '@/components/twit/twitComponent.vue'
-import { Twit } from '@/core/api'
 import { useUserStore } from '@/stores/userStore'
 import { useI18n } from 'vue-i18n'
 import { toast } from 'vue3-toastify'
+import { Twit, type Twit_TwitDTO } from '@/core/api'
+import { useTwitStore } from '@/stores/twitStore'
+import { useRepostsStore } from '@/stores/repostsStore'
+import { useLikeStore } from '@/stores/likeStore'
+import PageNameEnum from '@/core/types/enums/pageNameEnum'
 
 const { locale, t } = useI18n()
 dayjs.extend(customParseFormat)
 dayjs.locale(locale.value)
 
 const userStore = useUserStore()
+const twitStore = useTwitStore()
+const repostStore = useRepostsStore()
+const likeStore = useLikeStore()
 const route = useRoute()
+const router = useRouter()
 const isForYouView = ref<boolean>(true)
 const twitLimit = 280
 const twitLenght = ref<number>(0)
@@ -456,8 +469,6 @@ const twitPourcentage = ref<number>(0)
 const twitText = ref<string>('')
 const profilNotFound = ref<boolean>(false)
 const selectedUserProfil = ref<object | null>(null)
-
-const items: Ref<Array<Twit>> = ref([])
 
 const commentTwitDialog = ref<boolean>(false)
 const addEditTwit = ref<Twit | undefined>()
@@ -478,19 +489,9 @@ const userProfilUpdated = ref<EditUserInterface>({
   username: '',
 })
 
-function likeTwit(id: number) {
-  const twit = items.value.find(p => p.id === id)
-  if (twit) {
-    twit.isLiked = !twit.isLiked
-  }
-}
-
-function reTwit(id: number) {
-  const twit = items.value.find(p => p.id === id)
-  if (twit) {
-    twit.isReposted = !twit.isReposted
-  }
-}
+const idTwitToDo = ref<number>(0)
+const isEditingTwit = ref<boolean>(false)
+const addEditTwitDialog = ref<boolean>(false)
 
 function handleDialogClose(isOpen: boolean) {
   if (!isOpen) {
@@ -498,26 +499,29 @@ function handleDialogClose(isOpen: boolean) {
   }
 }
 
-async function load({ done }) {
-  // Perform API call
-  for (let i = 0; i < 1; i++) {
-    await userStore.fetchUserTwits()
-    items.value.push(...userStore.userTwits)
-  }
-
-  done('ok')
-}
-
-function commentDialogAction(confirm: boolean, data?: unknown) {
+async function commentDialogAction(confirm: boolean, data?: string) {
   if (confirm && data) {
-    // Todo with APIs
+    const twit = {
+      content: data,
+      author: '/api/users/' + userStore.userProfil?.id,
+      status: Twit.status.PUBLISHED,
+      parent: addEditTwit.value?.id,
+      likes: [],
+      rePost: [],
+    }
+    const result = await twitStore.createTwit(twit as unknown as Twit)
+
+    if (result) {
+      toast.success(t('view.homeView.twit.post.success'))
+      let currentTwit = myTwits.value.find(p => p.id === addEditTwit.value?.id)
+      if (currentTwit) {
+        currentTwit.nbComments = (currentTwit.nbComments ?? 0) + 1
+      }
+    } else {
+      toast.error(t('view.homeView.twit.post.error'))
+    }
   }
   commentTwitDialog.value = false
-}
-
-function openCommentDialog(data: Twit) {
-  addEditTwit.value = items.value.find(p => p.id === data.id)
-  commentTwitDialog.value = true
 }
 
 const saveEdit = async () => {
@@ -603,7 +607,15 @@ onMounted(async () => {
   selectedUserProfil.value = await userStore.fetchUserProfil(username)
   if (!selectedUserProfil.value) {
     profilNotFound.value = true
+    return
   }
+
+  await userStore.fetchUserTwits(selectedUserProfil.value)
+})
+
+const myTwits = computed(() => {
+  if (userStore.loading) return []
+  return userStore.userTwits
 })
 
 onUnmounted(() => {
@@ -620,7 +632,7 @@ watch(
 )
 watch(
   () => userProfil.value,
-  () => {
+  async () => {
     if (userProfil.value !== null) {
       userProfilUpdated.value = {
         birthday: userProfil.value.birthday,
@@ -631,6 +643,71 @@ watch(
   },
   { immediate: true }
 )
+
+const likeTwit = async (id: number) => {
+  const twit: Twit_TwitDTO | undefined = myTwits.value.find(p => p.id === id)
+  if (twit) {
+    await likeStore.switchLike(id)
+    twit.isLikedByUser = !twit.isLikedByUser
+    if (twit.isLikedByUser) {
+      twit.nbLikes = (twit.nbLikes ?? 0) + 1
+    } else {
+      twit.nbLikes = (twit.nbLikes ?? 0) - 1
+    }
+  }
+}
+
+const onClickRePost = async (id: number) => {
+  const twit: Twit_TwitDTO | undefined = myTwits.value.find(p => p.id === idTwitToDo.value)
+  if (twit && twit.isRepostedByUser) {
+    const result = await repostStore.deleteRepost(id)
+    if (result) {
+      twit.isRepostedByUser = !twit.isRepostedByUser
+      twit.nbReposts = (twit.nbReposts ?? 0) - 1
+      toast.success(t('view.homeView.twit.repost.delete.success'))
+    } else {
+      toast.error(t('view.homeView.twit.repost.delete.error'))
+    }
+  } else {
+    idTwitToDo.value = id
+    addEditTwitDialog.value = true
+  }
+}
+
+const deleteTwit = async (id: number) => {
+  const twit: Twit_TwitDTO | undefined = myTwits.value.find(p => p.id === id)
+  if (twit) {
+    const result = await twitStore.deleteTwit(id)
+    if (result) {
+      toast.success(t('view.homeView.twit.delete.success'))
+      if (isForYouView.value) {
+        userStore.userTwits = userStore.userTwits.filter(p => p.id !== id)
+      } else {
+        userStore.userTwits = userStore.userTwits.filter(p => p.id !== id)
+      }
+    } else {
+      toast.error(t('view.homeView.twit.delete.error'))
+    }
+  }
+}
+
+const onClickEditTwit = (id: number) => {
+  addEditTwit.value = myTwits.value.find(p => p.id === id)
+  if (addEditTwit.value) {
+    idTwitToDo.value = addEditTwit.value.id ?? 0
+    isEditingTwit.value = true
+    addEditTwitDialog.value = true
+  }
+}
+
+function openCommentDialog(data: Twit_TwitDTO) {
+  addEditTwit.value = myTwits.value.find(p => p.id === data.id)
+  commentTwitDialog.value = true
+}
+
+function openTwit(id: number) {
+  router.push({ name: PageNameEnum.TWIT, params: { idTwit: id } })
+}
 </script>
 
 <style scoped>
