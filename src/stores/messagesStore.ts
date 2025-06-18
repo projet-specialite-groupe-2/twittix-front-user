@@ -15,7 +15,6 @@ export const useMessagesStore = defineStore('messages', {
     async getMessagesFromConversation(id: string) {
       const messageService: MessageService = new MessageService(request)
       try {
-        console.log('id', id)
         const response = await messageService.apiConversationsIdmessagesGetCollection({
           id: id,
         })

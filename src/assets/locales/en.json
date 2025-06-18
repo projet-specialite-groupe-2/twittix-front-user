@@ -104,8 +104,30 @@
         },
         "twitView": {
             "posts": "Posts",
-            "comment": "Post your reply",
-            "reply": "Reply"
+            "comment": "Poster votre réponse",
+            "reply": "Répondre",
+            "twit":{
+                "like": {
+                    "success": "Poste liké avec succès",
+                    "error": "Erreur lors du like du poste"
+                },
+                "repost": {
+                    "title": "Reposter ce poste",
+                    "create": {
+                        "success": "Poste reposté avec succès",
+                        "error": "Erreur lors du repost du poste"
+                    },
+                    "delete": {
+                        "success": "Repost supprimé avec succès",
+                        "error": "Erreur lors de la suppression du repost"
+                    }
+                },
+                "edit":{
+                    "title": "Modifier le poste",
+                    "success": "Poste modifié avec succès",
+                    "error": "Erreur lors de la modification du poste"
+                }
+            }
         },
         "confirmEmail": {
             "confirmEmail": "Email confirmed",

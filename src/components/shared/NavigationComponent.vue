@@ -75,7 +75,7 @@ const addTwitDialogAction = async (confirm: boolean, data?: unknown) => {
 
     if (result) {
       toast.success(t('view.homeView.twit.post.success'))
-      twitStore.twitsForYou.unshift(result as unknown as Twit_TwitDTO)
+      twitStore.twitsForYou.unshift(result as unknown as Twit_TwitDTO);
     } else {
       toast.error(t('view.homeView.twit.post.error'))
     }

@@ -14,32 +14,41 @@ export const useTwitStore = defineStore('twit', {
   state: (): {
     twitsForYou: Array<Twit_TwitDTO>
     twitsFollow: Array<Twit_TwitDTO>
-    pageNumberForYou: number
     pageNumberFollow: number
+    twitsForYouLoaded: boolean
+    twitsFollowLoaded: boolean
     loading: boolean
   } => ({
     twitsForYou: [],
     twitsFollow: [],
-    pageNumberForYou: 1,
     pageNumberFollow: 1,
+    twitsForYouLoaded: false,
+    twitsFollowLoaded: false,
     loading: false,
   }),
   actions: {
     async fetchForYouTwit(): Promise<void> {
+      if (this.twitsForYouLoaded) {
+        return
+      }
       this.loading = true
 
       const twitService: TwitService = new TwitService(request)
       const result: Array<Twit_TwitDTO> = await twitService.getTwitsCollectionCustom({
-        page: this.pageNumberForYou,
+        page: 1,
       })
       if (result.length !== 0) {
-        this.pageNumberForYou++
         this.setForYouTwit(result)
+      }else {
+        this.twitsForYouLoaded = true
       }
 
       this.loading = false
     },
     async fetchFollowTwits(): Promise<void> {
+      if (this.twitsFollowLoaded) {
+        return
+      }
       this.loading = true
 
       const twitService: TwitService = new TwitService(request)
@@ -49,6 +58,8 @@ export const useTwitStore = defineStore('twit', {
       if (result.length !== 0) {
         this.pageNumberFollow++
         this.setFollowTwit(result)
+      } else {
+        this.twitsFollowLoaded = true
       }
 
       this.loading = false
@@ -76,19 +87,37 @@ export const useTwitStore = defineStore('twit', {
       this.loading = false
       return twit
     },
-    async createTwit(twit: Twit): Promise<Twit> {
+    async createTwit(twit: Twit): Promise<Twit_TwitDTO | undefined> {
       const twitService: TwitService = new TwitService(request)
       this.loading = true
-      const res = twitService.apiTwitsPost({ requestBody: twit })
+      const res = await twitService.apiTwitsPost({ requestBody: twit })
+      const result = await this.fetchTwitById(res.id ?? 0)
       this.loading = false
-      return res
+      return result
     },
     async deleteTwit(id: number): Promise<boolean> {
       const twitService: TwitService = new TwitService(request)
       this.loading = true
-      //DELETE TWIT
+      await twitService.apiTwitsIdDelete({ id: id.toString() })
       this.loading = false
       return true;
+    },
+    async fetchCommentOfTwit(id: number, pageNumber: number): Promise<Array<Twit_TwitDTO>> {
+      this.loading = true
+
+      const twitService: TwitService = new TwitService(request)
+      const result: Array<Twit_TwitDTO> = await twitService.getTwitsCollectionComments({ id: id.toString(), page: pageNumber })
+
+      this.loading = false
+      return result;
+    },
+    async updateTwit(idTwit: number, content: string): Promise<Twit_TwitDTO | undefined> {
+      const twitService: TwitService = new TwitService(request)
+      this.loading = true
+      const res = await twitService.apiTwitsIdPatch({ id: idTwit.toString() ?? '0', requestBody: {content: content} as Twit })
+      const result = await this.fetchTwitById(res.id ?? 0)
+      this.loading = false
+      return result
     }
   },
 })
