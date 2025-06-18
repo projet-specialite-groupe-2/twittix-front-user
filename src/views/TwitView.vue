@@ -207,7 +207,6 @@ const progressCircularColor = (): string => {
 const likeCurrentTwit = async() => {
   if (twit.value) {
     await likeStore.switchLike(twit.value.id ?? 0)
-    toast.success(t('view.twitView.twit.like.success'))
     twit.value.isLikedByUser = !twit.value.isLikedByUser
     if(twit.value.isLikedByUser) {
       twit.value.nbLikes = (twit.value.nbLikes ?? 0) + 1
@@ -317,23 +316,18 @@ const repostTwitDialogAction = async (confirm: boolean, data?: string) => {
 const likeTwit = async(id: number) => {
   const comment: Twit_TwitDTO | undefined = comments.value.find(p => p.id === id)
   if (comment) {
-    const updated = await likeStore.switchLike(id)
-    if (updated) {
-      toast.success(t('view.homeView.twit.like.success'))
-      comment.isLikedByUser = !comment.isLikedByUser
-      if(comment.isLikedByUser) {
-        comment.nbLikes = (comment.nbLikes ?? 0) + 1
-      } else {
-        comment.nbLikes = (comment.nbLikes ?? 0) - 1
-      }
+    await likeStore.switchLike(id)
+    comment.isLikedByUser = !comment.isLikedByUser
+    if(comment.isLikedByUser) {
+      comment.nbLikes = (comment.nbLikes ?? 0) + 1
     } else {
-      toast.error(t('view.homeView.twit.like.error'))
+      comment.nbLikes = (comment.nbLikes ?? 0) - 1
     }
   }
 }
 
 const onClickRePost = async(id: number) => {
-  const comment: Twit_TwitDTO | undefined = comments.value.find(p => p.id === idTwitToDo.value)
+  const comment: Twit_TwitDTO | undefined = comments.value.find(p => p.id === id)
   if (comment && comment.isRepostedByUser) {
     const result = await repostStore.deleteRepost(id)
     if (result) {
@@ -428,6 +422,9 @@ const commentDialogAction = async(confirm: boolean, data?: unknown) => {
   }
   idTwitToDo.value = 0
   commentTwitDialog.value = false
+  if (addEditTwit.value) {
+    addEditTwit.value.content = ''
+  }
 }
 
 const openTwit = (id: number) => {

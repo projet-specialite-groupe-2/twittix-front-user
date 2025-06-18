@@ -167,15 +167,12 @@ const isEditingTwit = ref<boolean>(false)
 const likeTwit = async (id: number) => {
   const twit: Twit_TwitDTO | undefined = twits.value.find(p => p.id === id)
   if (twit) {
-    const updated = await likeStore.switchLike(id)
-    if (updated) {
-      twit.isLikedByUser = !twit.isLikedByUser
-      if (twit.isLikedByUser) {
-        twit.nbLikes = (twit.nbLikes ?? 0) + 1
-      } else {
-        twit.nbLikes = (twit.nbLikes ?? 0) - 1
-      }
+    await likeStore.switchLike(id)
+    twit.isLikedByUser = !twit.isLikedByUser
+    if (twit.isLikedByUser) {
+      twit.nbLikes = (twit.nbLikes ?? 0) + 1
     } else {
+      twit.nbLikes = (twit.nbLikes ?? 0) - 1
     }
   }
 }
