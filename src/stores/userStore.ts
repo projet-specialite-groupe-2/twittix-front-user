@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
-import { Twit, UserService, type User } from '@/core/api'
+import { Twit, UserService, type Twit_TwitDTO, type User } from '@/core/api'
 import request from './storeConfig'
 import { TwitsMockWithUser } from '@/core/mocks/twitMock'
 import { createUserMock } from '@/core/mocks/userMock'
 import { useLoginStore } from '@/stores/loginStore'
+import { useTwitStore } from '@/stores/twitStore'
 
 export const useUserStore = defineStore('user', {
   state: (): {
@@ -118,10 +119,35 @@ export const useUserStore = defineStore('user', {
       return { success: true }
     },
 
-    async fetchUserTwits() {
+    getListOfTwits(userProfil: User): Array<Number> {
+      if (userProfil && userProfil.twits && userProfil.twits.length > 0) {
+        const list = userProfil.twits
+
+        return list.map(twit => Number(twit.split('/')[3]))
+      }
+      return []
+    },
+
+    async fetchUserTwits(userProfil: User) {
+      const twitStore = useTwitStore()
+
       this.loading = true
 
-      this.userTwits = TwitsMockWithUser
+      // Récupération de la liste id des twits de l'utilisateur
+      const listOfTwits: Array<Number> = this.getListOfTwits(userProfil)
+
+      if (listOfTwits.length === 0) {
+        this.userTwits = []
+        return
+      }
+
+      let tempList: Array<Twit> = []
+      for (const twitId of listOfTwits) {
+        const twit: Twit_TwitDTO | undefined = await twitStore.fetchTwitById(Number(twitId))
+        tempList.push(twit as Twit)
+      }
+
+      this.userTwits = tempList
 
       this.loading = false
     },

@@ -2,7 +2,6 @@ import { Twit, TwitService, UserService, type Twit_TwitDTO, type User } from '@/
 import { AxiosHttpRequest } from '@/core/api/core/AxiosHttpRequest'
 import { defineStore } from 'pinia'
 
-
 const request = new AxiosHttpRequest({
   BASE: import.meta.env.VUE_APP_API_BASE as string,
   WITH_CREDENTIALS: false,
@@ -39,7 +38,7 @@ export const useTwitStore = defineStore('twit', {
       })
       if (result.length !== 0) {
         this.setForYouTwit(result)
-      }else {
+      } else {
         this.twitsForYouLoaded = true
       }
 
@@ -100,24 +99,30 @@ export const useTwitStore = defineStore('twit', {
       this.loading = true
       await twitService.apiTwitsIdDelete({ id: id.toString() })
       this.loading = false
-      return true;
+      return true
     },
     async fetchCommentOfTwit(id: number, pageNumber: number): Promise<Array<Twit_TwitDTO>> {
       this.loading = true
 
       const twitService: TwitService = new TwitService(request)
-      const result: Array<Twit_TwitDTO> = await twitService.getTwitsCollectionComments({ id: id.toString(), page: pageNumber })
+      const result: Array<Twit_TwitDTO> = await twitService.getTwitsCollectionComments({
+        id: id.toString(),
+        page: pageNumber,
+      })
 
       this.loading = false
-      return result;
+      return result
     },
     async updateTwit(idTwit: number, content: string): Promise<Twit_TwitDTO | undefined> {
       const twitService: TwitService = new TwitService(request)
       this.loading = true
-      const res = await twitService.apiTwitsIdPatch({ id: idTwit.toString() ?? '0', requestBody: {content: content} as Twit })
+      const res = await twitService.apiTwitsIdPatch({
+        id: idTwit.toString() ?? '0',
+        requestBody: { content: content } as Twit,
+      })
       const result = await this.fetchTwitById(res.id ?? 0)
       this.loading = false
       return result
-    }
+    },
   },
 })

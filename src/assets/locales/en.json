@@ -90,6 +90,7 @@
             "followers": "followers",
             "likes": "I like",
             "posts": "Posts",
+            "post": "Post",
             "editProfilSuccess": "Profile successfully modified",
             "editProfilError": "Error modifying profile",
             "fillAllFields": "Please fill in all fields",
@@ -106,7 +107,7 @@
             "posts": "Posts",
             "comment": "Poster votre réponse",
             "reply": "Répondre",
-            "twit":{
+            "twit": {
                 "like": {
                     "success": "Poste liké avec succès",
                     "error": "Erreur lors du like du poste"
@@ -122,7 +123,7 @@
                         "error": "Erreur lors de la suppression du repost"
                     }
                 },
-                "edit":{
+                "edit": {
                     "title": "Modifier le poste",
                     "success": "Poste modifié avec succès",
                     "error": "Erreur lors de la modification du poste"
