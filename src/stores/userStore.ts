@@ -102,7 +102,7 @@ export const useUserStore = defineStore('user', {
       const projectService: UserService = new UserService(request)
       this.loading = true
 
-      const userProfil: User = await projectService.apiUsersIdPut({
+      const userProfil: User = await projectService.apiUsersIdPatch({
         id: String(user.id),
         requestBody: user,
       })

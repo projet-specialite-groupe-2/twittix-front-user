@@ -440,7 +440,7 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import 'dayjs/locale/fr'
 import 'dayjs/locale/en-gb'
-import { ref, watch, onMounted, onUnmounted, onUpdated, type Ref, computed } from 'vue'
+import { ref, watch, onMounted, onUnmounted, type Ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import TwitComponent from '@/components/twit/twitComponent.vue'
 import { useUserStore } from '@/stores/userStore'
@@ -535,11 +535,17 @@ const saveEdit = async () => {
     return
   }
 
+  // S'il y a une date de naissance, c'est au moins 18 ans
+  const parsedBirthday = dayjs(userProfilUpdated.value.birthday, 'DD/MM/YYYY', 'fr', true)
+  if (!parsedBirthday.isValid() || parsedBirthday.isAfter(dayjs().subtract(18, 'year'))) {
+    toast.error(t('view.profilPage.birthdayError') as string)
+    return
+  }
+
   // Send request to update user profile
-  const parsedDate = dayjs(userProfilUpdated.value.birthday, 'D MMMM YYYY', 'fr', true)
   const userProfil = {
-    ...userStore.userProfil,
-    birthdate: parsedDate.format('YYYY-MM-DD'),
+    id: userStore.userProfil.id,
+    birthdate: parsedBirthday.format('YYYY-MM-DD'),
     biography: userProfilUpdated.value.biography,
     username: userProfilUpdated.value.username,
   }
@@ -547,6 +553,7 @@ const saveEdit = async () => {
   // Close the dialog
   dialog.value = false
   dialogMobile.value = false
+  editBirthday.value = false
 
   // Call API to update user profile
   const res = await userStore.updateUserProfil(userProfil)

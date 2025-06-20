@@ -101,7 +101,8 @@
             "bio": "Bio",
             "birthDate": "Date of birth",
             "follow": "Follow",
-            "unfollow": "Unfollow"
+            "unfollow": "Unfollow",
+            "birthdayError": "You must be at least 18 years old to create an account."
         },
         "twitView": {
             "posts": "Posts",
