@@ -536,7 +536,12 @@ const saveEdit = async () => {
   }
 
   // S'il y a une date de naissance, c'est au moins 18 ans
-  const parsedBirthday = dayjs(userProfilUpdated.value.birthday, 'DD/MM/YYYY', 'fr', true)
+  let parsedBirthday = dayjs(userProfilUpdated.value.birthday, 'DD/MM/YYYY', 'fr', true)
+
+  if (!parsedBirthday.isValid()) {
+    parsedBirthday = dayjs(userProfilUpdated.value.birthday, 'D MMMM YYYY', 'fr', true)
+  }
+
   if (!parsedBirthday.isValid() || parsedBirthday.isAfter(dayjs().subtract(18, 'year'))) {
     toast.error(t('view.profilPage.birthdayError') as string)
     return
